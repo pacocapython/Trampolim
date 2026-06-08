@@ -8,6 +8,7 @@ const estadoApp = {
 };
 
 // 2. BANCO DE DADOS DE VAGAS SIMULADO
+// 2. BANCO DE DADOS DE VAGAS SIMULADO (Atualizado com mais 2 vagas)
 const bancoVagas = [
     {
         id: 'vaga-01',
@@ -26,6 +27,24 @@ const bancoVagas = [
         salario: 'R$ 5.800',
         tags: ['🏠 Trabalho Remoto', '🧠 Apoio a Neurodiversidade'],
         descricao: 'Trabalho focado no desenvolvimento de páginas online. Rotina com reuniões diárias curtas de alinhamento por texto, horários de atividade altamente flexíveis e foco no bem-estar cognitivo.'
+    },
+    {
+        id: 'vaga-03',
+        cargo: 'Analista de Atendimento ao Cliente',
+        empresa: 'Magazine Luiza',
+        local: 'Franca/SP (Presencial)',
+        salario: 'R$ 3.100',
+        tags: ['🤟 Intérprete de Libras', '🧏 Ambiente Adaptado'],
+        descricao: 'Responsável pelo suporte especializado a clientes. A empresa disponibiliza intérpretes de Libras corporativos em tempo integral, computadores com softwares de transcrição de voz em tempo real e canais internos de comunicação totalmente acessíveis.'
+    },
+    {
+        id: 'vaga-04',
+        cargo: 'Designer Gráfico Assistente',
+        empresa: 'Natura',
+        local: 'Cajamar/SP (Híbrido)',
+        salario: 'R$ 3.900',
+        tags: ['👓 Baixa Visão Kit', '🛋️ Mobiliário Ergonómico'],
+        descricao: 'Criação de peças visuais institucionais. O posto de trabalho conta com ecrãs de alta definição ampliados, teclados de alto contraste com marcações táteis, softwares leitores de ecrã instalados e cadeiras totalmente ajustáveis.'
     }
 ];
 

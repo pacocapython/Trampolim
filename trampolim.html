@@ -155,41 +155,57 @@
                     </div>
 
                     <form onsubmit="salvarPerfil(event)" class="banner-aba" style="display: flex; flex-direction: column; gap: 16px;">
-                        <div class="grid-vagas">
-                            <!-- Opção Rampa -->
-                            <label class="opcao-checkbox">
-                                <input type="checkbox" id="filtro-rampa" checked>
-                                <div>
-                                    <h4 style="font-weight: bold;">Rampas de Acesso</h4>
-                                    <p style="font-size: 12px; color: var(--cinza-claro);">Ambiente físico adaptado para mobilidade.</p>
-                                </div>
-                            </label>
+                        <div class="grid-vagas" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%;">
+    
+    <label class="opcao-checkbox">
+        <input type="checkbox" id="filtro-rampa" checked>
+        <div>
+            <h4 style="font-weight: bold; margin: 0;">♿ Rampas de Acesso</h4>
+            <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Ambiente físico adaptado para mobilidade.</p>
+        </div>
+    </label>
 
-                            <!-- Opção Home Office -->
-                            <label class="opcao-checkbox">
-                                <input type="checkbox" id="filtro-homeoffice" checked>
-                                <div>
-                                    <h4 style="font-weight: bold;">Home Office Remoto</h4>
-                                    <p style="font-size: 12px; color: var(--cinza-claro);">Atividades 100% à distância.</p>
-                                </div>
-                            </label>
+    <label class="opcao-checkbox">
+        <input type="checkbox" id="filtro-homeoffice" checked>
+        <div>
+            <h4 style="font-weight: bold; margin: 0;">🏠 Home Office Remoto</h4>
+            <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Atividades 100% à distância.</p>
+        </div>
+    </label>
 
-                            <!-- Opção Libras -->
-                            <label class="opcao-checkbox">
-                                <input type="checkbox" id="filtro-libras">
-                                <div>
-                                    <h4 style="font-weight: bold;">Tradutor em Libras</h4>
-                                    <p style="font-size: 12px; color: var(--cinza-claro);">Disponibilidade de profissionais de integração de sinais.</p>
-                                </div>
-                            </label>
-                             <label class="opcao-checkbox">
-                                <input type="checkbox" id="filtro-libras">
-                                <div>
-                                    <h4 style="font-weight: bold;">Tradutor em Libras</h4>
-                                    <p style="font-size: 12px; color: var(--cinza-claro);">Disponibilidade de profissionais de integração de sinais.</p>
-                                </div>
-                            </label>
-                        </div>
+    <label class="opcao-checkbox">
+        <input type="checkbox" id="filtro-libras">
+        <div>
+            <h4 style="font-weight: bold; margin: 0;">🧏‍♂️ Tradutor em Libras</h4>
+            <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Disponibilidade de profissionais de integração de sinais.</p>
+        </div>
+    </label>
+
+    <label class="opcao-checkbox">
+        <input type="checkbox" id="filtro-neurodiversidade">
+        <div>
+            <h4 style="font-weight: bold; margin: 0;">🧠 Neurodiversidade (Autismo/TDAH)</h4>
+            <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Vagas em empresas com rotinas previsíveis, comunicação clara e suporte à inclusão cognitiva.</p>
+        </div>
+    </label>
+
+    <label class="opcao-checkbox">
+        <input type="checkbox" id="filtro-visual">
+        <div>
+            <h4 style="font-weight: bold; margin: 0;">👓 Deficiência Visual (Baixa Visão/Cegueira)</h4>
+            <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Suporte a leitores de tela, amplificadores de caracteres e interfaces de alto contraste.</p>
+        </div>
+    </label>
+
+    <label class="opcao-checkbox">
+        <input type="checkbox" id="filtro-auditiva">
+        <div>
+            <h4 style="font-weight: bold; margin: 0;">🧏 Deficiência Auditiva (Surdez/Hipoacusia)</h4>
+            <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Ambientes preparados com comunicação escrita, legendas automáticas ou suporte em Libras.</p>
+        </div>
+    </label>
+
+</div>
 
                         <div style="display: flex; justify-content: flex-end; margin-top: 12px;">
                             <button type="submit" class="botao botao-principal">Guardar Requisitos</button>
