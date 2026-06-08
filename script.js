@@ -7,7 +7,7 @@
             candidaturasEfetuadas: [] // Guarda os IDs das vagas candidatadas
         };
 
-        // 2. BANCO DE DADOS DE VAGAS SIMULADO
+        // 2. BANCO DE DADO DE VAGAS SIMULADO
         const bancoVagas = [
             {
                 id: 'vaga-01',
