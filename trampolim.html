@@ -63,18 +63,41 @@
         </section>
 
         <!-- TELA 2: ONBOARDING / BOAS-VINDAS -->
-        <section id="tela-onboarding" class="secao-onboarding hidden">
-            <div class="caixa-onboarding">
-                <span class="text-amareloAcao" style="color: var(--amarelo-acao); font-weight: 850; font-size: 14px; text-transform: uppercase;">Apresentação Rápida</span>
-                <h2 style="font-size: 28px; color: var(--amarelo-acao); font-weight: 900; margin: 12px 0;">O que é o Currículo Assistivo?</h2>
-                
-                <p style="font-size: 18px; margin-bottom: 24px; color: var(--cinza-claro);">
-                    No Trampolim, suas preferências de acessibilidade vêm em primeiro lugar. Você escolhe as condições de trabalho adequadas e nosso sistema busca vagas de empresas preparadas para o receber.
-                </p>
+       <section id="tela-onboarding" class="tela-centrada hidden">
+    <div class="caixa-interface" style="max-width: 600px;">
+        <span style="color: var(--amarelo-acao); font-weight: bold; font-size: 12px; text-transform: uppercase;">Apresentação do Projeto</span>
+        
+        <div id="tutorial-passo-1" class="passo-tutorial passo-ativo">
+            <h2 style="color: var(--amarelo-acao); margin: 15px 0 10px;">O que é o Trampolim?</h2>
+            <p style="font-size: 18px; color: var(--cinza); line-height: 1.5; margin-bottom: 25px;">
+                O Trampolim é uma plataforma de empregabilidade inclusiva desenvolvida para conectar profissionais com deficiência ou neurodivergências a empresas preparadas. Nosso foco é eliminar barreiras na contratação.
+            </p>
+            <button onclick="proximoPasso(2)" class="botao botao-principal" style="width: 100%;">Próximo: O que faz? ➔</button>
+        </div>
 
-                <button onclick="mudarParaTela('vagas')" class="botao botao-principal" style="width: 100%;">Explorar o Painel de Vagas</button>
-            </div>
-        </section>
+        <div id="tutorial-passo-2" class="passo-tutorial hidden">
+            <h2 style="color: var(--amarelo-acao); margin: 15px 0 10px;">O que o sistema faz?</h2>
+            <p style="font-size: 18px; color: var(--cinza); margin-bottom: 25px;">
+                Em vez de focar apenas em competências técnicas, nosso sistema cruza os seus <strong>requisitos assistivos</strong> (como home office, salas silenciosas ou rampas) com a real infraestrutura das empresas parceiras.
+            </p>
+            <button onclick="proximoPasso(3)" class="botao botao-principal" style="width: 100%;">Próximo: Acessibilidade ➔</button>
+        </div>
+
+        <div id="tutorial-passo-3" class="passo-tutorial hidden">
+            <h2 style="color: var(--amarelo-acao); margin: 15px 0 10px;">Acessibilidade em Primeiro Lugar</h2>
+            <p style="font-size: 18px; color: var(--cinza); margin-bottom: 25px;">
+                Toda a nossa interface foi desenhada para ser simples. Oferecemos ferramentas integradas para ajustar o tamanho da letra e fontes adaptadas para dislexia, garantindo uma navegação confortável para todos.
+            </p>
+            <button onclick="mudarParaPainel()" class="botao botao-principal" style="width: 100%;">Explorar o Painel de Vagas</button>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 8px; margin-top: 20px;">
+            <div id="ponto-1" style="width: 10px; height: 10px; border-radius: 50%; background: var(--amarelo-acao);"></div>
+            <div id="ponto-2" style="width: 10px; height: 10px; border-radius: 50%; background: var(--azul-borda);"></div>
+            <div id="ponto-3" style="width: 10px; height: 10px; border-radius: 50%; background: var(--azul-borda);"></div>
+        </div>
+    </div>
+</section>
 
         <!-- TELA 3: PAINEL DASHBOARD (VAGAS, PERFIL, CURSOS, CONFIGS) -->
         <section id="painel-dashboard" class="dashboard-container hidden">
@@ -153,6 +176,13 @@
 
                             <!-- Opção Libras -->
                             <label class="opcao-checkbox">
+                                <input type="checkbox" id="filtro-libras">
+                                <div>
+                                    <h4 style="font-weight: bold;">Tradutor em Libras</h4>
+                                    <p style="font-size: 12px; color: var(--cinza-claro);">Disponibilidade de profissionais de integração de sinais.</p>
+                                </div>
+                            </label>
+                             <label class="opcao-checkbox">
                                 <input type="checkbox" id="filtro-libras">
                                 <div>
                                     <h4 style="font-weight: bold;">Tradutor em Libras</h4>
@@ -240,11 +270,6 @@
             <button onclick="fecharModal()" class="botao botao-principal" style="width: 100%;">Voltar ao Painel</button>
         </div>
     </div>
-
-
-    <!-- ================================================================= -->
-    <!-- COMPORTAMENTO DINÂMICO VIA JAVASCRIPT (Lógica Simples)            -->
-    <!-- ================================================================= -->
     <script src="script.js"></script>
 </body>
 </html>
