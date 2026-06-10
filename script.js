@@ -347,10 +347,20 @@ function baixarFicheiro(formato) {
     const filtroRampa = document.getElementById('filtro-rampa');
     const filtroHome = document.getElementById('filtro-homeoffice');
     const filtroLibras = document.getElementById('filtro-libras');
+    const filtroNeuro = document.getElementById('filtro-neurodiversidade');
+    const filtroVisual = document.getElementById('filtro-visual');
+    const filtroAuditiva = document.getElementById('filtro-auditiva');
+
+
+
 
     const rampaAtiva = filtroRampa && filtroRampa.checked ? "Necessita: Infraestrutura Física (Rampas/Elevadores)" : null;
     const homeofficeAtiva = filtroHome && filtroHome.checked ? "Necessita: Atividades em Home Office" : null;
     const librasAtiva = filtroLibras && filtroLibras.checked ? "Necessita: Tradução de Linguagem de Sinais (Libras)" : null;
+    const neuroAtiva = filtroLibras && filtroLibras.checked ? "Necessita: Apoio a Neurodiversidade (Autismo, TDAH, AH/SD)" : null;
+    const visualAtiva = filtroLibras && filtroLibras.checked ? "Necessita: Apoio com Deficiência Visual" : null;
+    const auditivaAtiva = filtroLibras && filtroLibras.checked ? "Necessita: Apoio com Deficiência Auditiva" : null;
+
 
     const listaRequisitos = [rampaAtiva, homeofficeAtiva, librasAtiva].filter(Boolean);
 
