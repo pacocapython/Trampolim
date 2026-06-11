@@ -463,3 +463,51 @@
     from { opacity: 0; transform: translateY(5px); }
     to { opacity: 1; transform: translateY(0); }
 }
+/* --- CORREÇÃO DO AUMENTO DE LETRA --- */
+/* Aumenta apenas os textos de leitura e conteúdo, ignorando botões do sistema */
+body.texto-maior p,
+body.texto-maior span,
+body.texto-maior h3,
+body.texto-maior h4,
+body.texto-maior label,
+body.texto-maior .card-vaga * {
+    font-size: 115% !important; /* Aumenta o texto em 15% para facilitar a leitura */
+    line-height: 1.5 !important; /* Ajusta o espaçamento para o texto não encavalar */
+}
+
+/* Garante que o botão de descarregar e o card mantenham a estrutura correta */
+body.texto-maior .banner-aba,
+body.texto-maior .botao,
+body.texto-maior button {
+    height: auto !important;
+}
+/* --- ESTILO DO AUMENTO DE LETRA --- */
+/* Aumenta o texto de absolutamente tudo no site em 15% de forma proporcional */
+body.texto-maior * {
+    font-size: 105% !important; 
+}
+
+
+/* --- ESTILO DO MODO LEITURA --- */
+/* Quando ativo, ele dá um destaque amarelo nos cards principais para o olho focar neles */
+body.modo-leitura .opcao-checkbox, 
+body.modo-leitura .card-vaga,
+body.modo-leitura .banner-aba {
+    border: 2px solid #ffcc00 !important;
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.2) !important;
+}
+
+/* Afasta um pouco as letras e as linhas dos textos para quem tem TDAH ler sem pressa */
+body.modo-leitura p {
+    letter-spacing: 0.8px !important;
+    line-height: 1.7 !important;
+}
+/* Filtro CSS de alto nível que simula a correção de cor para daltonismo */
+body.modo-daltonismo {
+    filter: contrast(120%) saturate(85%) hue-rotate(15deg) !important;
+}
+
+body.modo-daltonismo .botao-ajuste-principal {
+    background-color: #3182ce !important; /* Muda o amarelo para um azul focado em acessibilidade */
+    color: #fff !important;
+}

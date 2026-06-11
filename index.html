@@ -22,7 +22,11 @@
             <button onclick="alternarLeitorAudio()" id="botao-audio" class="botao-secundario" style="padding: 8px 12px; border-radius: 10px;" title="Ativar Áudio de Apoio">
                 🔊
             </button>
-        </div>
+    <button onclick="alternarTamanhoLetra()" id="btn-tamanho-letra" class="botao-icone-topo" style="background: transparent; border: 2px solid var(--amarelo-acao); color: var(--amarelo-acao); border-radius: 8px; padding: 6px 12px; font-weight: bold; cursor: pointer; font-size: 14px;">
+        A+
+    </button>
+            </div>
+
     </header>
 
     <!-- BANNER DE AVISO DE ÁUDIO EM EXECUÇÃO -->
@@ -106,7 +110,7 @@
             <aside class="sidebar">
                 <div class="sidebar-perfil">
                     <p style="font-size: 12px; color: var(--amarelo-acao); font-weight: 900; text-transform: uppercase;">Utilizador</p>
-                    <p style="font-size: 18px; font-weight: bold;">Candidato Inclusivo</p>
+                    <p style="font-size: 18px; font-weight: bold;">Candidato</p>
                 </div>
 
                 <nav class="sidebar-menu">
@@ -117,12 +121,13 @@
                         <span>🧠</span> Perfil Assistivo
                     </button>
                     <button onclick="mudarParaAba('cursos')" id="btn-lateral-cursos" class="btn-menu">
-                        <span>📚</span> Microlearning
+                        <span>📚</span> Vídeo Aulas
                     </button>
                     <button onclick="mudarParaAba('ajustes')" id="btn-lateral-ajustes" class="btn-menu">
                         <span>🎨</span> Ajustes & Ficha
                     </button>
                 </nav>
+                
 
                 <button onclick="fazerLogout()" class="botao botao-secundario" style="padding: 12px; font-size: 12px; border-color: red; color: red;">
                     Sair / Desconectar
@@ -206,6 +211,21 @@
     </label>
 
 </div>
+<div class="opcao-checkbox" style="display: flex; flex-direction: column; align-items: flex-start; height: auto; gap: 12px;">
+    <div>
+        <h4 style="font-weight: bold; margin: 0;">📄 Comprovante ou Laudo Médico (Opcional)</h4>
+        <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 12px 0;">
+            Anexe seu laudo ou relatório para validar os requisitos assistivos junto às empresas.
+        </p>
+    </div>
+    
+    <label for="upload-comprovante" style="background: var(--amarelo-acao, #ffcc00); color: #000; padding: 10px 16px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; display: inline-block; transition: background 0.2s;">
+        <i class="fa-solid fa-upload"></i> SELECIONAR LAUDO (PDF, JPG)
+    </label>
+    <input type="file" id="upload-comprovante" accept=".pdf, .jpg, .jpeg, .png" style="display: none;" onchange="mostrarNomeDoArquivo()">
+    
+    <span id="nome-arquivo-selecionado" style="font-size: 12px; color: #a0aec0; font-style: italic;">Nenhum arquivo selecionado</span>
+</div>
 
                         <div style="display: flex; justify-content: flex-end; margin-top: 12px;">
                             <button type="submit" class="botao botao-principal">Guardar Requisitos</button>
@@ -232,28 +252,34 @@
                         <span style="color: var(--amarelo-acao); font-weight: bold; font-size: 12px; text-transform: uppercase;">Preferências</span>
                         <h2 style="font-size: 28px; font-weight: 900; margin-top: 4px;">Opções Visuais e Exportação</h2>
                     </div>
+<div style="display: flex; gap: 20px; width: 100%; margin-bottom: 20px;">
 
-                    <div class="grid-vagas">
-                        <div class="banner-aba" style="display: flex; flex-direction: column; gap: 16px;">
-                            <h3 style="color: var(--amarelo-acao); font-weight: bold; font-size: 18px;">Fontes Especiais</h3>
-                            <p style="font-size: 14px; color: var(--cinza-claro);">Altere o aspeto visual da letra para facilitar a sua leitura diária.</p>
-                            
-                            <button onclick="alternarFonteDislexia()" class="botao botao-secundario" style="width: 100%;">Mudar para Fonte de Dislexia</button>
-                        </div>
+    <div class="banner-aba" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; margin-bottom: 0;">
+        <div>
+            <h3 style="color: var(--amarelo-acao); font-weight: bold; font-size: 18px;">Acessibilidade Visual</h3>
+            <p style="font-size: 14px; color: var(--cinza-claro);">Ative o modo leitura para destacar os blocos de texto e focar no que importa.</p>
+        </div>
+        <button id="btn-modo-leitura" onclick="alternarModoLeitura()" class="botao botao-principal">Ativar Modo Leitura</button>
+    </div>
 
-                        <div class="banner-aba" style="display: flex; flex-direction: column; gap: 16px;">
-                            <h3 style="color: var(--amarelo-acao); font-weight: bold; font-size: 18px;">Descarregar Ficha de Dados</h3>
-                            <p style="font-size: 14px; color: var(--cinza-claro);">Guarde a sua configuração assistiva num ficheiro de texto comum.</p>
-                            
-                            <div style="display: flex; gap: 8px;">
-                                <button onclick="baixarFicheiro('txt')" class="botao botao-principal" style="flex: 1; font-size: 12px;">Descarregar TXT</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="banner-aba" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; margin-bottom: 0;">
+        <div>
+            <h3 style="color: var(--amarelo-acao); font-weight: bold; font-size: 18px;">Modo Daltonismo</h3>
+            <p style="font-size: 14px; color: var(--cinza-claro);">Ajusta as cores dos botões e tags do portal para garantir uma navegação confortável e legível.</p>
+        </div>
+        <button id="btn-daltonismo" onclick="alternarDaltonismo()" class="botao botao-principal">Otimizar Cores</button>
+    </div>
 
-            </div>
+</div>
 
+<div class="banner-aba" style="display: flex; flex-direction: column; gap: 16px;">
+    <h3 style="color: var(--amarelo-acao); font-weight: bold; font-size: 18px;">Descarregar Ficha de Dados</h3>
+    <p style="font-size: 14px; color: var(--cinza-claro);">Guarde a sua configuração assistiva num ficheiro de texto comum.</p>
+    
+    <div style="display: flex; gap: 8px;">
+        <button onclick="baixarFicheiro('txt')" class="botao botao-principal">Descarregar TXT</button>
+    </div>
+</div>
             <!-- MENU DE NAVEGAÇÃO INFERIOR (Apenas visível em telemóveis) -->
             <nav class="nav-inferior" aria-label="Navegação móvel">
                 <button onclick="mudarParaAba('vagas')" id="btn-mobile-vagas" class="btn-mobile ativo">

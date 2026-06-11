@@ -240,6 +240,18 @@ function assistirVideo(idCurso) {
         falarMensagemAudio(`Iniciando a aula de: ${curso.titulo}.`);
     }
 }
+function mostrarNomeDoArquivo() {
+    const input = document.getElementById('upload-comprovante');
+    const texto = document.getElementById('nome-arquivo-selecionado');
+    
+    if (input.files.length > 0) {
+        texto.innerText = "📁 Arquivo selecionado: " + input.files[0].name;
+        texto.style.color = "#48bb78"; // Muda a cor para verde indicando sucesso
+    } else {
+        texto.innerText = "Nenhum arquivo selecionado";
+        texto.style.color = "#a0aec0";
+    }
+}
 
 // Salvar Perfil do Formulário
 function salvarPerfil(event) {
@@ -248,36 +260,57 @@ function salvarPerfil(event) {
     falarMensagemAudio("As suas preferências de acessibilidade foram updated com sucesso!");
 }
 
-// 10. ACESSIBILIDADE VISUAL (Aumentar tamanho de letra e Fonte de Dislexia)
-function alternarTamanhoTexto() {
-    const corpo = document.getElementById('corpo-app');
-    estadoApp.tamanhoFonteAmpliado = !estadoApp.tamanhoFonteAmpliado;
-
-    if (estadoApp.tamanhoFonteAmpliado) {
-        corpo.classList.remove('texto-padrao');
-        corpo.classList.add('texto-grande');
-        falarMensagemAudio("Tamanho da fonte aumentado para leitura confortável.");
+// 10. ACESSIBILIDADE VISUAL (Aumentar tamanho de letra e Modo de leitura)
+function alternarModoLeitura() {
+    const btn = document.getElementById('btn-modo-leitura');
+    
+    // Liga ou desliga a classe no body
+    document.body.classList.toggle('modo-leitura');
+    
+    // Altera o texto do botão dinamicamente
+    if (document.body.classList.contains('modo-leitura')) {
+        btn.innerText = "Desativar Modo Leitura";
     } else {
-        corpo.classList.remove('texto-grande');
-        corpo.classList.add('texto-padrao');
-        falarMensagemAudio("Tamanho de fonte padrão restaurado.");
+        btn.innerText = "Ativar Modo Leitura";
+    }
+}
+// 1. FUNÇÃO PARA AUMENTAR A LETRA (Do topo do site)
+function alternarTamanhoLetra() {
+    document.body.classList.toggle('texto-maior');
+    
+    const btnTexto = document.getElementById('btn-tamanho-letra');
+    if (document.body.classList.contains('texto-maior')) {
+        btnTexto.innerText = "A-"; // Se já aumentou, o botão muda para opção de diminuir
+    } else {
+        btnTexto.innerText = "A+";
+    }
+}
+
+// 2. FUNÇÃO PARA O MODO LEITURA (Do card do meio)
+function alternarModoLeitura() {
+    document.body.classList.toggle('modo-leitura');
+    
+    const btnLeitura = document.getElementById('btn-modo-leitura');
+    if (document.body.classList.contains('modo-leitura')) {
+        btnLeitura.innerText = "DESATIVAR MODO LEITURA";
+    } else {
+        btnLeitura.innerText = "ATIVAR MODO LEITURA";
+    }
+}
+function alternarDaltonismo() {
+    document.body.classList.toggle('modo-daltonismo');
+    const btn = document.getElementById('btn-daltonismo');
+    
+    if (btn) {
+        if (document.body.classList.contains('modo-daltonismo')) {
+            btn.innerText = "Padrão do Site";
+        } else {
+            btn.innerText = "Otimizar Cores";
+        }
     }
 }
 
 // 11. RECURSO DE SÍNTESE DE VOZ (ÁUDIO ASSISTIVO)
-function alternarFonteDislexia() {
-    const corpo = document.getElementById('corpo-app');
-    estadoApp.fonteDislexiaAtiva = !estadoApp.fonteDislexiaAtiva;
-
-    if (estadoApp.fonteDislexiaAtiva) {
-        corpo.classList.add('fonte-dislexia');
-        falarMensagemAudio("Fonte adaptada para dislexia ativada.");
-    } else {
-        corpo.classList.remove('fonte-dislexia');
-        falarMensagemAudio("Fonte padrão restaurada.");
-    }
-}
-
 function alternarLeitorAudio() {
     estadoApp.leitorAudioLigado = !estadoApp.leitorAudioLigado;
     const botao = document.getElementById('botao-audio');
@@ -439,3 +472,13 @@ function mudarParaPainel() {
 carregarVagas();
 carregarCursos();
 mudarParaTela('login');
+function alternarDaltonismo() {
+    document.body.classList.toggle('modo-daltonismo');
+    const btn = document.getElementById('btn-daltonismo');
+    
+    if (document.body.classList.contains('modo-daltonismo')) {
+        btn.innerText = "PADRÃO DO SITE";
+    } else {
+        btn.innerText = "OTIMIZAR CORES";
+    }
+}
