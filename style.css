@@ -563,3 +563,9 @@ body.modo-daltonismo .botao-ajuste-principal {
         margin-bottom: 75px !important;
     }
 }
+@media (max-width: 768px) {
+    /* Esconde a barra lateral antiga do PC que veio lá do lado esquerdo */
+    .sidebar, .barra-lateral, #sidebar, div[style*="width: 250px"] {
+        display: none !important;
+    }
+}
