@@ -511,3 +511,34 @@ body.modo-daltonismo .botao-ajuste-principal {
     background-color: #3182ce !important; /* Muda o amarelo para um azul focado em acessibilidade */
     color: #fff !important;
 }
+/* Quando a tela for de celular */
+@media (max-width: 768px) {
+    
+    /* 1. O container principal do site precisa deixar o menu ir para baixo */
+    .container-principal, body {
+        display: flex !important;
+        flex-direction: column !important; /* Joga o conteúdo em cima e o menu embaixo */
+        height: 100vh !important;
+    }
+
+    /* 2. Configuração da Barra Lateral (que agora vira barra inferior) */
+    .barra-lateral, .sidebar {
+        position: fixed !important;
+        bottom: 0 !important; /* Trava ela colada na parte de baixo da tela */
+        left: 0 !important;
+        width: 100% !important; /* Força a ocupar a largura inteira do celular */
+        height: 60px !important; /* Dá uma altura fixa e controlada para ela */
+        display: flex !important;
+        flex-direction: row !important; /* Coloca as opções (botões) lado a lado */
+        justify-content: space-around !important; /* Espalha os botões sumidos igualmente */
+        background-color: #111827 !important; /* A cor escura do seu fundo */
+        z-index: 9999 !important; /* Força ela a ficar na frente de QUALQUER outra coisa */
+        padding: 5px 0 !important;
+    }
+
+    /* 3. Ajuste no conteúdo principal para ele NÃO sumir atrás do menu */
+    .conteudo-principal, .main-content {
+        margin-bottom: 70px !important; /* Cria um espaço no fundo do site para o menu não cobrir as vagas */
+        overflow-y: auto !important; /* Permite rolar a tela normalmente */
+    }
+}
