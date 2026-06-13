@@ -5,42 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trampolim - Empregabilidade Inclusiva</title>
     <link rel="stylesheet" href="style.css">
-
 </head>
 <body id="corpo-app" class="texto-padrao">
 
     <header class="cabecalho">
-        <!-- Logotipo do Portal -->
         <div class="logo-grupo">
             <div class="logo-letra" aria-hidden="true">T</div>
             <h1 class="logo-titulo">Trampolim</h1>
         </div>
 
-        <!-- Ajustes de Acessibilidade no Topo -->
         <div class="acessibilidade-topo" role="group" aria-label="Ferramentas de acessibilidade">
-            </button>
             <button onclick="alternarLeitorAudio()" id="botao-audio" class="botao-secundario" style="padding: 8px 12px; border-radius: 10px;" title="Ativar Áudio de Apoio">
                 🔊
             </button>
-    <button onclick="alternarTamanhoLetra()" id="btn-tamanho-letra" class="botao-icone-topo" style="background: transparent; border: 2px solid var(--amarelo-acao); color: var(--amarelo-acao); border-radius: 8px; padding: 6px 12px; font-weight: bold; cursor: pointer; font-size: 14px;">
-        A+
-    </button>
-            </div>
-
+            <button onclick="alternarTamanhoLetra()" id="btn-tamanho-letra" class="botao-icone-topo" style="background: transparent; border: 2px solid var(--amarelo-acao); color: var(--amarelo-acao); border-radius: 8px; padding: 6px 12px; font-weight: bold; cursor: pointer; font-size: 14px;">
+                A+
+            </button>
+        </div>
     </header>
 
-    <!-- BANNER DE AVISO DE ÁUDIO EM EXECUÇÃO -->
     <div id="aviso-audio" class="hidden" style="position: fixed; top: 80px; right: 20px; background-color: var(--amarelo-acao); color: black; padding: 12px 24px; border-radius: 16px; font-weight: bold; z-index: 150; border: 3px solid black; display: flex; justify-content: space-between; gap: 12px; align-items: center;">
         <span id="texto-leitura">A reproduzir áudio explicativo...</span>
         <button onclick="pararAudio()" style="background: black; color: white; border: none; padding: 4px 8px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">PARAR</button>
     </div>
 
-    <!-- ================================================================= -->
-    <!-- CONTAINER DOS ELEMENTOS DO APP                                    -->
-    <!-- ================================================================= -->
     <main class="flex-1">
 
-        <!-- TELA 1: LOGIN INICIAL -->
         <section id="tela-login" class="secao-login">
             <div class="caixa-login">
                 <h2>Entrar no Trampolim</h2>
@@ -66,47 +56,44 @@
             </div>
         </section>
 
-        <!-- TELA 2: ONBOARDING / BOAS-VINDAS -->
-       <section id="tela-onboarding" class="tela-centrada hidden">
-    <div class="caixa-interface" style="max-width: 600px;">
-        <span style="color: var(--amarelo-acao); font-weight: bold; font-size: 12px; text-transform: uppercase;">Introdução ao Trampolim</span>
-        
-        <div id="tutorial-passo-1" class="passo-tutorial passo-ativo">
-            <h2 style="color: var(--amarelo-acao); margin: 15px 0 10px;">O que é o Trampolim?</h2>
-            <p style="font-size: 18px; color: var(--cinza); line-height: 1.5; margin-bottom: 25px;">
-                O Trampolim é uma plataforma de empregabilidade inclusiva desenvolvida para conectar profissionais com deficiência ou neurodivergências a empresas preparadas. Nosso foco é eliminar barreiras na contratação.
-            </p>
-            <button onclick="proximoPasso(2)" class="botao botao-principal" style="width: 100%;">Próximo: O que faz? ➔</button>
-        </div>
+        <section id="tela-onboarding" class="tela-centrada hidden">
+            <div class="caixa-interface" style="max-width: 600px;">
+                <span style="color: var(--amarelo-acao); font-weight: bold; font-size: 12px; text-transform: uppercase;">Introdução ao Trampolim</span>
+                
+                <div id="tutorial-passo-1" class="passo-tutorial passo-ativo">
+                    <h2 style="color: var(--amarelo-acao); margin: 15px 0 10px;">O que é o Trampolim?</h2>
+                    <p style="font-size: 18px; color: var(--cinza); line-height: 1.5; margin-bottom: 25px;">
+                        O Trampolim é uma plataforma de empregabilidade inclusiva desenvolvida para conectar professionals com deficiência ou neurodivergências a empresas preparadas. Nosso foco é eliminar barreiras na contratação.
+                    </p>
+                    <button onclick="proximoPasso(2)" class="botao botao-principal" style="width: 100%;">Próximo: O que faz? ➔</button>
+                </div>
 
-        <div id="tutorial-passo-2" class="passo-tutorial hidden">
-            <h2 style="color: var(--amarelo-acao); margin: 15px 0 10px;">O que o sistema faz?</h2>
-            <p style="font-size: 18px; color: var(--cinza); margin-bottom: 25px;">
-                Em vez de focar apenas em competências técnicas, nosso sistema cruza os seus <strong>requisitos assistivos</strong> (como home office, salas silenciosas ou rampas) com a real infraestrutura das empresas parceiras.
-            </p>
-            <button onclick="proximoPasso(3)" class="botao botao-principal" style="width: 100%;">Próximo: Acessibilidade ➔</button>
-        </div>
+                <div id="tutorial-passo-2" class="passo-tutorial hidden">
+                    <h2 style="color: var(--amarelo-acao); margin: 15px 0 10px;">O que o sistema faz?</h2>
+                    <p style="font-size: 18px; color: var(--cinza); margin-bottom: 25px;">
+                        Em vez de focar apenas em competências técnicas, nosso sistema cruza os seus <strong>requisitos assistivos</strong> (como home office, salas silenciosas ou rampas) com a real infraestrutura das empresas parceiras.
+                    </p>
+                    <button onclick="proximoPasso(3)" class="botao botao-principal" style="width: 100%;">Próximo: Acessibilidade ➔</button>
+                </div>
 
-        <div id="tutorial-passo-3" class="passo-tutorial hidden">
-            <h2 style="color: var(--amarelo-acao); margin: 15px 0 10px;">Acessibilidade em Primeiro Lugar</h2>
-            <p style="font-size: 18px; color: var(--cinza); margin-bottom: 25px;">
-                Toda a nossa interface foi desenhada para ser simples. Oferecemos ferramentas integradas para ajustar o tamanho da letra e fontes adaptadas para dislexia, garantindo uma navegação confortável para todos.
-            </p>
-            <button onclick="mudarParaPainel()" class="botao botao-principal" style="width: 100%;">Explorar o Painel de Vagas</button>
-        </div>
+                <div id="tutorial-passo-3" class="passo-tutorial hidden">
+                    <h2 style="color: var(--amarelo-acao); margin: 15px 0 10px;">Acessibilidade em Primeiro Lugar</h2>
+                    <p style="font-size: 18px; color: var(--cinza); margin-bottom: 25px;">
+                        Toda a nossa interface foi desenhada para ser simples. Oferecemos ferramentas integradas para ajustar o tamanho da letra e fontes adaptadas para dislexia, garantindo uma navegação confortável para todos.
+                    </p>
+                    <button onclick="mudarParaPainel()" class="botao botao-principal" style="width: 100%;">Explorar o Painel de Vagas</button>
+                </div>
 
-        <div style="display: flex; justify-content: center; gap: 8px; margin-top: 20px;">
-            <div id="ponto-1" style="width: 10px; height: 10px; border-radius: 50%; background: var(--amarelo-acao);"></div>
-            <div id="ponto-2" style="width: 10px; height: 10px; border-radius: 50%; background: var(--azul-borda);"></div>
-            <div id="ponto-3" style="width: 10px; height: 10px; border-radius: 50%; background: var(--azul-borda);"></div>
-        </div>
-    </div>
-</section>
+                <div style="display: flex; justify-content: center; gap: 8px; margin-top: 20px;">
+                    <div id="ponto-1" style="width: 10px; height: 10px; border-radius: 50%; background: var(--amarelo-acao);"></div>
+                    <div id="ponto-2" style="width: 10px; height: 10px; border-radius: 50%; background: var(--azul-borda);"></div>
+                    <div id="ponto-3" style="width: 10px; height: 10px; border-radius: 50%; background: var(--azul-borda);"></div>
+                </div>
+            </div>
+        </section>
 
-        <!-- TELA 3: PAINEL DASHBOARD (VAGAS, PERFIL, CURSOS, CONFIGS) -->
         <section id="painel-dashboard" class="dashboard-container hidden">
             
-            <!-- MENU LATERAL (Apenas visível em computadores/telas médias) -->
             <aside class="sidebar">
                 <div class="sidebar-perfil">
                     <p style="font-size: 12px; color: var(--amarelo-acao); font-weight: 900; text-transform: uppercase;">Utilizador</p>
@@ -127,41 +114,33 @@
                         <span>🎨</span> Ajustes & Ficha
                     </button>
                 </nav>
-                
 
                 <button onclick="fazerLogout()" class="botao botao-secundario" style="padding: 12px; font-size: 12px; border-color: red; color: red;">
                     Sair / Desconectar
                 </button>
             </aside>
-                       <!-- MENU DE NAVEGAÇÃO INFERIOR (Apenas visível em telemóveis) -->
+
             <nav class="nav-inferior" aria-label="Navegação móvel" style="display: flex; position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background-color: #0d1527; border-top: 1px solid #1e293b; justify-content: space-around; align-items: center; z-index: 99999; padding: 5px 0;">
-    
-    <button onclick="mudarParaAba('vagas')" id="btn-mobile-vagas" class="btn-mobile ativo" style="background: none; border: none; color: #ffcc00; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; gap: 2px; flex: 1; height: 100%; font-weight: bold;">
-        <span style="font-size: 18px;">💼</span>
-        <span>Vagas</span>
-    </button>
-    
-    <button onclick="mudarParaAba('perfil')" id="btn-mobile-perfil" class="btn-mobile" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; gap: 2px; flex: 1; height: 100%;">
-        <span style="font-size: 18px;">🧠</span>
-        <span>Perfil</span>
-    </button>
-    
-    <button onclick="mudarParaAba('cursos')" id="btn-mobile-cursos" class="btn-mobile" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; gap: 2px; flex: 1; height: 100%;">
-        <span style="font-size: 18px;">📚</span>
-        <span>Cursos</span>
-    </button>
-    
-    <button onclick="mudarParaAba('ajustes')" id="btn-mobile-ajustes" class="btn-mobile" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; gap: 2px; flex: 1; height: 100%;">
-        <span style="font-size: 18px;">🎨</span>
-        <span>Ajustes</span>
-    </button>
+                <button onclick="mudarParaAba('vagas')" id="btn-mobile-vagas" class="btn-mobile ativo" style="background: none; border: none; color: #ffcc00; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; gap: 2px; flex: 1; height: 100%; font-weight: bold;">
+                    <span style="font-size: 18px;">💼</span>
+                    <span>Vagas</span>
+                </button>
+                <button onclick="mudarParaAba('perfil')" id="btn-mobile-perfil" class="btn-mobile" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; gap: 2px; flex: 1; height: 100%;">
+                    <span style="font-size: 18px;">🧠</span>
+                    <span>Perfil</span>
+                </button>
+                <button onclick="mudarParaAba('cursos')" id="btn-mobile-cursos" class="btn-mobile" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; gap: 2px; flex: 1; height: 100%;">
+                    <span style="font-size: 18px;">📚</span>
+                    <span>Cursos</span>
+                </button>
+                <button onclick="mudarParaAba('ajustes')" id="btn-mobile-ajustes" class="btn-mobile" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; gap: 2px; flex: 1; height: 100%;">
+                    <span style="font-size: 18px;">🎨</span>
+                    <span>Ajustes</span>
+                </button>
+            </nav>
 
-</nav>
-
-            <!-- CONTEÚDO PRINCIPAL DO DASHBOARD -->
             <div class="conteúdo-principal">
 
-                <!-- ABA: VAGAS -->
                 <div id="aba-vagas" class="space-y-6">
                     <div class="banner-aba">
                         <span style="color: var(--amarelo-acao); font-weight: bold; font-size: 12px; text-transform: uppercase;">Oportunidades</span>
@@ -169,13 +148,10 @@
                         <p style="color: var(--cinza-claro); margin-top: 6px;">Estas vagas de emprego possuem estruturas que combinam com o seu perfil.</p>
                     </div>
 
-                    <!-- Lista de Vagas -->
                     <div id="container-vagas" class="grid-vagas">
-                        <!-- Gerado de forma simples pelo Javascript -->
-                    </div>
+                        </div>
                 </div>
 
-                <!-- ABA: PERFIL ASSISTIVO -->
                 <div id="aba-perfil" class="hidden">
                     <div class="banner-aba" style="margin-bottom: 24px;">
                         <span style="color: var(--amarelo-acao); font-weight: bold; font-size: 12px; text-transform: uppercase;">Suas Preferências</span>
@@ -185,71 +161,66 @@
 
                     <form onsubmit="salvarPerfil(event)" class="banner-aba" style="display: flex; flex-direction: column; gap: 16px;">
                         <div class="grid-vagas" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%;">
-    
-    <label class="opcao-checkbox">
-        <input type="checkbox" id="filtro-rampa" checked>
-        <div>
-            <h4 style="font-weight: bold; margin: 0;">♿ Rampas de Acesso</h4>
-            <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Ambiente físico adaptado para mobilidade.</p>
-        </div>
-    </label>
+                            <label class="opcao-checkbox">
+                                <input type="checkbox" id="filtro-rampa" checked>
+                                <div>
+                                    <h4 style="font-weight: bold; margin: 0;">♿ Rampas de Acesso</h4>
+                                    <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Ambiente físico adaptado para mobilidade.</p>
+                                </div>
+                            </label>
 
-    <label class="opcao-checkbox">
-        <input type="checkbox" id="filtro-homeoffice" checked>
-        <div>
-            <h4 style="font-weight: bold; margin: 0;">🏠 Home Office Remoto</h4>
-            <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Atividades 100% à distância.</p>
-        </div>
-    </label>
+                            <label class="opcao-checkbox">
+                                <input type="checkbox" id="filtro-homeoffice" checked>
+                                <div>
+                                    <h4 style="font-weight: bold; margin: 0;">🏠 Home Office Remoto</h4>
+                                    <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Atividades 100% à distância.</p>
+                                </div>
+                            </label>
 
-    <label class="opcao-checkbox">
-        <input type="checkbox" id="filtro-libras">
-        <div>
-            <h4 style="font-weight: bold; margin: 0;">🧏‍♂️ Tradutor em Libras</h4>
-            <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Disponibilidade de profissionais de integração de sinais.</p>
-        </div>
-    </label>
+                            <label class="opcao-checkbox">
+                                <input type="checkbox" id="filtro-libras">
+                                <div>
+                                    <h4 style="font-weight: bold; margin: 0;">🧏‍♂️ Tradutor em Libras</h4>
+                                    <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Disponibilidade de profissionais de integração de sinais.</p>
+                                </div>
+                            </label>
 
-    <label class="opcao-checkbox">
-        <input type="checkbox" id="filtro-neurodiversidade">
-        <div>
-            <h4 style="font-weight: bold; margin: 0;">🧠 Neurodiversidade (Autismo/TDAH)</h4>
-            <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Vagas em empresas com rotinas previsíveis, comunicação clara e suporte à inclusão cognitiva.</p>
-        </div>
-    </label>
+                            <label class="opcao-checkbox">
+                                <input type="checkbox" id="filtro-neurodiversidade">
+                                <div>
+                                    <h4 style="font-weight: bold; margin: 0;">🧠 Neurodiversidade (Autismo/TDAH)</h4>
+                                    <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Vagas em empresas com rotinas previsíveis, comunicação clara e suporte à inclusão cognitiva.</p>
+                                </div>
+                            </label>
 
-    <label class="opcao-checkbox">
-        <input type="checkbox" id="filtro-visual">
-        <div>
-            <h4 style="font-weight: bold; margin: 0;">👓 Deficiência Visual (Baixa Visão/Cegueira)</h4>
-            <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Suporte a leitores de tela, amplificadores de caracteres e interfaces de alto contraste.</p>
-        </div>
-    </label>
+                            <label class="opcao-checkbox">
+                                <input type="checkbox" id="filtro-visual">
+                                <div>
+                                    <h4 style="font-weight: bold; margin: 0;">👓 Deficiência Visual (Baixa Visão/Cegueira)</h4>
+                                    <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Suporte a leitores de tela, amplificadores de caracteres e interfaces de alto contraste.</p>
+                                </div>
+                            </label>
 
-    <label class="opcao-checkbox">
-        <input type="checkbox" id="filtro-auditiva">
-        <div>
-            <h4 style="font-weight: bold; margin: 0;">🧏 Deficiência Auditiva (Surdez/Hipoacusia)</h4>
-            <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Ambientes preparados com comunicação escrita, legendas automáticas ou suporte em Libras.</p>
-        </div>
-    </label>
+                            <label class="opcao-checkbox">
+                                <input type="checkbox" id="filtro-auditiva">
+                                <div>
+                                    <h4 style="font-weight: bold; margin: 0;">🧏 Deficiência Auditiva (Surdez/Hipoacusia)</h4>
+                                    <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 0 0;">Ambientes preparados com comunicação escrita, legendas automáticas ou suporte em Libras.</p>
+                                </div>
+                            </label>
+                        </div>
 
-</div>
-<div class="opcao-checkbox" style="display: flex; flex-direction: column; align-items: flex-start; height: auto; gap: 12px;">
-    <div>
-        <h4 style="font-weight: bold; margin: 0;">📄 Comprovante ou Laudo Médico (Opcional)</h4>
-        <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 12px 0;">
-            Anexe seu laudo ou relatório para validar os requisitos assistivos junto às empresas.
-        </p>
-    </div>
-    
-    <label for="upload-comprovante" style="background: var(--amarelo-acao, #ffcc00); color: #000; padding: 10px 16px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; display: inline-block; transition: background 0.2s;">
-        <i class="fa-solid fa-upload"></i> SELECIONAR LAUDO (PDF, JPG)
-    </label>
-    <input type="file" id="upload-comprovante" accept=".pdf, .jpg, .jpeg, .png" style="display: none;" onchange="mostrarNomeDoArquivo()">
-    
-    <span id="nome-arquivo-selecionado" style="font-size: 12px; color: #a0aec0; font-style: italic;">Nenhum arquivo selecionado</span>
-</div>
+                        <div class="opcao-checkbox" style="display: flex; flex-direction: column; align-items: flex-start; height: auto; gap: 12px;">
+                            <div>
+                                <h4 style="font-weight: bold; margin: 0;">📄 Comprovante ou Laudo Médico (Opcional)</h4>
+                                <p style="font-size: 12px; color: var(--cinza-claro); margin: 4px 0 12px 0;">Anexe seu laudo ou relatório para validar os requisitos assistivos junto às empresas.</p>
+                            </div>
+                            <label for="upload-comprovante" style="background: var(--amarelo-acao, #ffcc00); color: #000; padding: 10px 16px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; display: inline-block; transition: background 0.2s;">
+                                SELECIONAR LAUDO (PDF, JPG)
+                            </label>
+                            <input type="file" id="upload-comprovante" accept=".pdf, .jpg, .jpeg, .png" style="display: none;" onchange="mostrarNomeDoArquivo()">
+                            <span id="nome-arquivo-selecionado" style="font-size: 12px; color: #a0aec0; font-style: italic;">Nenhum arquivo selecionado</span>
+                        </div>
 
                         <div style="display: flex; justify-content: flex-end; margin-top: 12px;">
                             <button type="submit" class="botao botao-principal">Guardar Requisitos</button>
@@ -257,7 +228,6 @@
                     </form>
                 </div>
 
-                <!-- ABA: MICROLEARNING -->
                 <div id="aba-cursos" class="hidden">
                     <div class="banner-aba">
                         <span style="color: var(--amarelo-acao); font-weight: bold; font-size: 12px; text-transform: uppercase;">Biblioteca</span>
@@ -266,48 +236,46 @@
                     </div>
 
                     <div id="container-cursos" class="grid-cursos">
-                        <!-- Gerado de forma simples pelo Javascript -->
-                    </div>
+                        </div>
                 </div>
 
-                <!-- ABA: AJUSTES & EXPORTAR -->
                 <div id="aba-ajustes" class="hidden">
                     <div class="banner-aba">
                         <span style="color: var(--amarelo-acao); font-weight: bold; font-size: 12px; text-transform: uppercase;">Preferências</span>
                         <h2 style="font-size: 28px; font-weight: 900; margin-top: 4px;">Opções Visuais e Exportação</h2>
                     </div>
-<div style="display: flex; gap: 20px; width: 100%; margin-bottom: 20px;">
 
-    <div class="banner-aba" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; margin-bottom: 0;">
-        <div>
-            <h3 style="color: var(--amarelo-acao); font-weight: bold; font-size: 18px;">Acessibilidade Visual</h3>
-            <p style="font-size: 14px; color: var(--cinza-claro);">Ative o modo leitura para destacar os blocos de texto e focar no que importa.</p>
-        </div>
-        <button id="btn-modo-leitura" onclick="alternarModoLeitura()" class="botao botao-principal">Ativar Modo Leitura</button>
-    </div>
+                    <div style="display: flex; gap: 20px; width: 100%; margin-bottom: 20px;">
+                        <div class="banner-aba" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; margin-bottom: 0;">
+                            <div>
+                                <h3 style="color: var(--amarelo-acao); font-weight: bold; font-size: 18px;">Acessibilidade Visual</h3>
+                                <p style="font-size: 14px; color: var(--cinza-claro);">Ative o modo leitura para destacar os blocos de texto e focar no que importa.</p>
+                            </div>
+                            <button id="btn-modo-leitura" onclick="alternarModoLeitura()" class="botao botao-principal">Ativar Modo Leitura</button>
+                        </div>
 
-    <div class="banner-aba" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; margin-bottom: 0;">
-        <div>
-            <h3 style="color: var(--amarelo-acao); font-weight: bold; font-size: 18px;">Modo Daltonismo</h3>
-            <p style="font-size: 14px; color: var(--cinza-claro);">Ajusta as cores dos botões e tags do portal para garantir uma navegação confortável e legível.</p>
-        </div>
-        <button id="btn-daltonismo" onclick="alternarDaltonismo()" class="botao botao-principal">Otimizar Cores</button>
-    </div>
+                        <div class="banner-aba" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; margin-bottom: 0;">
+                            <div>
+                                <h3 style="color: var(--amarelo-acao); font-weight: bold; font-size: 18px;">Modo Daltonismo</h3>
+                                <p style="font-size: 14px; color: var(--cinza-claro);">Ajusta as cores dos botões e tags do portal para garantir uma navegação confortável e legível.</p>
+                            </div>
+                            <button id="btn-daltonismo" onclick="alternarDaltonismo()" class="botao botao-principal">Otimizar Cores</button>
+                        </div>
+                    </div>
 
-</div>
+                    <div class="banner-aba" style="display: flex; flex-direction: column; gap: 16px;">
+                        <h3 style="color: var(--amarelo-acao); font-weight: bold; font-size: 18px;">Descarregar Ficha de Dados</h3>
+                        <p style="font-size: 14px; color: var(--cinza-claro);">Guarde a sua configuração assistiva num ficheiro de texto comum.</p>
+                        <div style="display: flex; gap: 8px;">
+                            <button onclick="baixarFicheiro('txt')" class="botao botao-principal">Descarregar TXT</button>
+                        </div>
+                    </div>
+                </div>
 
-<div class="banner-aba" style="display: flex; flex-direction: column; gap: 16px;">
-    <h3 style="color: var(--amarelo-acao); font-weight: bold; font-size: 18px;">Descarregar Ficha de Dados</h3>
-    <p style="font-size: 14px; color: var(--cinza-claro);">Guarde a sua configuração assistiva num ficheiro de texto comum.</p>
-    
-    <div style="display: flex; gap: 8px;">
-        <button onclick="baixarFicheiro('txt')" class="botao botao-principal">Descarregar TXT</button>
-    </div>
-</div>
+            </div>
         </section>
     </main>
 
-    <!-- MODAL DE SUCESSO DE CANDIDATURA -->
     <div id="modal-sucesso" class="overlay-modal hidden">
         <div class="janela-modal">
             <div style="background-color: var(--amarelo-acao); color: var(--azul-escuro); width: 64px; height: 64px; border-radius: 50%; font-size: 32px; font-weight: 900; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">✓</div>
@@ -316,6 +284,7 @@
             <button onclick="fecharModal()" class="botao botao-principal" style="width: 100%;">Voltar ao Painel</button>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

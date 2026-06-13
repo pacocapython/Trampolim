@@ -1,436 +1,140 @@
-        /* 1. VARIÁVEIS DE CORES (Para manter a harmonia e alto contraste) */
-        :root {
-            --azul-escuro: #091124;    /* Fundo principal */
-            --azul-card: #142244;      /* Fundo dos cartões e caixas */
-            --azul-borda: #1E315D;     /* Bordas de separação */
-            --amarelo-acao: #FACC15;   /* Botões e destaques (WCAG AAA) */
-            --amarelo-hover: #D97706;  /* Efeito de passar o rato */
-            --branco: #FFFFFF;
-            --cinza-claro: #D1D5DB;
-        }
-
-        /* 2. REGRA GERAIS E ACESSIBILIDADE */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: #030712; /* Tom quase preto para contraste */
-            color: var(--branco);
-            font-family: system-ui, -apple-system, sans-serif;
-            min-height: screen;
-            display: flex;
-            flex-direction: column;
-            line-height: 1.6;
-        }
-
-        /* Regra WCAG: Mostra uma borda amarela forte ao navegar por teclado */
-        *:focus-visible {
-            outline: 4px solid var(--amarelo-acao) !important;
-            outline-offset: 2px !important;
-        }
-
-        /* Suporte para Dislexia (Ajuste de espaçamento e fonte amigável) */
-        .fonte-dislexia {
-            font-family: 'Comic Sans MS', cursive, sans-serif !important;
-            letter-spacing: 0.06em;
-        }
-
-        /* Controle dinâmico do tamanho do texto */
-        .texto-padrao { font-size: 16px; }
-        .texto-grande { font-size: 20px; }
-
-        /* Classe utilitária para esconder elementos de forma simples */
-        .hidden {
-            display: none !important;
-        }
-
-        /* 3. CABEÇALHO GLOBAL */
-        .cabecalho {
-            background-color: var(--azul-escuro);
-            border-bottom: 3px solid var(--amarelo-acao);
-            padding: 12px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-
-        .logo-grupo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-letra {
-            background-color: var(--amarelo-acao);
-            color: var(--azul-escuro);
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            font-weight: 900;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-titulo {
-            font-size: 20px;
-            font-weight: 900;
-        }
-
-        .acessibilidade-topo {
-            display: flex;
-            gap: 8px;
-        }
-
-        /* 4. BOTÕES */
-        .botao {
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            border-radius: 16px;
-            padding: 14px 24px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 2px solid transparent;
-            text-align: center;
-            display: inline-block;
-        }
-
-        .botao-principal {
-            background-color: var(--amarelo-acao);
-            color: var(--azul-escuro);
-        }
-
-        .botao-principal:hover {
-            background-color: var(--amarelo-hover);
-        }
-
-        .botao-secundario {
-            background-color: var(--azul-card);
-            color: var(--amarelo-acao);
-            border-color: var(--amarelo-acao);
-        }
-
-        .botao-secundario:hover {
-            background-color: var(--azul-borda);
-        }
-
-        /* 5. TELA DE LOGIN */
-        .secao-login {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-        }
-
-        .caixa-login {
-            background-color: var(--azul-card);
-            border: 4px solid var(--amarelo-acao);
-            border-radius: 32px;
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-
-        .caixa-login h2 {
-            color: var(--amarelo-acao);
-            font-size: 28px;
-            font-weight: 900;
-            margin-bottom: 8px;
-        }
-
-        .caixa-login p {
-            color: var(--cinza-claro);
-            margin-bottom: 24px;
-        }
-
-        .grupo-campo {
-            text-align: left;
-            margin-bottom: 18px;
-        }
-
-        .grupo-campo label {
-            display: block;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .input-texto {
-            width: 100%;
-            background-color: var(--azul-escuro);
-            border: 2px solid var(--azul-borda);
-            color: var(--branco);
-            padding: 14px;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: bold;
-            transition: border-color 0.2s;
-        }
-
-        .input-texto:focus {
-            border-color: var(--amarelo-acao);
-            outline: none;
-        }
-
-        /* 6. TELA DE ONBOARDING */
-        .secao-onboarding {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-        }
-
-        .caixa-onboarding {
-            background-color: var(--azul-card);
-            border: 4px solid var(--amarelo-acao);
-            border-radius: 32px;
-            padding: 40px;
-            width: 100%;
-            max-width: 650px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-
-        /* 7. PAINEL DASHBOARD (Layout Desktop Lateral / Mobile Vertical) */
-        .dashboard-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background-color: var(--azul-escuro);
-        }
-
-        /* Barra de navegação lateral para ecrãs de computador */
-        .sidebar {
-            background-color: var(--azul-card);
-            border-right: 2px solid var(--azul-borda);
-            padding: 24px;
-            display: none; /* Escondido por padrão no mobile */
-            flex-direction: column;
-            gap: 24px;
-            width: 280px;
-            flex-shrink: 0;
-        }
-
-        .sidebar-perfil {
-            border-bottom: 1px solid var(--azul-borda);
-            padding-bottom: 16px;
-        }
-
-        .sidebar-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            flex-grow: 1;
-        }
-
-        .btn-menu {
-            background: none;
-            border: none;
-            color: var(--cinza-claro);
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 16px;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .btn-menu:hover {
-            background-color: var(--azul-borda);
-            color: var(--branco);
-        }
-
-        .btn-menu.ativo {
-            background-color: var(--amarelo-acao);
-            color: var(--azul-escuro);
-        }
-
-        /* Área de conteúdo onde aparecem as abas */
-        .conteúdo-principal {
-            flex: 1;
-            padding: 24px;
-            overflow-y: auto;
-            max-width: 1100px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        /* Barra de navegação inferior exclusiva para dispositivos móveis */
-        .nav-inferior {
-            background-color: var(--azul-card);
-            border-top: 4px solid var(--amarelo-acao);
-            padding: 8px 4px;
-            position: sticky;
-            bottom: 0;
-            z-index: 90;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .btn-mobile {
-            background: none;
-            border: none;
-            color: var(--cinza-claro);
-            font-size: 12px;
-            font-weight: bold;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-        }
-
-        .btn-mobile.ativo {
-            color: var(--amarelo-acao);
-        }
-
-        /* Ajustes específicos para computador (Layout Responsivo) */
-        @media (min-width: 768px) {
-            .dashboard-container {
-                flex-direction: row; /* Alinha a sidebar ao lado do conteúdo */
-            }
-            .sidebar {
-                display: flex; /* Mostra a barra lateral */
-            }
-            .nav-inferior {
-                display: none; /* Esconde a barra do telemóvel */
-            }
-        }
-
-        /* 8. ELEMENTOS INTERNOS (Cards de Vagas e Formulários) */
-        .banner-aba {
-            background-color: var(--azul-card);
-            border: 2px solid var(--azul-borda);
-            padding: 24px;
-            border-radius: 24px;
-            margin-bottom: 24px;
-        }
-
-        .grid-vagas, .grid-cursos {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-        }
-
-        @media (min-width: 992px) {
-            .grid-vagas, .grid-cursos {
-                grid-template-columns: 1fr 1fr; /* 2 itens por linha no desktop */
-            }
-        }
-
-        .card-vaga, .card-curso {
-            background-color: var(--azul-card);
-            border: 2px solid var(--azul-borda);
-            border-radius: 24px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 16px;
-        }
-
-        .card-tag {
-            background-color: var(--azul-escuro);
-            border: 1px solid var(--azul-borda);
-            color: var(--branco);
-            font-size: 12px;
-            font-weight: bold;
-            padding: 6px 12px;
-            border-radius: 8px;
-            display: inline-block;
-            margin-right: 6px;
-            margin-top: 6px;
-        }
-
-        /* Formulários Acessíveis */
-        .opcao-checkbox {
-            background-color: var(--azul-escuro);
-            border: 2px solid var(--azul-borda);
-            border-radius: 16px;
-            padding: 16px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 16px;
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        .opcao-checkbox input {
-            width: 24px;
-            height: 24px;
-            accent-color: var(--amarelo-acao); /* Define a cor do visto */
-        }
-
-        /* Player de Vídeo Simulado */
-        .player-video {
-            background-color: #000000;
-            border: 2px solid var(--azul-borda);
-            border-radius: 16px;
-            aspect-ratio: 16 / 9;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            overflow: hidden;
-        }
-
-        .legenda-video {
-            background-color: rgba(0, 0, 0, 0.95);
-            border-top: 2px solid var(--amarelo-acao);
-            padding: 12px;
-            text-align: center;
-        }
-
-        /* 9. MODAIS */
-        .overlay-modal {
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            z-index: 200;
-        }
-
-        .janela-modal {
-            background-color: var(--azul-card);
-            border: 4px solid var(--amarelo-acao);
-            border-radius: 24px;
-            padding: 32px;
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        /* Controle dos passos do Tutorial */
-.passo-tutorial {
-    animation: fadeIn 0.3s ease-in-out;
+/* =========================================================================
+   1. VARIÁVEIS DE CORES & ALTO CONTRASTE (WCAG)
+   ========================================================================= */
+:root {
+    --azul-escuro: #091124;    /* Fundo principal */
+    --azul-card: #142244;      /* Fundo dos cartões e caixas */
+    --azul-borda: #1E315D;     /* Bordas de separação */
+    --amarelo-acao: #FACC15;   /* Botões e destaques (WCAG AAA) */
+    --amarelo-hover: #D97706;  /* Efeito de passar o mouse */
+    --branco: #FFFFFF;
+    --cinza-claro: #D1D5DB;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+/* =========================================================================
+   2. REGRAS GERAIS E ACESSIBILIDADE
+   ========================================================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-/* Controle dos passos do Tutorial */
-.tela-centrada {
+
+body {
+    background-color: #030712; /* Tom quase preto para contraste máximo */
+    color: var(--branco);
+    font-family: system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+}
+
+/* WCAG: Borda amarela forte ao navegar utilizando o teclado */
+*:focus-visible {
+    outline: 4px solid var(--amarelo-acao) !important;
+    outline-offset: 2px !important;
+}
+
+/* Suporte para Dislexia */
+.fonte-dislexia {
+    font-family: 'Comic Sans MS', cursive, sans-serif !important;
+    letter-spacing: 0.06em;
+}
+
+/* Controle dinâmico do tamanho do texto via JavaScript */
+.texto-padrao { font-size: 16px; }
+.texto-grande { font-size: 20px; }
+
+/* Classe utilitária para ocultar elementos */
+.hidden {
+    display: none !important;
+}
+
+/* =========================================================================
+   3. CABEÇALHO GLOBAL
+   ========================================================================= */
+.cabecalho {
+    background-color: var(--azul-escuro);
+    border-bottom: 3px solid var(--amarelo-acao);
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.logo-grupo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-letra {
+    background-color: var(--amarelo-acao);
+    color: var(--azul-escuro);
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    font-weight: 900;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-titulo {
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.acessibilidade-topo {
+    display: flex;
+    gap: 8px;
+}
+
+/* =========================================================================
+   4. BOTÕES PADRÃO
+   ========================================================================= */
+.botao {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 16px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    text-align: center;
+    display: inline-block;
+}
+
+.botao-principal {
+    background-color: var(--amarelo-acao);
+    color: var(--azul-escuro);
+}
+
+.botao-principal:hover {
+    background-color: var(--amarelo-hover);
+}
+
+.botao-secundario {
+    background-color: var(--azul-card);
+    color: var(--amarelo-acao);
+    border-color: var(--amarelo-acao);
+}
+
+.botao-secundario:hover {
+    background-color: var(--azul-borda);
+}
+
+/* =========================================================================
+   5. INTERFACES DE FLUXO (LOGIN & ONBOARDING)
+   ========================================================================= */
+.secao-login, .tela-centrada {
     flex: 1;
     display: flex;
     align-items: center;
@@ -438,7 +142,7 @@
     padding: 24px;
 }
 
-.caixa-interface {
+.caixa-login, .caixa-interface {
     background-color: var(--azul-card);
     border: 4px solid var(--amarelo-acao);
     border-radius: 32px;
@@ -448,13 +152,55 @@
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
 
-/* Garante que os passos inativos fiquem escondidos */
+.caixa-login { max-width: 500px; }
+.caixa-interface { max-width: 650px; }
+
+.caixa-login h2 {
+    color: var(--amarelo-acao);
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.caixa-login p {
+    color: var(--cinza-claro);
+    margin-bottom: 24px;
+}
+
+.grupo-campo {
+    text-align: left;
+    margin-bottom: 18px;
+}
+
+.grupo-campo label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.input-texto {
+    width: 100%;
+    background-color: var(--azul-escuro);
+    border: 2px solid var(--azul-borda);
+    color: var(--branco);
+    padding: 14px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: border-color 0.2s;
+}
+
+.input-texto:focus {
+    border-color: var(--amarelo-acao);
+    outline: none;
+}
+
+/* Controle dos passos do Tutorial */
 .passo-tutorial {
     display: none; 
     animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Mostra apenas o passo que tiver a classe passo-ativo */
 .passo-tutorial.passo-ativo {
     display: block;
 }
@@ -463,33 +209,212 @@
     from { opacity: 0; transform: translateY(5px); }
     to { opacity: 1; transform: translateY(0); }
 }
-/* --- CORREÇÃO DO AUMENTO DE LETRA --- */
-/* Aumenta apenas os textos de leitura e conteúdo, ignorando botões do sistema */
+
+/* =========================================================================
+   6. PAINEL DASHBOARD (COMPUTADOR / TELAS GRANDES)
+   ========================================================================= */
+.dashboard-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--azul-escuro);
+}
+
+/* Menu Lateral (PC) */
+.sidebar {
+    background-color: var(--azul-card);
+    border-right: 2px solid var(--azul-borda);
+    padding: 24px;
+    display: none; /* Escondido no mobile, ativado via Media Query */
+    flex-direction: column;
+    gap: 24px;
+    width: 280px;
+    flex-shrink: 0;
+}
+
+.sidebar-perfil {
+    border-bottom: 1px solid var(--azul-borda);
+    padding-bottom: 16px;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+}
+
+.btn-menu {
+    background: none;
+    border: none;
+    color: var(--cinza-claro);
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-menu:hover {
+    background-color: var(--azul-borda);
+    color: var(--branco);
+}
+
+.btn-menu.ativo {
+    background-color: var(--amarelo-acao);
+    color: var(--azul-escuro);
+}
+
+/* Área de Conteúdo Central */
+.conteúdo-principal {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Por padrão, esconde a barra inferior em telas de desktop */
+.nav-inferior {
+    display: none !important;
+}
+
+/* =========================================================================
+   7. CARDS INTERNALIZADOS & COMPONENTES
+   ========================================================================= */
+.banner-aba {
+    background-color: var(--azul-card);
+    border: 2px solid var(--azul-borda);
+    padding: 24px;
+    border-radius: 24px;
+    margin-bottom: 24px;
+}
+
+.grid-vagas, .grid-cursos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+.card-vaga, .card-curso {
+    background-color: var(--azul-card);
+    border: 2px solid var(--azul-borda);
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.card-tag {
+    background-color: var(--azul-escuro);
+    border: 1px solid var(--azul-borda);
+    color: var(--branco);
+    font-size: 12px;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-right: 6px;
+    margin-top: 6px;
+}
+
+.opcao-checkbox {
+    background-color: var(--azul-escuro);
+    border: 2px solid var(--azul-borda);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.opcao-checkbox input {
+    width: 24px;
+    height: 24px;
+    accent-color: var(--amarelo-acao);
+}
+
+.player-video {
+    background-color: #000000;
+    border: 2px solid var(--azul-borda);
+    border-radius: 16px;
+    aspect-ratio: 16 / 9;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+.legenda-video {
+    background-color: rgba(0, 0, 0, 0.95);
+    border-top: 2px solid var(--amarelo-acao);
+    padding: 12px;
+    text-align: center;
+}
+
+/* =========================================================================
+   8. MODAIS
+   ========================================================================= */
+.overlay-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 200;
+}
+
+.janela-modal {
+    background-color: var(--azul-card);
+    border: 4px solid var(--amarelo-acao);
+    border-radius: 24px;
+    padding: 32px;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* =========================================================================
+   9. INTERFACES ADAPTATIVAS DE ACESSIBILIDADE (CONTROLADO POR JS)
+   ========================================================================= */
+
+/* --- Aumento de Letra Proporcional --- */
+body.texto-maior * {
+    font-size: 105% !important; 
+}
+
 body.texto-maior p,
 body.texto-maior span,
 body.texto-maior h3,
 body.texto-maior h4,
 body.texto-maior label,
 body.texto-maior .card-vaga * {
-    font-size: 115% !important; /* Aumenta o texto em 15% para facilitar a leitura */
-    line-height: 1.5 !important; /* Ajusta o espaçamento para o texto não encavalar */
+    font-size: 115% !important; /* Aumento extra focado em conteúdos de leitura */
+    line-height: 1.5 !important;
 }
 
-/* Garante que o botão de descarregar e o card mantenham a estrutura correta */
 body.texto-maior .banner-aba,
 body.texto-maior .botao,
 body.texto-maior button {
     height: auto !important;
 }
-/* --- ESTILO DO AUMENTO DE LETRA --- */
-/* Aumenta o texto de absolutamente tudo no site em 15% de forma proporcional */
-body.texto-maior * {
-    font-size: 105% !important; 
-}
 
-
-/* --- ESTILO DO MODO LEITURA --- */
-/* Quando ativo, ele dá um destaque amarelo nos cards principais para o olho focar neles */
+/* --- Modo Leitura Dinâmico (TDAH / Foco) --- */
 body.modo-leitura .opcao-checkbox, 
 body.modo-leitura .card-vaga,
 body.modo-leitura .banner-aba {
@@ -497,49 +422,67 @@ body.modo-leitura .banner-aba {
     box-shadow: 0 0 15px rgba(255, 204, 0, 0.2) !important;
 }
 
-/* Afasta um pouco as letras e as linhas dos textos para quem tem TDAH ler sem pressa */
 body.modo-leitura p {
     letter-spacing: 0.8px !important;
     line-height: 1.7 !important;
 }
-/* Filtro CSS de alto nível que simula a correção de cor para daltonismo */
+
+/* --- Modo Daltonismo --- */
 body.modo-daltonismo {
     filter: contrast(120%) saturate(85%) hue-rotate(15deg) !important;
 }
 
 body.modo-daltonismo .botao-ajuste-principal {
-    background-color: #3182ce !important; /* Muda o amarelo para um azul focado em acessibilidade */
+    background-color: #3182ce !important; /* Troca para azul de alta acessibilidade visual */
     color: #fff !important;
 }
-/* --- AJUSTE COMPLETO PARA CELULAR --- */
-@media (max-width: 768px) {
 
-    /* 1. ESCONDE a barra lateral antiga do PC para ela não quebrar o rodapé */
-    .sidebar, .barra-lateral, #sidebar, .sidebar-container {
+/* =========================================================================
+   10. MEDIA QUERIES (RESPONSIVIDADE E EXCLUSIVIDADE MOBILE)
+   ========================================================================= */
+
+/* Dispositivos de Médio/Grande Porte (Computadores e Tablets deitados) */
+@media (min-width: 768px) {
+    .dashboard-container {
+        flex-direction: row; 
+    }
+    .sidebar {
+        display: flex; 
+    }
+    .grid-vagas, .grid-cursos {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Dispositivos Móveis (Celulares / Telas até 768px) */
+@media (max-width: 768px) {
+    
+    /* Esconde completamente as estruturas de computador */
+    .sidebar, .barra-lateral, #sidebar, .sidebar-container, div[style*="width: 250px"] {
         display: none !important;
     }
 
-    /* 2. CONFIGURAÇÃO DA SUA .nav-inferior (Fica perfeita embaixo) */
+    /* Mostra e fixa a barra mobile de forma limpa no rodapé */
     .nav-inferior {
-        display: flex !important; /* Faz ela aparecer */
+        display: flex !important;
         position: fixed !important;
         bottom: 0 !important;
         left: 0 !important;
         width: 100% !important;
         height: 65px !important;
-        background-color: #0d1527 !important; /* Cor escura padrão do Trampolim */
+        background-color: #0d1527 !important;
         border-top: 1px solid #1e293b !important;
         justify-content: space-around !important;
         align-items: center !important;
-        z-index: 9999 !important;
+        z-index: 99999 !important;
         padding: 5px 0 !important;
     }
 
-    /* 3. ESTILO DOS BOTÕES (Vagas, Perfil, Cursos, Ajustes) */
+    /* Estilização individual dos botões mobiles */
     .btn-mobile {
         background: none !important;
         border: none !important;
-        color: #9ca3af !important; /* Cinza claro por padrão */
+        color: #9ca3af !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
@@ -552,48 +495,14 @@ body.modo-daltonismo .botao-ajuste-principal {
         height: 100% !important;
     }
 
-    /* Quando a aba estiver ativa, fica amarela */
+    /* Feedback de Aba Ativa */
     .btn-mobile.ativo {
         color: var(--amarelo-acao, #ffcc00) !important;
         font-weight: bold !important;
     }
 
-    /* 4. ESPAÇO NO FUNDO (Para as vagas não sumirem atrás do menu) */
-    body, .container-principal, main, .main-content {
+    /* Adiciona margem de segurança no fundo do app para rolar conteúdo além do menu */
+    body, .container-principal, main, .main-content, .conteúdo-principal {
         margin-bottom: 75px !important;
-    }
-}
-@media (max-width: 768px) {
-    /* Esconde a barra lateral antiga do PC que veio lá do lado esquerdo */
-    .sidebar, .barra-lateral, #sidebar, div[style*="width: 250px"] {
-        display: none !important;
-    }
-}
-/* --- CONTROLE DE VISIBILIDADE DO MENU INFERIOR --- */
-
-/* 1. Por padrão (No Computador / Telas Grandes), o menu fica ESCONDIDO */
-.nav-inferior {
-    display: none !important;
-}
-
-/* 2. Quando a tela for de Celular (Máximo 768px de largura), ele APARECE */
-@media (max-width: 768px) {
-    .nav-inferior {
-        display: flex !important; /* Força o menu a aparecer no celular */
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: 65px !important;
-        background-color: #0d1527 !important;
-        border-top: 1px solid #1e293b !important;
-        justify-content: space-around !important;
-        align-items: center !important;
-        z-index: 99999 !important;
-    }
-
-    /* Esconde a barra lateral do PC para não esmagar o layout do celular */
-    .sidebar, .barra-lateral, #sidebar {
-        display: none !important;
     }
 }

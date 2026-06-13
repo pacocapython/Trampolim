@@ -1,4 +1,6 @@
-// 1. ESTADO INTERNO DO APP
+/* =========================================================================
+   1. ESTADO INTERNO DO APP
+   ========================================================================= */
 const estadoApp = {
     usuarioConectado: false,
     tamanhoFonteAmpliado: false,
@@ -7,8 +9,9 @@ const estadoApp = {
     candidaturasEfetuadas: [] // Guarda os IDs das vagas candidatadas
 };
 
-// 2. BANCO DE DADOS DE VAGAS SIMULADO
-// 2. BANCO DE DADOS DE VAGAS SIMULADO (Atualizado com mais 2 vagas)
+/* =========================================================================
+   2. BANCO DE DADOS DE VAGAS SIMULADO
+   ========================================================================= */
 const bancoVagas = [
     {
         id: 'vaga-01',
@@ -48,7 +51,9 @@ const bancoVagas = [
     }
 ];
 
-// 3. BANCO DE DADOS DE CURSOS SIMULADO
+/* =========================================================================
+   3. BANCO DE DADOS DE CURSOS SIMULADO
+   ========================================================================= */
 const bancoCursos = [
     {
         id: 'curso-01',
@@ -66,27 +71,30 @@ const bancoCursos = [
     }
 ];
 
-// 4. SISTEMA DE TRANSIÇÃO DE TELAS (Usando apenas .classList.add / remove)
+/* =========================================================================
+   4. SISTEMA DE TRANSIÇÃO DE TELAS
+   ========================================================================= */
 function mudarParaTela(nomeTela) {
-    // Esconde todas as 3 seções de fluxo primeiro
+    // Esconde todas as seções principais de fluxo
     document.getElementById('tela-login').classList.add('hidden');
     document.getElementById('tela-onboarding').classList.add('hidden');
     document.getElementById('painel-dashboard').classList.add('hidden');
 
-    // Mostra apenas a que o utilizador deseja
+    // Mostra apenas a tela solicitada
     if (nomeTela === 'login') {
         document.getElementById('tela-login').classList.remove('hidden');
     } else if (nomeTela === 'onboarding') {
         document.getElementById('tela-onboarding').classList.remove('hidden');
     } else if (nomeTela === 'vagas') {
         document.getElementById('painel-dashboard').classList.remove('hidden');
-        mudarParaAba('vagas'); // Já inicia na aba de vagas
+        mudarParaAba('vagas'); // Inicializa diretamente na aba de vagas
     }
 }
 
-// 5. SISTEMA DE TROCA DE ABAS DO DASHBOARD (Vagas, Perfil, Cursos, Ajustes)
+/* =========================================================================
+   5. SISTEMA DE TROCA DE ABAS DO DASHBOARD
+   ========================================================================= */
 function mudarParaAba(nomeAba) {
-    // Lista de todas as abas criadas no HTML
     const abas = ['vagas', 'perfil', 'cursos', 'ajustes'];
 
     abas.forEach(aba => {
@@ -95,24 +103,22 @@ function mudarParaAba(nomeAba) {
         const btnMobile = document.getElementById(`btn-mobile-${aba}`);
 
         if (aba === nomeAba) {
-            elementoAba.classList.remove('hidden'); // Mostra a aba clicada
-            
-            // Coloca o botão com a classe "ativo" para destacar no menu
+            if (elementoAba) elementoAba.classList.remove('hidden');
             if (btnLateral) btnLateral.classList.add('ativo');
             if (btnMobile) btnMobile.classList.add('ativo');
         } else {
-            elementoAba.classList.add('hidden'); // Esconde as outras abas
-            
-            // Remove destaque
+            if (elementoAba) elementoAba.classList.add('hidden');
             if (btnLateral) btnLateral.classList.remove('ativo');
             if (btnMobile) btnMobile.classList.remove('ativo');
         }
     });
 }
 
-// 6. EVENTOS DE LOGIN
+/* =========================================================================
+   6. CONTROLE DE AUTENTICAÇÃO (LOGIN / LOGOUT)
+   ========================================================================= */
 function fazerLogin(event) {
-    if (event) event.preventDefault(); // Evita o recarregamento natural da página
+    if (event) event.preventDefault();
     estadoApp.usuarioConectado = true;
     mudarParaTela('onboarding');
 }
@@ -127,25 +133,24 @@ function fazerLogout() {
     mudarParaTela('login');
 }
 
-// 7. GERADOR DINÂMICO DE VAGAS NO HTML
+/* =========================================================================
+   7. GERADOR DINÂMICO DE VAGAS NO HTML
+   ========================================================================= */
 function carregarVagas() {
     const container = document.getElementById('container-vagas');
     if (!container) return;
-    container.innerHTML = ""; // Limpa a área de listagem
+    container.innerHTML = ""; 
 
     bancoVagas.forEach(vaga => {
-        // Cria as etiquetas/tags HTML
         let tagsHTML = "";
         vaga.tags.forEach(tag => {
             tagsHTML += `<span class="card-tag">${tag}</span>`;
         });
 
-        // Verifica se já clicou para concorrer à vaga
         const jaCandidatado = estadoApp.candidaturasEfetuadas.includes(vaga.id);
         const classeBotao = jaCandidatado ? "botao-secundario" : "botao-principal";
         const textoBotao = jaCandidatado ? "Candidatado ✓" : "Candidatar-se";
 
-        // Adiciona o bloco HTML completo da vaga
         const cardHtml = `
             <div class="card-vaga">
                 <div style="display: flex; flex-direction: column; gap: 8px;">
@@ -171,7 +176,9 @@ function carregarVagas() {
     });
 }
 
-// 8. GERADOR DINÂMICO DE CURSOS NO HTML
+/* =========================================================================
+   8. GERADOR DINÂMICO DE CURSOS NO HTML
+   ========================================================================= */
 function carregarCursos() {
     const container = document.getElementById('container-cursos');
     if (!container) return;
@@ -215,15 +222,13 @@ function carregarCursos() {
     });
 }
 
-// 9. FUNÇÕES DE SUPORTE ÀS CANDIDATURAS E MODAL
+/* =========================================================================
+   9. INTERAÇÕES E MODAIS (VAGAS, CURSOS E PERFIL)
+   ========================================================================= */
 function enviarInscricao(idVaga) {
     if (!estadoApp.candidaturasEfetuadas.includes(idVaga)) {
         estadoApp.candidaturasEfetuadas.push(idVaga);
-        
-        // Exibe o modal de sucesso na tela
         document.getElementById('modal-sucesso').classList.remove('hidden');
-        
-        // Recarrega as vagas no HTML para pintar o botão de cinza
         carregarVagas();
     }
 }
@@ -236,94 +241,79 @@ function assistirVideo(idCurso) {
     const curso = bancoCursos.find(c => c.id === idCurso);
     if (curso) {
         curso.concluido = true;
-        carregarCursos(); // Recarrega os cursos no HTML para atualizar a barra de progresso
+        carregarCursos(); 
         falarMensagemAudio(`Iniciando a aula de: ${curso.titulo}.`);
     }
 }
+
 function mostrarNomeDoArquivo() {
     const input = document.getElementById('upload-comprovante');
     const texto = document.getElementById('nome-arquivo-selecionado');
     
-    if (input.files.length > 0) {
+    if (input && input.files.length > 0) {
         texto.innerText = "📁 Arquivo selecionado: " + input.files[0].name;
-        texto.style.color = "#48bb78"; // Muda a cor para verde indicando sucesso
-    } else {
+        texto.style.color = "#48bb78"; 
+    } else if (texto) {
         texto.innerText = "Nenhum arquivo selecionado";
         texto.style.color = "#a0aec0";
     }
 }
 
-// Salvar Perfil do Formulário
 function salvarPerfil(event) {
     if (event) event.preventDefault();
-    mudarParaAba('vagas'); // Retorna às vagas automaticamente
-    falarMensagemAudio("As suas preferências de acessibilidade foram updated com sucesso!");
+    mudarParaAba('vagas'); 
+    falarMensagemAudio("As suas preferências de acessibilidade foram atualizadas com sucesso!");
 }
 
-// 10. ACESSIBILIDADE VISUAL (Aumentar tamanho de letra e Modo de leitura)
-function alternarModoLeitura() {
-    const btn = document.getElementById('btn-modo-leitura');
-    
-    // Liga ou desliga a classe no body
-    document.body.classList.toggle('modo-leitura');
-    
-    // Altera o texto do botão dinamicamente
-    if (document.body.classList.contains('modo-leitura')) {
-        btn.innerText = "Desativar Modo Leitura";
-    } else {
-        btn.innerText = "Ativar Modo Leitura";
-    }
-}
-// 1. FUNÇÃO PARA AUMENTAR A LETRA (Do topo do site)
+/* =========================================================================
+   10. CONTROLES DE ACESSIBILIDADE VISUAL
+   ========================================================================= */
+
+// Alternar Tamanho de Letra Proporcional
 function alternarTamanhoLetra() {
     document.body.classList.toggle('texto-maior');
-    
     const btnTexto = document.getElementById('btn-tamanho-letra');
-    if (document.body.classList.contains('texto-maior')) {
-        btnTexto.innerText = "A-"; // Se já aumentou, o botão muda para opção de diminuir
-    } else {
-        btnTexto.innerText = "A+";
+    if (btnTexto) {
+        btnTexto.innerText = document.body.classList.contains('texto-maior') ? "A-" : "A+";
     }
 }
 
-// 2. FUNÇÃO PARA O MODO LEITURA (Do card do meio)
+// Alternar Modo de Leitura Dinâmico (TDAH / Foco)
 function alternarModoLeitura() {
     document.body.classList.toggle('modo-leitura');
-    
     const btnLeitura = document.getElementById('btn-modo-leitura');
-    if (document.body.classList.contains('modo-leitura')) {
-        btnLeitura.innerText = "DESATIVAR MODO LEITURA";
-    } else {
-        btnLeitura.innerText = "ATIVAR MODO LEITURA";
+    if (btnLeitura) {
+        btnLeitura.innerText = document.body.classList.contains('modo-leitura') ? "DESATIVAR MODO LEITURA" : "ATIVAR MODO LEITURA";
     }
 }
+
+// Alternar Filtro de Daltonismo
 function alternarDaltonismo() {
     document.body.classList.toggle('modo-daltonismo');
     const btn = document.getElementById('btn-daltonismo');
-    
     if (btn) {
-        if (document.body.classList.contains('modo-daltonismo')) {
-            btn.innerText = "Padrão do Site";
-        } else {
-            btn.innerText = "Otimizar Cores";
-        }
+        btn.innerText = document.body.classList.contains('modo-daltonismo') ? "PADRÃO DO SITE" : "OTIMIZAR CORES";
     }
 }
 
-// 11. RECURSO DE SÍNTESE DE VOZ (ÁUDIO ASSISTIVO)
+/* =========================================================================
+   11. RECURSO DE SÍNTESE DE VOZ (ÁUDIO ASSISTIVO)
+   ========================================================================= */
 function alternarLeitorAudio() {
     estadoApp.leitorAudioLigado = !estadoApp.leitorAudioLigado;
     const botao = document.getElementById('botao-audio');
 
     if (estadoApp.leitorAudioLigado) {
-        // Altera as cores do botão para indicar ativado
-        botao.style.backgroundColor = "var(--amarelo-acao)";
-        botao.style.color = "var(--azul-escuro)";
-        
+        if (botao) {
+            botao.style.backgroundColor = "var(--amarelo-acao)";
+            botao.style.color = "var(--azul-escuro)";
+        }
         falarTextoAudio("O leitor de apoio está ativado. Clique nos botões de áudio para ler.");
     } else {
-        botao.style.backgroundColor = "var(--azul-card)";
-        botao.style.color = "var(--amarelo-acao)";
+        if (botao) {
+            botao.style.backgroundColor = "var(--azul-card)";
+            botao.style.color = "var(--amarelo-acao)";
+        }
         pararAudio();
     }
 }
@@ -331,11 +321,11 @@ function alternarLeitorAudio() {
 function falarTextoAudio(textoParaFalar) {
     if (!('speechSynthesis' in window)) return;
 
-    window.speechSynthesis.cancel(); // Cancela áudios anteriores na fila
+    window.speechSynthesis.cancel(); 
 
     const fala = new SpeechSynthesisUtterance(textoParaFalar);
-    fala.lang = 'pt-PT'; // Idioma configurado
-    fala.rate = 1.1;     // Velocidade da leitura
+    fala.lang = 'pt-PT'; 
+    fala.rate = 1.1;     
 
     const banner = document.getElementById('aviso-audio');
     const textoDoBanner = document.getElementById('texto-leitura');
@@ -370,13 +360,16 @@ function ouvirAudioVaga(cargo, empresa) {
     falarTextoAudio(`Anúncio da vaga de: ${cargo}, na empresa ${empresa}. Verifique as marcas de suporte físico e remotos no painel.`);
 }
 
-// 12. EXPORTADOR DE FICHEIROS (Para baixar o relatório de acessibilidade)
+/* =========================================================================
+   12. EXPORTADOR DE FICHEIROS (RELATÓRIO DE ACESSIBILIDADE)
+   ========================================================================= */
 function baixarFicheiro(formato) {
     const tituloFicheiro = "relatorio_acessibilidade_trampolim";
     let dadosEscritos = "";
     let tipoDoFicheiro = "text/plain";
     let extensao = "txt";
 
+    // Captura correta de todos os elementos de filtros do HTML
     const filtroRampa = document.getElementById('filtro-rampa');
     const filtroHome = document.getElementById('filtro-homeoffice');
     const filtroLibras = document.getElementById('filtro-libras');
@@ -384,18 +377,15 @@ function baixarFicheiro(formato) {
     const filtroVisual = document.getElementById('filtro-visual');
     const filtroAuditiva = document.getElementById('filtro-auditiva');
 
-
-
-
     const rampaAtiva = filtroRampa && filtroRampa.checked ? "Necessita: Infraestrutura Física (Rampas/Elevadores)" : null;
     const homeofficeAtiva = filtroHome && filtroHome.checked ? "Necessita: Atividades em Home Office" : null;
     const librasAtiva = filtroLibras && filtroLibras.checked ? "Necessita: Tradução de Linguagem de Sinais (Libras)" : null;
-    const neuroAtiva = filtroLibras && filtroLibras.checked ? "Necessita: Apoio a Neurodiversidade (Autismo, TDAH, AH/SD)" : null;
-    const visualAtiva = filtroLibras && filtroLibras.checked ? "Necessita: Apoio com Deficiência Visual" : null;
-    const auditivaAtiva = filtroLibras && filtroLibras.checked ? "Necessita: Apoio com Deficiência Auditiva" : null;
+    const neuroAtiva = filtroNeuro && filtroNeuro.checked ? "Necessita: Apoio a Neurodiversidade (Autismo, TDAH, AH/SD)" : null;
+    const visualAtiva = filtroVisual && filtroVisual.checked ? "Necessita: Apoio com Deficiência Visual" : null;
+    const auditivaAtiva = filtroAuditiva && filtroAuditiva.checked ? "Necessita: Apoio com Deficiência Auditiva" : null;
 
-
-    const listaRequisitos = [rampaAtiva, homeofficeAtiva, librasAtiva].filter(Boolean);
+    // Filtra e junta apenas os requisitos marcados como verdadeiros (Removendo os nulls)
+    const listaRequisitos = [rampaAtiva, homeofficeAtiva, librasAtiva, neuroAtiva, visualAtiva, auditivaAtiva].filter(Boolean);
 
     if (formato === 'json') {
         const dadosObjeto = {
@@ -432,9 +422,11 @@ ${estadoApp.candidaturasEfetuadas.length > 0 ? estadoApp.candidaturasEfetuadas.j
     document.body.removeChild(linkDownload);
 }
 
-// 13. NOVA LÓGICA DE PASSOS DO TUTORIAL (Corrigida para seu HTML original)
+/* =========================================================================
+   13. LÓGICA DE PASSOS DO TUTORIAL (ONBOARDING)
+   ========================================================================= */
 function proximoPasso(numeroPasso) {
-    // Esconde todos os 3 passos internos
+    // Reseta visualmente todos os 3 passos e paginações orbitais
     for (let i = 1; i <= 3; i++) {
         const passo = document.getElementById('tutorial-passo-' + i);
         const ponto = document.getElementById('ponto-' + i);
@@ -444,12 +436,11 @@ function proximoPasso(numeroPasso) {
             passo.classList.remove('passo-ativo');
         }
         if (ponto) {
-            // Retorna o fundo original cinza/borda do seu HTML para pontos inativos
             ponto.style.background = 'var(--azul-borda)';
         }
     }
     
-    // Mostra o passo atual solicitado
+    // Ativa o passo solicitado e destaca seu respectivo indicador visual
     const passoAtual = document.getElementById('tutorial-passo-' + numeroPasso);
     const pontoAtual = document.getElementById('ponto-' + numeroPasso);
     
@@ -458,27 +449,17 @@ function proximoPasso(numeroPasso) {
         passoAtual.classList.add('passo-ativo');
     }
     if (pontoAtual) {
-        // Pinta com a cor amarela ativa do seu root
         pontoAtual.style.background = 'var(--amarelo-acao)';
     }
 }
 
-// Função para o botão final "Entrar no Painel" do passo 3
 function mudarParaPainel() {
     mudarParaTela('vagas');
 }
 
-// 14. INICIALIZADOR AUTOMÁTICO
+/* =========================================================================
+   14. INICIALIZADOR AUTOMÁTICO DO APP
+   ========================================================================= */
 carregarVagas();
 carregarCursos();
 mudarParaTela('login');
-function alternarDaltonismo() {
-    document.body.classList.toggle('modo-daltonismo');
-    const btn = document.getElementById('btn-daltonismo');
-    
-    if (document.body.classList.contains('modo-daltonismo')) {
-        btn.innerText = "PADRÃO DO SITE";
-    } else {
-        btn.innerText = "OTIMIZAR CORES";
-    }
-}
