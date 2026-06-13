@@ -1,75 +1,29 @@
 /* =========================================================================
-   1. ESTADO INTERNO DO APP
+   1. ESTADO INTERNO DO APP E CONEXÃO COM O BANCO DE DADOS
    ========================================================================= */
 const estadoApp = {
     usuarioConectado: false,
     tamanhoFonteAmpliado: false,
     fonteDislexiaAtiva: false,
     leitorAudioLigado: false,
-    candidaturasEfetuadas: [] // Guarda os IDs das vagas candidatadas
+    candidaturasEfetuadas: [] 
 };
 
-/* =========================================================================
-   2. BANCO DE DADOS DE VAGAS SIMULADO
-   ========================================================================= */
-const bancoVagas = [
-    {
-        id: 'vaga-01',
-        cargo: 'Assistente Administrativo Pleno',
-        empresa: 'Itaú Unibanco',
-        local: 'São Paulo/SP (Híbrido)',
-        salario: 'R$ 4.200',
-        tags: ['♿ Rampas de Acesso', '🏠 Home Office Híbrido'],
-        descricao: 'Atuação na equipa administrativa corporativa. O escritório oferece rampas modernas de acesso de cadeiras de rodas, elevadores amplos com avisos de voz, refeitório acessível e apoio ergonómico.'
-    },
-    {
-        id: 'vaga-02',
-        cargo: 'Desenvolvedor Web Júnior',
-        empresa: 'Mercado Livre',
-        local: '100% Home Office',
-        salario: 'R$ 5.800',
-        tags: ['🏠 Trabalho Remoto', '🧠 Apoio a Neurodiversidade'],
-        descricao: 'Trabalho focado no desenvolvimento de páginas online. Rotina com reuniões diárias curtas de alinhamento por texto, horários de atividade altamente flexíveis e foco no bem-estar cognitivo.'
-    },
-    {
-        id: 'vaga-03',
-        cargo: 'Analista de Atendimento ao Cliente',
-        empresa: 'Magazine Luiza',
-        local: 'Franca/SP (Presencial)',
-        salario: 'R$ 3.100',
-        tags: ['🤟 Intérprete de Libras', '🧏 Ambiente Adaptado'],
-        descricao: 'Responsável pelo suporte especializado a clientes. A empresa disponibiliza intérpretes de Libras corporativos em tempo integral, computadores com softwares de transcrição de voz em tempo real e canais internos de comunicação totalmente acessíveis.'
-    },
-    {
-        id: 'vaga-04',
-        cargo: 'Designer Gráfico Assistente',
-        empresa: 'Natura',
-        local: 'Cajamar/SP (Híbrido)',
-        salario: 'R$ 3.900',
-        tags: ['👓 Baixa Visão Kit', '🛋️ Estação de Trabalho Adaptada'],
-        descricao: 'Criação de peças visuais institucionais. O posto de trabalho conta com ecrãs de alta definição ampliados, teclados de alto contraste com marcações táteis, softwares leitores de ecrã instalados e cadeiras totalmente ajustáveis.'
-    }
-];
+// 🔄 Busca os cursos reais lá no MySQL
+async function carregarCursosDoBanco() {
+    try {
+        const resposta = await fetch('http://localhost:3000/api/cursos');
+        const cursosDoMySQL = await resposta.json();
+        
+        console.log("Cursos vindos do MySQL:", cursosDoMySQL);
 
-/* =========================================================================
-   3. BANCO DE DADOS DE CURSOS SIMULADO
-   ========================================================================= */
-const bancoCursos = [
-    {
-        id: 'curso-01',
-        titulo: 'Como destacar-se na entrevista inclusiva',
-        palestrante: 'Camila Lima (Líder de Talentos)',
-        legenda: 'Legenda: "...ao falar com os entrevistadores, explique calmamente as suas rotinas produtivas e os recursos de acessibilidade que melhor apoiam o seu desempenho diário..."',
-        concluido: false
-    },
-    {
-        id: 'curso-02',
-        titulo: 'Entender a Lei de Cotas',
-        palestrante: 'Dr. João Rocha (Advogado do Trabalho)',
-        legenda: 'Legenda: "...a legislação protege e garante uma percentagem equilibrada de contratações de profissionais inclusivos em todas as grandes empresas nacionais..."',
-        concluido: false
+        // Desenha na tela passando a lista que veio direto do MySQL
+        carregarCursos(cursosDoMySQL); 
+
+    } catch (erro) {
+        console.error("Erro ao puxar os cursos do servidor:", erro);
     }
-];
+}
 
 /* =========================================================================
    4. SISTEMA DE TRANSIÇÃO DE TELAS
@@ -118,11 +72,21 @@ function mudarParaAba(nomeAba) {
 function fazerLogin(event) {
     if (event) event.preventDefault();
     estadoApp.usuarioConectado = true;
+
+    // 🚀 AS DUAS LINHAS MÁGICAS QUE ESTAVAM FALTANDO AQUI:
+    if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
+    if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
+
     mudarParaTela('onboarding');
 }
 
 function pularLoginParaTestes() {
     estadoApp.usuarioConectado = true;
+
+    // Colocamos aqui também para garantir se entrar como convidado
+    if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
+    if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
+
     mudarParaTela('onboarding');
 }
 
@@ -132,40 +96,59 @@ function fazerLogout() {
 }
 
 /* =========================================================================
-   7. GERADOR DINÂMICO DE VAGAS NO HTML
+   7. GERADOR DINÂMICO DE VAGAS NO HTML (CORRIGIDO ERRO DE VARIÁVEL)
    ========================================================================= */
-function carregarVagas() {
+function carregarVagas(listaDeVagas) {
     const container = document.getElementById('container-vagas');
     if (!container) return;
-    container.innerHTML = ""; 
+    container.innerHTML = "";   
 
-    bancoVagas.forEach(vaga => {
+    if (!listaDeVagas || listaDeVagas.length === 0) {
+        container.innerHTML = `<p style="color: white; padding: 20px;">Nenhuma vaga encontrada no banco de dados ou rota /api/vagas não configurada no servidor.</p>`;
+        return;
+    }
+
+    listaDeVagas.forEach(vaga => {
         let tagsHTML = "";
-        vaga.tags.forEach(tag => {
-            tagsHTML += `<span class="card-tag">${tag}</span>`;
+        
+        // Trata as tags caso venham como string separada por vírgula do banco
+        const tags = Array.isArray(vaga.tags) ? vaga.tags : (vaga.tags ? vaga.tags.split(',') : []);
+        tags.forEach(tag => {
+            if(tag.trim()) {
+                tagsHTML += `<span class="card-tag">${tag.trim()}</span>`;
+            }
         });
 
         const jaCandidatado = estadoApp.candidaturasEfetuadas.includes(vaga.id);
         const classeBotao = jaCandidatado ? "botao-secundario" : "botao-principal";
         const textoBotao = jaCandidatado ? "Candidatado ✓" : "Candidatar-se";
 
+        // Mapeamento idêntico ao das colunas criadas na sua tabela do MySQL
+        const idVaga = vaga.id || "Não informado";
+        const cargoVaga = vaga.cargo || "Vaga Sem Título";
+        const empresaVaga = vaga.empresa || "Empresa Não Informada";
+        const localVaga = vaga.local || "Não especificado";
+        const salarioVaga = vaga.salario || "Não informado";
+        const descricaoVaga = vaga.descricao || "Sem descrição disponível.";
+
+        // CORRIGIDO: Agora usa cargoVaga e empresaVaga certinho sem quebrar o JavaScript
         const cardHtml = `
             <div class="card-vaga">
                 <div class="vaga-conteudo">
-                    <span class="vaga-empresa">${vaga.empresa}</span>
-                    <h3 class="vaga-titulo">${vaga.cargo}</h3>
-                    <p class="vaga-info">📍 ${vaga.local} | Salário: ${vaga.salario}</p>
+                    <span class="vaga-empresa">${empresaVaga}</span>
+                    <h3 class="vaga-titulo">${cargoVaga}</h3>
+                    <p class="vaga-info">📍 ${localVaga} | Salário: ${salarioVaga}</p>
                     
                     <div>${tagsHTML}</div>
 
                     <p class="vaga-descricao">
-                        ${vaga.descricao}
+                        ${descricaoVaga}
                     </p>
                 </div>
 
                 <div class="vaga-botoes-container">
-                    <button onclick="ouvirAudioVaga('${vaga.cargo}', '${vaga.empresa}')" class="botao botao-secundario btn-audio-vaga" title="Ouvir descrição por áudio">🔊</button>
-                    <button onclick="enviarInscricao('${vaga.id}')" ${jaCandidatado ? 'disabled' : ''} class="botao ${classeBotao} btn-candidatar-vaga">${textoBotao}</button>
+                    <button onclick="ouvirAudioVaga('${cargoVaga}', '${empresaVaga}')" class="botao botao-secundario btn-audio-vaga" title="Ouvir descrição por áudio">🔊</button>
+                    <button onclick="enviarInscricao('${idVaga}')" ${jaCandidatado ? 'disabled' : ''} class="botao ${classeBotao} btn-candidatar-vaga">${textoBotao}</button>
                 </div>
             </div>
         `;
@@ -175,33 +158,48 @@ function carregarVagas() {
 }
 
 /* =========================================================================
-   8. GERADOR DINÂMICO DE CURSOS NO HTML
+   8. GERADOR DINÂMICO DE CURSOS NO HTML (CORRIGIDO PARA DAR PLAY)
    ========================================================================= */
-function carregarCursos() {
+function carregarCursos(listaDeCursos) {
     const container = document.getElementById('container-cursos');
     if (!container) return;
     container.innerHTML = "";
 
-    bancoCursos.forEach(curso => {
-        const statusTexto = curso.concluido ? "Assistido ✓" : "Não assistido";
-        const larguraProgresso = curso.concluido ? "100%" : "30%";
+    if (!listaDeCursos || listaDeCursos.length === 0) {
+        container.innerHTML = `<p style="color: white; padding: 20px;">Nenhum curso encontrado no banco de dados.</p>`;
+        return;
+    }
+
+    // Salva globalmente os dados para o clique do Play encontrar
+    window.listaCursosGlobal = listaDeCursos;
+
+    listaDeCursos.forEach(curso => {
+        // Trata o booleano vindo como string do banco ('false' ou false)
+        const estaConcluido = curso.concluido === true || curso.concluido === 'true';
+        const statusTexto = estaConcluido ? "Assistido ✓" : "Não assistido";
+        const larguraProgresso = estaConcluido ? "100%" : "30%";
+        
+        const textoLegenda = curso.legenda || "Sem descrição disponível";
+        const tituloCurso = curso.titulo || "Curso Sem Título";
+        const palestranteCurso = curso.palestrante || "Trampolim";
+        const idString = String(curso.id);
 
         const cursoHtml = `
             <div class="card-curso">
                 <div class="player-video">
                     <div class="video-overlay">
-                        <button onclick="assistirVideo('${curso.id}')" class="botao botao-principal btn-play-video">▶</button>
+                        <button onclick="assistirVideo('${idString}')" class="botao botao-principal btn-play-video">▶</button>
                     </div>
 
-                    <span class="video-palestrante-tag">🎤 ${curso.palestrante}</span>
+                    <span class="video-palestrante-tag">🎤 ${palestranteCurso}</span>
 
                     <div class="legenda-video">
-                        <p class="video-legenda-texto">${curso.legenda}</p>
+                        <p class="video-legenda-texto">${textoLegenda}</p>
                     </div>
                 </div>
 
                 <div class="curso-info-container">
-                    <h4 class="curso-titulo">${curso.titulo}</h4>
+                    <h4 class="curso-titulo">${tituloCurso}</h4>
                     
                     <div class="curso-progresso-wrapper">
                         <div class="curso-progresso-textos">
@@ -221,48 +219,36 @@ function carregarCursos() {
 }
 
 /* =========================================================================
-   9. INTERAÇÕES E MODAIS (VAGAS, CURSOS E PERFIL)
+   9. INTERAÇÕES E MODAIS (PLAY FUNCIONANDO)
    ========================================================================= */
+function assistirVideo(idCurso) {
+    if (!window.listaCursosGlobal) return;
+    
+    // Procura o curso na lista global viva
+    const curso = window.listaCursosGlobal.find(c => String(c.id) === String(idCurso));
+    
+    if (curso) {
+        curso.concluido = true; // Muda o status na memória
+        carregarCursos(window.listaCursosGlobal); // Redesenha a tela na hora com a barra 100%
+        falarMensagemAudio(`Iniciando a aula de: ${curso.titulo}`);
+    } else {
+        console.error("Não foi possível dar play no vídeo de ID:", idCurso);
+    }
+}
+
 function enviarInscricao(idVaga) {
     if (!estadoApp.candidaturasEfetuadas.includes(idVaga)) {
         estadoApp.candidaturasEfetuadas.push(idVaga);
         document.getElementById('modal-sucesso').classList.remove('hidden');
-        carregarVagas();
+        
+        if (window.listaVagasGlobal) {
+            carregarVagas(window.listaVagasGlobal);
+        }
     }
 }
 
 function fecharModal() {
     document.getElementById('modal-sucesso').classList.add('hidden');
-}
-
-function assistirVideo(idCurso) {
-    const curso = bancoCursos.find(c => c.id === idCurso);
-    if (curso) {
-        curso.concluido = true;
-        carregarCursos(); 
-        falarMensagemAudio(`Iniciando a aula de: ${curso.titulo}.`);
-    }
-}
-
-function mostrarNomeDoArquivo() {
-    const input = document.getElementById('upload-comprovante');
-    const texto = document.getElementById('nome-arquivo-selecionado');
-    
-    if (input && input.files.length > 0) {
-        texto.innerText = "📁 Arquivo selecionado: " + input.files[0].name;
-        texto.classList.remove('texto-arquivo-invalido');
-        texto.classList.add('texto-arquivo-valido');
-    } else if (texto) {
-        texto.innerText = "Nenhum arquivo selecionado";
-        texto.classList.remove('texto-arquivo-valido');
-        texto.classList.add('texto-arquivo-invalido');
-    }
-}
-
-function salvarPerfil(event) {
-    if (event) event.preventDefault();
-    mudarParaAba('vagas'); 
-    falarMensagemAudio("As suas preferências de acessibilidade foram updated com sucesso!");
 }
 
 /* =========================================================================
@@ -429,7 +415,7 @@ function proximoPasso(numeroPasso) {
             passo.classList.remove('passo-ativo');
         }
         if (ponto) {
-            ponto.style.background = ''; // Reseta para respeitar a classe do CSS padrão
+            ponto.style.background = ''; 
         }
     }
     
@@ -441,17 +427,41 @@ function proximoPasso(numeroPasso) {
         passoAtual.classList.add('passo-ativo');
     }
     if (pontoAtual) {
-        pontoAtual.classList.add('ativo'); // Usa a classe .ativo criada no CSS anterior
+        pontoAtual.classList.add('ativo'); 
     }
 }
 
 function mudarParaPainel() {
     mudarParaTela('vagas');
+    
+    // 🚀 ISSO DAQUI VAI TRAZER AS VAGAS DO ITAÚ E MERCADO LIVRE:
+    carregarVagasDoBanco();
+    
+    // Se tiveres a função de carregar os cursos do banco, chama-a também:
+    if (typeof carregarCursosDoBanco === 'function') {
+        carregarCursosDoBanco();
+    }
 }
 
 /* =========================================================================
-   14. INICIALIZADOR AUTOMÁTICO DO APP
+   14. INICIALIZADOR AUTOMÁTICO DO APP e BUSCA DE VAGAS DO BANCO
    ========================================================================= */
-carregarVagas();
-carregarCursos();
+async function carregarVagasDoBanco() {
+    try {
+        const resposta = await fetch('http://localhost:3000/api/vagas');
+        const vagasDoMySQL = await resposta.json();
+        
+        console.log("VAGAS DO BANCO:", vagasDoMySQL);
+
+        window.listaVagasGlobal = vagasDoMySQL;
+        
+        // 🚀 CONFIRA ESTA LINHA: Garanta que o nome esteja idêntico 
+        // ao da função que vimos no print anterior (linha 101)!
+        carregarVagas(vagasDoMySQL);            
+        
+    } catch (erro) {
+        console.error("Erro ao puxar as vagas:", erro);
+    }
+}
+// Inicializações Automáticas ao abrir a página
 mudarParaTela('login');
