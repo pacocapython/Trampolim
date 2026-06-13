@@ -506,3 +506,280 @@ body.modo-daltonismo .botao-ajuste-principal {
         margin-bottom: 75px !important;
     }
 }
+/* =========================================================================
+   11. CORREÇÃO DE ESTILOS INLINE (REMOÇÃO DE RASTROS DE IA)
+   ========================================================================= */
+
+/* Topo / Acessibilidade */
+.btn-audio-topo {
+    padding: 8px 12px; 
+    border-radius: 10px;
+}
+
+.btn-tamanho-topo {
+    background: transparent; 
+    border: 2px solid var(--amarelo-acao); 
+    color: var(--amarelo-acao); 
+    border-radius: 8px; 
+    padding: 6px 12px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    font-size: 14px;
+}
+
+/* Alerta de Áudio Flutuante */
+.alerta-audio-flutuante {
+    position: fixed; 
+    top: 80px; 
+    right: 20px; 
+    background-color: var(--amarelo-acao); 
+    color: black; 
+    padding: 12px 24px; 
+    border-radius: 16px; 
+    font-weight: bold; 
+    z-index: 150; 
+    border: 3px solid black; 
+    display: flex; 
+    justify-content: space-between; 
+    gap: 12px; 
+    align-items: center;
+}
+
+.btn-parar-audio {
+    background: black; 
+    color: white; 
+    border: none; 
+    padding: 4px 8px; 
+    border-radius: 8px; 
+    font-size: 11px; 
+    font-weight: bold; 
+    cursor: pointer;
+}
+
+/* Formulários e Login */
+.formulario-login {
+    display: flex; 
+    flex-direction: column; 
+    gap: 16px;
+}
+
+.btn-login-extenso {
+    width: 100%;
+}
+
+.btn-convidado-link {
+    border: none; 
+    background: none; 
+    font-weight: bold; 
+    margin-top: 16px; 
+    text-decoration: underline; 
+    cursor: pointer;
+    color: #FACC15;
+}
+
+/* Onboarding / Tutorial */
+.caixa-onboarding-tamanho {
+    max-width: 600px;
+}
+
+.subtitulo-tutorial {
+    color: var(--amarelo-acao); 
+    font-weight: bold; 
+    font-size: 12px; 
+    text-transform: uppercase;
+}
+
+.titulo-passo-tutorial {
+    color: var(--amarelo-acao); 
+    margin: 15px 0 10px;
+}
+
+.texto-passo-tutorial {
+    font-size: 18px; 
+    color: var(--cinza-claro); /* Ajustado para usar sua variável de cinza */
+    line-height: 1.5; 
+    margin-bottom: 25px;
+}
+
+.container-indicadores-tutorial {
+    display: flex; 
+    justify-content: center; 
+    gap: 8px; 
+    margin-top: 20px;
+}
+
+.ponto-indicador {
+    width: 10px; 
+    height: 10px; 
+    border-radius: 50%; 
+    background: var(--azul-borda);
+}
+
+.ponto-indicador.ativo {
+    background: var(--amarelo-acao);
+}
+
+/* Sidebar e Menus */
+.sidebar-tag-usuario {
+    font-size: 12px; 
+    color: var(--amarelo-acao); 
+    font-weight: 900; 
+    text-transform: uppercase;
+}
+
+.sidebar-nome-usuario {
+    font-size: 18px; 
+    height: bold;
+}
+
+.btn-logout-sidebar {
+    padding: 12px; 
+    font-size: 12px; 
+    border-color: red; 
+    color: red;
+}
+
+/* Ajustes e Configurações */
+.aba-perfil-espacamento {
+    margin-bottom: 24px;
+}
+
+.formulario-perfil {
+    display: flex; 
+    flex-direction: column; 
+    gap: 16px;
+}
+
+.grid-checkbox-perfil {
+    display: grid; 
+    grid-template-columns: 1fr; 
+    gap: 16px; 
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .grid-checkbox-perfil {
+        grid-template-columns: 1fr 1fr; /* Mantém as duas colunas no computador */
+    }
+}
+
+.titulo-checkbox {
+    font-weight: bold; 
+    margin: 0;
+}
+
+.descricao-checkbox {
+    font-size: 12px; 
+    color: var(--cinza-claro); 
+    margin: 4px 0 0 0;
+}
+
+.upload-laudo-container {
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; 
+    height: auto; 
+    gap: 12px;
+}
+
+.titulo-upload-laudo {
+    font-weight: bold; 
+    margin: 0;
+}
+
+.descricao-upload-laudo {
+    font-size: 12px; 
+    color: var(--cinza-claro); 
+    margin: 4px 0 12px 0;
+}
+
+.botao-falso-upload {
+    background: var(--amarelo-acao); 
+    color: #000; 
+    padding: 10px 16px; 
+    border-radius: 8px; 
+    font-weight: bold; 
+    font-size: 13px; 
+    cursor: pointer; 
+    display: inline-block; 
+    transition: background 0.2s;
+}
+
+.nome-arquivo-texto {
+    font-size: 12px; 
+    color: #a0aec0; 
+    font-style: italic;
+}
+
+.container-botao-salvar {
+    display: flex; 
+    justify-content: flex-end; 
+    margin-top: 12px;
+}
+
+.container-ajustes-flex {
+    display: flex; 
+    flex-direction: column;
+    gap: 20px; 
+    width: 100%; 
+    margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+    .container-ajustes-flex {
+        flex-direction: row; /* Coloca um do lado do outro no PC */
+    }
+}
+
+.bloco-ajuste-interno {
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    gap: 16px; 
+    margin-bottom: 0;
+}
+
+.titulo-ajuste-interno {
+    color: var(--amarelo-acao); 
+    font-weight: bold; 
+    font-size: 18px;
+}
+
+.descricao-ajuste-interno {
+    font-size: 14px; 
+    color: var(--cinza-claro);
+}
+
+.container-botoes-alinhados {
+    display: flex; 
+    gap: 8px;
+}
+
+/* Modais */
+.icone-sucesso-modal {
+    background-color: var(--amarelo-acao); 
+    color: var(--azul-escuro); 
+    width: 64px; 
+    height: 64px; 
+    border-radius: 50%; 
+    font-size: 32px; 
+    font-weight: 900; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    margin: 0 auto 16px;
+}
+
+.titulo-modal {
+    font-size: 24px; 
+    color: var(--amarelo-acao); 
+    font-weight: bold; 
+    margin-bottom: 8px;
+}
+
+.texto-modal {
+    font-size: 15px; 
+    margin-bottom: 24px; 
+    color: var(--branco);
+}
