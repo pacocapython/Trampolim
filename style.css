@@ -783,3 +783,155 @@ body.modo-daltonismo .botao-ajuste-principal {
     margin-bottom: 24px; 
     color: var(--branco);
 }
+/* =========================================================================
+   12. CLASSES DE HIGIENIZAÇÃO (HTML DINÂMICO DO SCRIPT.JS)
+   ========================================================================= */
+
+/* --- Card de Vagas --- */
+.vaga-conteudo {
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px;
+}
+
+.vaga-empresa {
+    color: var(--amarelo-acao); 
+    font-weight: 800; 
+    font-size: 13px; 
+    text-transform: uppercase;
+}
+
+.vaga-titulo {
+    font-size: 22px; 
+    font-weight: bold;
+}
+
+.vaga-info {
+    font-size: 14px; 
+    color: var(--cinza-claro); 
+    font-weight: bold;
+}
+
+.vaga-descricao {
+    font-size: 14px; 
+    background: rgba(0, 0, 0, 0.3); 
+    padding: 12px; 
+    border-radius: 12px; 
+    border: 1px solid var(--azul-borda); 
+    margin-top: 8px;
+}
+
+.vaga-botoes-container {
+    display: flex; 
+    gap: 8px; 
+    margin-top: 12px;
+}
+
+.btn-audio-vaga {
+    padding: 12px;
+}
+
+.btn-candidatar-vaga {
+    flex-grow: 1;
+}
+
+/* --- Card de Cursos / Vídeos --- */
+.video-overlay {
+    position: absolute; 
+    inset: 0; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.btn-play-video {
+    border-radius: 50%; 
+    width: 56px; 
+    height: 56px; 
+    padding: 0; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 20px;
+}
+
+.video-palestrante-tag {
+    position: absolute; 
+    top: 12px; 
+    left: 12px; 
+    background: var(--azul-escuro); 
+    border: 1px solid var(--amarelo-acao); 
+    color: var(--amarelo-acao); 
+    font-size: 11px; 
+    padding: 4px 8px; 
+    border-radius: 8px; 
+    font-weight: bold;
+}
+
+.video-legenda-texto {
+    color: var(--amarelo-acao); 
+    font-size: 12px; 
+    font-weight: 900; 
+    text-transform: uppercase;
+}
+
+.curso-info-container {
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px;
+}
+
+.curso-titulo {
+    font-size: 18px; 
+    font-weight: bold;
+}
+
+.curso-progresso-wrapper {
+    margin-top: 4px;
+}
+
+.curso-progresso-textos {
+    display: flex; 
+    justify-content: space-between; 
+    font-size: 11px; 
+    font-weight: bold; 
+    color: var(--cinza-claro); 
+    margin-bottom: 4px;
+}
+
+.curso-barra-fundo {
+    width: 100%; 
+    background: #091124; 
+    height: 12px; 
+    border-radius: 10px; 
+    border: 1px solid var(--azul-borda); 
+    overflow: hidden; 
+    padding: 2px;
+}
+
+.curso-barra-progresso {
+    background-color: var(--amarelo-acao); 
+    height: 100%; 
+    border-radius: 10px; 
+    transition: width 0.3s;
+}
+
+/* --- Estados de Interação JS (Upload e Leitor de Áudio) --- */
+.texto-arquivo-valido {
+    color: #48bb78 !important;
+}
+
+.texto-arquivo-invalido {
+    color: #a0aec0 !important;
+}
+
+.btn-audio-ativo {
+    background-color: var(--amarelo-acao) !important;
+    color: var(--azul-escuro) !important;
+}
+
+.btn-audio-inativo {
+    background-color: var(--azul-card) !important;
+    color: var(--amarelo-acao) !important;
+}

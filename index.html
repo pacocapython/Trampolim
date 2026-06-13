@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body id="corpo-app" class="texto-padrao">
-
+<!--Essa parte define a parte do site-->
     <header class="cabecalho">
         <div class="logo-grupo">
             <div class="logo-letra" aria-hidden="true">T</div>
             <h1 class="logo-titulo">Trampolim</h1>
         </div>
-
+<!--Este daqui deine a de reprodutor de voz e de aumentar letra lá-->
         <div class="acessibilidade-topo" role="group" aria-label="Ferramentas de acessibilidade">
             <button onclick="alternarLeitorAudio()" id="botao-audio" class="botao-secundario btn-audio-topo" title="Ativar Áudio de Apoio">
                 🔊
@@ -23,14 +23,13 @@
             </button>
         </div>
     </header>
-
+<!--Define a parte quando voce aperta no audio, e pra parar coisa e tal-->
     <div id="aviso-audio" class="hidden alerta-audio-flutuante">
         <span id="texto-leitura">A reproduzir áudio explicativo...</span>
         <button onclick="pararAudio()" class="btn-parar-audio">PARAR</button>
     </div>
-
+<!--Parte principal do site que é a area de login do site e é isso-->
     <main class="flex-1">
-
         <section id="tela-login" class="secao-login">
             <div class="caixa-login">
                 <h2>Entrar no Trampolim</h2>
@@ -49,13 +48,13 @@
 
                     <button type="submit" class="botao botao-principal btn-login-extenso">Aceder ao Painel</button>
                 </form>
-
+<!--Parte de convidado de teste, pra nao preciasr fazer login, coisa de vadio-->
                 <button onclick="pularLoginParaTestes()" class="btn-convidado-link">
                     Entrar como Convidado de Teste
                 </button>
             </div>
         </section>
-
+<!--Três áreas de tutorial e explicações sobre oque o site faz e pá e tal-->
         <section id="tela-onboarding" class="tela-centrada hidden">
             <div class="caixa-interface caixa-onboarding-tamanho">
                 <span class="subtitulo-tutorial">Introdução ao Trampolim</span>
@@ -83,7 +82,7 @@
                     </p>
                     <button onclick="mudarParaPainel()" class="botao botao-principal btn-login-extenso">Explorar o Painel de Vagas</button>
                 </div>
-
+<!--Isso tá definindo a parte dos pontinhos que contam as partes que tu pulou guri-->
                 <div class="container-indicadores-tutorial">
                     <div id="ponto-1" class="ponto-indicador ativo"></div>
                     <div id="ponto-2" class="ponto-indicador"></div>
@@ -91,15 +90,15 @@
                 </div>
             </div>
         </section>
-
+<!--O MAIS IMPORTANTE HAHA, parte que aloca todas as abas do sitee das vagas-->
         <section id="painel-dashboard" class="dashboard-container hidden">
-            
+        <!--Parte que mostra o nome do perfil-->    
             <aside class="sidebar">
                 <div class="sidebar-perfil">
                     <p class="sidebar-tag-usuario">Utilizador</p>
                     <p class="sidebar-nome-usuario">Candidato</p>
                 </div>
-
+<!--Aba lateral, que aloca as vagas, perfil assistivo, video aulas e ajustes da ficha-->
                 <nav class="sidebar-menu">
                     <button onclick="mudarParaAba('vagas')" id="btn-lateral-vagas" class="btn-menu ativo">
                         <span>💼</span> Ver Vagas
@@ -114,12 +113,12 @@
                         <span>🎨</span> Ajustes & Ficha
                     </button>
                 </nav>
-
+<!--botao de sair da conta e voltar para area de login-->
                 <button onclick="fazerLogout()" class="botao botao-secundario btn-logout-sidebar">
                     Sair / Desconectar
                 </button>
             </aside>
-
+<!--parte do celular onde aquela aba lateral do computador fica em baixo no celular-->
             <nav class="nav-inferior" aria-label="Navegação móvel">
                 <button onclick="mudarParaAba('vagas')" id="btn-mobile-vagas" class="btn-mobile ativo">
                     <span>💼</span>
@@ -138,7 +137,7 @@
                     <span>Ajustes</span>
                 </button>
             </nav>
-
+<!--parte que fala sobre as vagas-->
             <div class="conteúdo-principal">
 
                 <div id="aba-vagas" class="space-y-6">
@@ -147,17 +146,17 @@
                         <h2>Vagas com Suporte Inclusivo</h2>
                         <p class="descricao-checkbox">Estas vagas de emprego possuem estruturas que combinam com o seu perfil.</p>
                     </div>
-
+<!--banco de dados onde ficam alojados as vagas-->
                     <div id="container-vagas" class="grid-vagas"></div>
                 </div>
-
+<!--Area do perfil assistivo onde vai ficar alojados as condições de acessibilidade para preencher-->
                 <div id="aba-perfil" class="hidden">
                     <div class="banner-aba aba-perfil-espacamento">
                         <span class="subtitulo-tutorial">Suas Preferências</span>
                         <h2>Configurar Acessibilidade</h2>
                         <p class="descricao-checkbox">Escolha as adaptações ideais para filtrar as oportunidades automáticas no sistema.</p>
                     </div>
-
+<!--Eu nao vou comentar tudo kkk, pra resumir todas as opções de acessibilidade-->
                     <form onsubmit="salvarPerfil(event)" class="banner-aba formulario-perfil">
                         <div class="grid-checkbox-perfil">
                             <label class="opcao-checkbox">
@@ -208,7 +207,7 @@
                                 </div>
                             </label>
                         </div>
-
+<!--Colocar o comprovante de laudo medico-->
                         <div class="opcao-checkbox upload-laudo-container">
                             <div>
                                 <h4 class="titulo-upload-laudo">📄 Comprovante ou Laudo Médico (Opcional)</h4>
@@ -220,29 +219,29 @@
                             <input type="file" id="upload-comprovante" accept=".pdf, .jpg, .jpeg, .png" class="hidden" onchange="mostrarNomeDoArquivo()">
                             <span id="nome-arquivo-selecionado" class="nome-arquivo-texto">Nenhum arquivo selecionado</span>
                         </div>
-
+<!--guarda requisito pra ficha-->
                         <div class="container-botao-salvar">
                             <button type="submit" class="botao botao-principal">Guardar Requisitos</button>
                         </div>
                     </form>
                 </div>
-
+<!--Area que fica as video aulas-->
                 <div id="aba-cursos" class="hidden">
                     <div class="banner-aba">
                         <span class="subtitulo-tutorial">Biblioteca</span>
                         <h2>Aulas Curtas</h2>
                         <p class="descricao-checkbox">Aprenda rápida e eficientemente sobre carreira e direitos da inclusão.</p>
                     </div>
-
+<!--banco de daods onde está alojado os videos-->
                     <div id="container-cursos" class="grid-cursos"></div>
                 </div>
-
+<!--aqui mostra a aba de colocar mais duas opções de ajustes e tambem pra descarregar seu relatório-->
                 <div id="aba-ajustes" class="hidden">
                     <div class="banner-aba">
                         <span class="subtitulo-tutorial">Preferências</span>
                         <h2>Opções Visuais e Exportação</h2>
                     </div>
-
+<!--ativar o modo de leitura-->
                     <div class="container-ajustes-flex">
                         <div class="banner-aba bloco-ajuste-interno">
                             <div>
@@ -251,7 +250,7 @@
                             </div>
                             <button id="btn-modo-leitura" onclick="alternarModoLeitura()" class="botao botao-principal">Ativar Modo Leitura</button>
                         </div>
-
+<!--ativar a opção de dislexia-->
                         <div class="banner-aba bloco-ajuste-interno">
                             <div>
                                 <h3 class="titulo-ajuste-interno">Modo Daltonismo</h3>
@@ -260,7 +259,7 @@
                             <button id="btn-daltonismo" onclick="alternarDaltonismo()" class="botao botao-principal">Otimizar Cores</button>
                         </div>
                     </div>
-
+<!--DEscarregar o seu relatório-->
                     <div class="banner-aba formulario-perfil">
                         <h3 class="titulo-ajuste-interno">Descarregar Ficha de Dados</h3>
                         <p class="descricao-ajuste-interno">Guarde a sua configuração assistiva num ficheiro de texto comum.</p>
@@ -273,7 +272,7 @@
             </div>
         </section>
     </main>
-
+<!--mensagem exibida que fala que a candidaturade tal coisa deu certo-->
     <div id="modal-sucesso" class="overlay-modal hidden">
         <div class="janela-modal">
             <div class="icone-sucesso-modal">✓</div>
@@ -282,7 +281,7 @@
             <button onclick="fecharModal()" class="botao botao-principal btn-login-extenso">Voltar ao Painel</button>
         </div>
     </div>
-
+<!--chamar java script-->
     <script src="script.js"></script>
 </body>
 </html>

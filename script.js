@@ -46,7 +46,7 @@ const bancoVagas = [
         empresa: 'Natura',
         local: 'Cajamar/SP (Híbrido)',
         salario: 'R$ 3.900',
-        tags: ['👓 Baixa Visão Kit', '🛋️ Mobiliário Ergonómico'],
+        tags: ['👓 Baixa Visão Kit', '🛋️ Estação de Trabalho Adaptada'],
         descricao: 'Criação de peças visuais institucionais. O posto de trabalho conta com ecrãs de alta definição ampliados, teclados de alto contraste com marcações táteis, softwares leitores de ecrã instalados e cadeiras totalmente ajustáveis.'
     }
 ];
@@ -75,19 +75,17 @@ const bancoCursos = [
    4. SISTEMA DE TRANSIÇÃO DE TELAS
    ========================================================================= */
 function mudarParaTela(nomeTela) {
-    // Esconde todas as seções principais de fluxo
     document.getElementById('tela-login').classList.add('hidden');
     document.getElementById('tela-onboarding').classList.add('hidden');
     document.getElementById('painel-dashboard').classList.add('hidden');
 
-    // Mostra apenas a tela solicitada
     if (nomeTela === 'login') {
         document.getElementById('tela-login').classList.remove('hidden');
     } else if (nomeTela === 'onboarding') {
         document.getElementById('tela-onboarding').classList.remove('hidden');
     } else if (nomeTela === 'vagas') {
         document.getElementById('painel-dashboard').classList.remove('hidden');
-        mudarParaAba('vagas'); // Inicializa diretamente na aba de vagas
+        mudarParaAba('vagas');
     }
 }
 
@@ -153,21 +151,21 @@ function carregarVagas() {
 
         const cardHtml = `
             <div class="card-vaga">
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <span style="color: var(--amarelo-acao); font-weight: 800; font-size: 13px; text-transform: uppercase;">${vaga.empresa}</span>
-                    <h3 style="font-size: 22px; font-weight: bold;">${vaga.cargo}</h3>
-                    <p style="font-size: 14px; color: var(--cinza-claro); font-weight: bold;">📍 ${vaga.local} | Salário: ${vaga.salario}</p>
+                <div class="vaga-conteudo">
+                    <span class="vaga-empresa">${vaga.empresa}</span>
+                    <h3 class="vaga-titulo">${vaga.cargo}</h3>
+                    <p class="vaga-info">📍 ${vaga.local} | Salário: ${vaga.salario}</p>
                     
                     <div>${tagsHTML}</div>
 
-                    <p style="font-size: 14px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 12px; border: 1px solid var(--azul-borda); margin-top: 8px;">
+                    <p class="vaga-descricao">
                         ${vaga.descricao}
                     </p>
                 </div>
 
-                <div style="display: flex; gap: 8px; margin-top: 12px;">
-                    <button onclick="ouvirAudioVaga('${vaga.cargo}', '${vaga.empresa}')" class="botao botao-secundario" style="padding: 12px;" title="Ouvir descrição por áudio">🔊</button>
-                    <button onclick="enviarInscricao('${vaga.id}')" ${jaCandidatado ? 'disabled' : ''} class="botao ${classeBotao}" style="flex-grow: 1;">${textoBotao}</button>
+                <div class="vaga-botoes-container">
+                    <button onclick="ouvirAudioVaga('${vaga.cargo}', '${vaga.empresa}')" class="botao botao-secundario btn-audio-vaga" title="Ouvir descrição por áudio">🔊</button>
+                    <button onclick="enviarInscricao('${vaga.id}')" ${jaCandidatado ? 'disabled' : ''} class="botao ${classeBotao} btn-candidatar-vaga">${textoBotao}</button>
                 </div>
             </div>
         `;
@@ -191,27 +189,27 @@ function carregarCursos() {
         const cursoHtml = `
             <div class="card-curso">
                 <div class="player-video">
-                    <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.5);">
-                        <button onclick="assistirVideo('${curso.id}')" class="botao botao-principal" style="border-radius: 50%; width: 56px; height: 56px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 20px;">▶</button>
+                    <div class="video-overlay">
+                        <button onclick="assistirVideo('${curso.id}')" class="botao botao-principal btn-play-video">▶</button>
                     </div>
 
-                    <span style="position: absolute; top: 12px; left: 12px; background: var(--azul-escuro); border: 1px solid var(--amarelo-acao); color: var(--amarelo-acao); font-size: 11px; padding: 4px 8px; border-radius: 8px; font-weight: bold;">🎤 ${curso.palestrante}</span>
+                    <span class="video-palestrante-tag">🎤 ${curso.palestrante}</span>
 
                     <div class="legenda-video">
-                        <p style="color: var(--amarelo-acao); font-size: 12px; font-weight: 900; text-transform: uppercase;">${curso.legenda}</p>
+                        <p class="video-legenda-texto">${curso.legenda}</p>
                     </div>
                 </div>
 
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <h4 style="font-size: 18px; font-weight: bold;">${curso.titulo}</h4>
+                <div class="curso-info-container">
+                    <h4 class="curso-titulo">${curso.titulo}</h4>
                     
-                    <div style="margin-top: 4px;">
-                        <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; color: var(--cinza-claro); margin-bottom: 4px;">
+                    <div class="curso-progresso-wrapper">
+                        <div class="curso-progresso-textos">
                             <span>Progresso do Utilizador</span>
                             <span>${statusTexto}</span>
                         </div>
-                        <div style="width: 100%; background: #091124; height: 12px; border-radius: 10px; border: 1px solid var(--azul-borda); overflow: hidden; padding: 2px;">
-                            <div style="background-color: var(--amarelo-acao); width: ${larguraProgresso}; height: 100%; border-radius: 10px; transition: width 0.3s;"></div>
+                        <div class="curso-barra-fundo">
+                            <div class="curso-barra-progresso" style="width: ${larguraProgresso};"></div>
                         </div>
                     </div>
                 </div>
@@ -252,24 +250,24 @@ function mostrarNomeDoArquivo() {
     
     if (input && input.files.length > 0) {
         texto.innerText = "📁 Arquivo selecionado: " + input.files[0].name;
-        texto.style.color = "#48bb78"; 
+        texto.classList.remove('texto-arquivo-invalido');
+        texto.classList.add('texto-arquivo-valido');
     } else if (texto) {
         texto.innerText = "Nenhum arquivo selecionado";
-        texto.style.color = "#a0aec0";
+        texto.classList.remove('texto-arquivo-valido');
+        texto.classList.add('texto-arquivo-invalido');
     }
 }
 
 function salvarPerfil(event) {
     if (event) event.preventDefault();
     mudarParaAba('vagas'); 
-    falarMensagemAudio("As suas preferências de acessibilidade foram atualizadas com sucesso!");
+    falarMensagemAudio("As suas preferências de acessibilidade foram updated com sucesso!");
 }
 
 /* =========================================================================
    10. CONTROLES DE ACESSIBILIDADE VISUAL
    ========================================================================= */
-
-// Alternar Tamanho de Letra Proporcional
 function alternarTamanhoLetra() {
     document.body.classList.toggle('texto-maior');
     const btnTexto = document.getElementById('btn-tamanho-letra');
@@ -278,7 +276,6 @@ function alternarTamanhoLetra() {
     }
 }
 
-// Alternar Modo de Leitura Dinâmico (TDAH / Foco)
 function alternarModoLeitura() {
     document.body.classList.toggle('modo-leitura');
     const btnLeitura = document.getElementById('btn-modo-leitura');
@@ -287,7 +284,6 @@ function alternarModoLeitura() {
     }
 }
 
-// Alternar Filtro de Daltonismo
 function alternarDaltonismo() {
     document.body.classList.toggle('modo-daltonismo');
     const btn = document.getElementById('btn-daltonismo');
@@ -305,14 +301,14 @@ function alternarLeitorAudio() {
 
     if (estadoApp.leitorAudioLigado) {
         if (botao) {
-            botao.style.backgroundColor = "var(--amarelo-acao)";
-            botao.style.color = "var(--azul-escuro)";
+            botao.classList.remove('btn-audio-inativo');
+            botao.classList.add('btn-audio-ativo');
         }
         falarTextoAudio("O leitor de apoio está ativado. Clique nos botões de áudio para ler.");
     } else {
         if (botao) {
-            botao.style.backgroundColor = "var(--azul-card)";
-            botao.style.color = "var(--amarelo-acao)";
+            botao.classList.remove('btn-audio-ativo');
+            botao.classList.add('btn-audio-inativo');
         }
         pararAudio();
     }
@@ -369,7 +365,6 @@ function baixarFicheiro(formato) {
     let tipoDoFicheiro = "text/plain";
     let extensao = "txt";
 
-    // Captura correta de todos os elementos de filtros do HTML
     const filtroRampa = document.getElementById('filtro-rampa');
     const filtroHome = document.getElementById('filtro-homeoffice');
     const filtroLibras = document.getElementById('filtro-libras');
@@ -384,7 +379,6 @@ function baixarFicheiro(formato) {
     const visualAtiva = filtroVisual && filtroVisual.checked ? "Necessita: Apoio com Deficiência Visual" : null;
     const auditivaAtiva = filtroAuditiva && filtroAuditiva.checked ? "Necessita: Apoio com Deficiência Auditiva" : null;
 
-    // Filtra e junta apenas os requisitos marcados como verdadeiros (Removendo os nulls)
     const listaRequisitos = [rampaAtiva, homeofficeAtiva, librasAtiva, neuroAtiva, visualAtiva, auditivaAtiva].filter(Boolean);
 
     if (formato === 'json') {
@@ -426,7 +420,6 @@ ${estadoApp.candidaturasEfetuadas.length > 0 ? estadoApp.candidaturasEfetuadas.j
    13. LÓGICA DE PASSOS DO TUTORIAL (ONBOARDING)
    ========================================================================= */
 function proximoPasso(numeroPasso) {
-    // Reseta visualmente todos os 3 passos e paginações orbitais
     for (let i = 1; i <= 3; i++) {
         const passo = document.getElementById('tutorial-passo-' + i);
         const ponto = document.getElementById('ponto-' + i);
@@ -436,11 +429,10 @@ function proximoPasso(numeroPasso) {
             passo.classList.remove('passo-ativo');
         }
         if (ponto) {
-            ponto.style.background = 'var(--azul-borda)';
+            ponto.style.background = ''; // Reseta para respeitar a classe do CSS padrão
         }
     }
     
-    // Ativa o passo solicitado e destaca seu respectivo indicador visual
     const passoAtual = document.getElementById('tutorial-passo-' + numeroPasso);
     const pontoAtual = document.getElementById('ponto-' + numeroPasso);
     
@@ -449,7 +441,7 @@ function proximoPasso(numeroPasso) {
         passoAtual.classList.add('passo-ativo');
     }
     if (pontoAtual) {
-        pontoAtual.style.background = 'var(--amarelo-acao)';
+        pontoAtual.classList.add('ativo'); // Usa a classe .ativo criada no CSS anterior
     }
 }
 
