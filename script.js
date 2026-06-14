@@ -354,14 +354,10 @@ function falarMensagemAudio(texto) {
 function ouvirAudioVaga(cargo, empresa) {
     falarTextoAudio(`Anúncio da vaga de: ${cargo}, na empresa ${empresa}. Verifique as marcas de suporte físico e remotos no painel.`);
 }
-
-/* =========================================================================
-   12. EXPORTADOR DE FICHEIROS (RELATÓRIO DE ACESSIBILIDADE - VERSÃO FINAL)
-   ========================================================================= */
+  
 function baixarFicheiro() {
     const tituloFicheiro = "relatorio_acessibilidade_trampolim.txt";
 
-    // 1. SELEÇÃO DOS CHECKBOXES DO PERFIL ASSISTIVO (SEM O DALTONISMO AQUI)
     const filtroRampa = document.getElementById('filtro-rampa');
     const filtroHome = document.getElementById('filtro-homeoffice');
     const filtroLibras = document.getElementById('filtro-libras');
