@@ -482,20 +482,13 @@ function proximoPasso(numeroPasso) {
 
 function mudarParaPainel() {
     mudarParaTela('vagas');
-    
-    // 🚀 ISSO DAQUI VAI TRAZER AS VAGAS DO ITAÚ E MERCADO LIVRE:
     carregarVagasDoBanco();
     carregarCursosDoBanco();
     
-    // Se tiveres a função de carregar os cursos do banco, chama-a também:
     if (typeof carregarCursosDoBanco === 'function') {
         carregarCursosDoBanco();
     }
 }
-
-/* =========================================================================
-   14. INICIALIZADOR AUTOMÁTICO DO APP e BUSCA DE VAGAS DO BANCO
-   ========================================================================= */
 async function carregarVagasDoBanco() {
     try {
         const resposta = await fetch('http://localhost:3000/api/vagas');
