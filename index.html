@@ -35,19 +35,19 @@
                 <h2>Entrar no Trampolim</h2>
                 <p>O portal de vagas pensado para o seu bem-estar e autonomia profissional.</p>
 
-                <form onsubmit="fazerLogin(event)" class="formulario-login">
-                    <div class="grupo-campo">
-                        <label for="campo-email">E-mail ou CPF:</label>
-                        <input type="text" id="campo-email" class="input-texto" placeholder="exemplo@trampolim.com" required>
-                    </div>
+              <form onsubmit="event.preventDefault(); fazerLogin(event);" class="formulario-login">
+    <div class="grupo-campo">
+        <label for="campo-email">E-mail ou CPF:</label>
+        <input type="text" id="campo-email" class="input-texto" placeholder="exemplo@trampolim.com" required>
+    </div>
 
-                    <div class="grupo-campo">
-                        <label for="campo-senha">Senha de Acesso:</label>
-                        <input type="password" id="campo-senha" class="input-texto" placeholder="Digite a sua senha" required>
-                    </div>
+    <div class="grupo-campo">
+        <label for="campo-senha">Senha de Acesso:</label>
+        <input type="password" id="campo-senha" class="input-texto" placeholder="Digite a sua senha" required>
+    </div>
 
-                    <button type="submit" class="botao botao-principal btn-login-extenso">Aceder ao Painel</button>
-                </form>
+    <button type="submit" class="botao botao-principal btn-login-extenso">Aceder ao Painel</button>
+</form>
 <!--Parte de convidado de teste, pra nao preciasr fazer login, coisa de vadio-->
                 <button onclick="pularLoginParaTestes()" class="btn-convidado-link">
                     Entrar como Convidado de Teste
@@ -157,7 +157,7 @@
                         <p class="descricao-checkbox">Escolha as adaptações ideais para filtrar as oportunidades automáticas no sistema.</p>
                     </div>
 <!--Eu nao vou comentar tudo kkk, pra resumir todas as opções de acessibilidade-->
-                    <form onsubmit="salvarPerfil(event)" class="banner-aba formulario-perfil">
+                    <form onsubmit="event.preventDefault(); mudarParaTela('vagas');" class="banner-aba formulario-perfil">
                         <div class="grid-checkbox-perfil">
                             <label class="opcao-checkbox">
                                 <input type="checkbox" id="filtro-rampa" checked>
@@ -221,8 +221,7 @@
                         </div>
 <!--guarda requisito pra ficha-->
                         <div class="container-botao-salvar">
-                            <button type="submit" class="botao botao-principal">Guardar Requisitos</button>
-                        </div>
+                    <button type="button" onclick="mudarParaTela('vagas')" class="botao botao-principal">Guardar Requisitos</button>                        </div>
                     </form>
                 </div>
 <!--Area que fica as video aulas-->

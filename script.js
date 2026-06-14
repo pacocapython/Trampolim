@@ -73,25 +73,38 @@ function fazerLogin(event) {
     if (event) event.preventDefault();
     estadoApp.usuarioConectado = true;
 
-    // 🚀 AS DUAS LINHAS MÁGICAS QUE ESTAVAM FALTANDO AQUI:
+    // 1. Puxa os dados do MySQL em segundo plano para quando o usuário terminar o tutorial
     if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
     if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
 
-    mudarParaTela('onboarding');
+    // 2. 🚀 ABRE A TELA DO TUTORIAL (Em vez de ir direto para as vagas)
+    mudarParaTela('onboarding'); 
 }
 
 function pularLoginParaTestes() {
     estadoApp.usuarioConectado = true;
 
-    // Colocamos aqui também para garantir se entrar como convidado
-    if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
-    if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
+    // 🚀 Ajustado aqui também para ir direto pro painel correto
+    if (typeof mudarParaPainel === 'function') {
+        mudarParaPainel();
+    } else {
+        mudarParaTela('vagas');
+        if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
+        if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
+    }
+        mudarParaTela('onboarding'); 
 
-    mudarParaTela('onboarding');
 }
 
 function fazerLogout() {
     estadoApp.usuarioConectado = false;
+    
+    // Limpa os containers para não sobrar rastro de vagas antigas ao deslogar
+    const containerVagas = document.getElementById('container-vagas');
+    const containerCursos = document.getElementById('container-cursos');
+    if (containerVagas) containerVagas.innerHTML = '';
+    if (containerCursos) containerCursos.innerHTML = '';
+
     mudarParaTela('login');
 }
 
@@ -436,6 +449,7 @@ function mudarParaPainel() {
     
     // 🚀 ISSO DAQUI VAI TRAZER AS VAGAS DO ITAÚ E MERCADO LIVRE:
     carregarVagasDoBanco();
+    carregarCursosDoBanco();
     
     // Se tiveres a função de carregar os cursos do banco, chama-a também:
     if (typeof carregarCursosDoBanco === 'function') {
@@ -465,3 +479,31 @@ async function carregarVagasDoBanco() {
 }
 // Inicializações Automáticas ao abrir a página
 mudarParaTela('login');
+function salvarPerfil(event) {
+    // Trava o refresh da página
+    event.preventDefault(); 
+    
+    console.log("Requisitos salvos com sucesso!");
+    
+    // Avança para as vagas com a memória intacta
+    mudarParaTela('vagas'); 
+}
+function mostrarNomeDoArquivo() {
+    // 1. Pega o input de arquivo e o local onde o texto deve aparecer
+    const input = document.getElementById('upload-comprovante');
+    const textoNome = document.getElementById('nome-arquivo-selecionado');
+
+    // 2. Verifica se os elementos existem e se o usuário realmente escolheu um arquivo
+    if (input && textoNome && input.files && input.files.length > 0) {
+        // Pega o nome do primeiro arquivo selecionado
+        const nomeDoArquivo = input.files[0].name;
+        
+        // Substitui o "Nenhum arquivo selecionado" pelo nome real do arquivo!
+        textoNome.textContent = "📄 " + nomeDoArquivo;
+        textoNome.style.color = "#007bff"; // Opcional: muda a cor pra dar um destaque de sucesso
+    } else if (textoNome) {
+        // Caso dê algum erro ou limpe a seleção, volta ao texto padrão
+        textoNome.textContent = "Nenhum arquivo selecionado";
+        textoNome.style.color = ""; 
+    }
+}
