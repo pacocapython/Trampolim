@@ -356,14 +356,12 @@ function ouvirAudioVaga(cargo, empresa) {
 }
 
 /* =========================================================================
-   12. EXPORTADOR DE FICHEIROS (RELATÓRIO DE ACESSIBILIDADE)
+   12. EXPORTADOR DE FICHEIROS (RELATÓRIO DE ACESSIBILIDADE - VERSÃO FINAL)
    ========================================================================= */
-function baixarFicheiro(formato) {
-    const tituloFicheiro = "relatorio_acessibilidade_trampolim";
-    let dadosEscritos = "";
-    let tipoDoFicheiro = "text/plain";
-    let extensao = "txt";
+function baixarFicheiro() {
+    const tituloFicheiro = "relatorio_acessibilidade_trampolim.txt";
 
+    // 1. SELEÇÃO DOS CHECKBOXES DO PERFIL ASSISTIVO (SEM O DALTONISMO AQUI)
     const filtroRampa = document.getElementById('filtro-rampa');
     const filtroHome = document.getElementById('filtro-homeoffice');
     const filtroLibras = document.getElementById('filtro-libras');
@@ -372,49 +370,87 @@ function baixarFicheiro(formato) {
     const filtroAuditiva = document.getElementById('filtro-auditiva');
 
     const rampaAtiva = filtroRampa && filtroRampa.checked ? "Necessita: Infraestrutura Física (Rampas/Elevadores)" : null;
-    const homeofficeAtiva = filtroHome && filtroHome.checked ? "Necessita: Atividades em Home Office" : null;
-    const librasAtiva = filtroLibras && filtroLibras.checked ? "Necessita: Tradução de Linguagem de Sinais (Libras)" : null;
-    const neuroAtiva = filtroNeuro && filtroNeuro.checked ? "Necessita: Apoio a Neurodiversidade (Autismo, TDAH, AH/SD)" : null;
-    const visualAtiva = filtroVisual && filtroVisual.checked ? "Necessita: Apoio com Deficiência Visual" : null;
-    const auditivaAtiva = filtroAuditiva && filtroAuditiva.checked ? "Necessita: Apoio com Deficiência Auditiva" : null;
+    const homeofficeAtiva = filtroHome && filtroHome.checked ? "Necessita: Trabalho em Home Office / Remoto" : null;
+    const librasAtiva = filtroLibras && filtroLibras.checked ? "Necessita: Tradução em Língua de Sinais (Libras)" : null;
+    const neuroAtiva = filtroNeuro && filtroNeuro.checked ? "Necessita: Apoio à Neurodiversidade (Autismo, TDAH, etc.)" : null;
+    const visualAtiva = filtroVisual && filtroVisual.checked ? "Necessita: Apoio para Deficiência Visual" : null;
+    const auditivaAtiva = filtroAuditiva && filtroAuditiva.checked ? "Necessita: Apoio para Deficiência Auditiva" : null;
 
+    // Junta apenas as opções marcadas nos checkboxes
     const listaRequisitos = [rampaAtiva, homeofficeAtiva, librasAtiva, neuroAtiva, visualAtiva, auditivaAtiva].filter(Boolean);
 
-    if (formato === 'json') {
-        const dadosObjeto = {
-            origem: "Trampolim Inclusivo Portal",
-            data_criacao: new Date().toLocaleDateString('pt-PT'),
-            requisitos_acessibilidade: listaRequisitos,
-            historico_candidaturas: estadoApp.candidaturasEfetuadas
-        };
-        dadosEscritos = JSON.stringify(dadosObjeto, null, 2);
-        tipoDoFicheiro = "application/json";
-        extensao = "json";
-    } else {
-        dadosEscritos = `
-===================================================
-RELATÓRIO ASSISTIVO - PORTAL TRAMPOLIM
-===================================================
-Data de Emissão: ${new Date().toLocaleDateString('pt-PT')}
-
-CONDIÇÕES DE ACESSIBILIDADE SELECIONADAS:
-${listaRequisitos.length > 0 ? listaRequisitos.map(req => `- [X] ${req}`).join('\n') : '- Nenhuma preferência ativa selecionada.'}
-
-HISTÓRICO DE CANDIDATURAS (Vagas IDs):
-${estadoApp.candidaturasEfetuadas.length > 0 ? estadoApp.candidaturasEfetuadas.join(', ') : 'Nenhuma candidatura realizada.'}
-===================================================
-        `;
+    // 2. CAPTURA DO LAUDO MÉDICO ANEXADO
+    const inputLaudo = document.getElementById('upload-comprovante');
+    let nomeLaudoMedico = "Não anexado";
+    if (inputLaudo && inputLaudo.files && inputLaudo.files.length > 0) {
+        nomeLaudoMedico = inputLaudo.files[0].name;
     }
 
-    const arquivoBlob = new Blob([dadosEscritos], { type: tipoDoFicheiro });
+    // 3. 🕵️‍♂️ DETECTOR DE INTERFACE (SÓ ENTRA NO RELATÓRIO SE ESTIVER LIGADO NA HORA)
+    let blocosInterface = [];
+
+    // A. Letra Ampliada
+    const btnTamanho = document.getElementById('btn-tamanho-letra');
+    if (document.body.classList.contains('fonte-grande') || document.body.classList.contains('texto-grande') || (btnTamanho && btnTamanho.textContent.includes('A-'))) {
+        blocosInterface.push("- Letra Ampliada (A+): Ativo");
+    }
+
+    // B. Modo Leitura Focada
+    const btnLeitura = document.getElementById('btn-modo-leitura');
+    if ((btnLeitura && btnLeitura.classList.contains('ativo')) || (btnLeitura && btnLeitura.textContent.toLowerCase().includes('desativar')) || (btnLeitura && btnLeitura.style.backgroundColor !== "")) {
+        blocosInterface.push("- Modo Leitura Focada: Ativo");
+    }
+
+    // C. Otimização de Cores (Daltonismo) -> 🚀 AGORA TRATADO COMO BOTÃO DE INTERFACE!
+  // C. Otimização de Cores (Daltonismo)
+    const btnDaltonismo = document.getElementById('btn-daltonismo');
+    if (btnDaltonismo && (
+        btnDaltonismo.classList.contains('ativo') || 
+        btnDaltonismo.classList.contains('active') ||
+        btnDaltonismo.textContent.toLowerCase().includes('desativar') ||
+        btnDaltonismo.textContent.toLowerCase().includes('padrão') ||
+        btnDaltonismo.style.backgroundColor !== ""
+    )) {
+        blocosInterface.push("- Otimização de Cores (Daltonismo): Ativo");
+    }
+    // D. Reprodutor de Voz
+    const btnAudio = document.getElementById('botao-audio');
+    const avisoAudio = document.getElementById('aviso-audio');
+    if ((avisoAudio && !avisoAudio.classList.contains('hidden')) || (btnAudio && btnAudio.classList.contains('ativo')) || (btnAudio && btnAudio.title.toLowerCase().includes('desativar')) || (btnAudio && btnAudio.textContent.toLowerCase().includes('parar'))) {
+        blocosInterface.push("- Reprodutor de Voz de Apoio: Ativo");
+    }
+
+    // 4. HISTÓRICO DE CANDIDATURAS
+    const listaCandidaturas = (typeof estadoApp !== 'undefined' && estadoApp.candidaturasEfetuadas) ? estadoApp.candidaturasEfetuadas : [];
+
+    // 5. MONTAGEM DO TEXTO DO RELATÓRIO 100% EM PORTUGUÊS
+    let dadosEscritos = `===================================================\n` +
+                        `RELATÓRIO ASSISTIVO COMPLETO - PORTAL TRAMPOLIM\n` +
+                        `===================================================\n` +
+                        `Data de Emissão: ${new Date().toLocaleDateString('pt-PT')} às ${new Date().toLocaleTimeString('pt-PT')}\n\n` +
+                        `[CONDIÇÕES DE ACESSIBILIDADE SELECIONADAS]:\n` +
+                        `${listaRequisitos.length > 0 ? listaRequisitos.map(req => `- [X] ${req}`).join('\n') : '- Nenhuma preferência ativa selecionada.'}\n` +
+                        `- Documento de Laudo Anexado: ${nomeLaudoMedico}\n\n`;
+
+    // Só adiciona o bloco de interface se alguma das ferramentas estiver de fato ligada
+    if (blocosInterface.length > 0) {
+        dadosEscritos += `[PREFERÊNCIAS DE INTERFACE VISUAL & ACESSIBILIDADE]:\n` +
+                         blocosInterface.join('\n') + `\n\n`;
+    }
+
+    dadosEscritos += `[HISTÓRICO DE CANDIDATURAS (Vagas Escolhidas)]:\n` +
+                     `${listaCandidaturas.length > 0 ? listaCandidaturas.map(vaga => `- Categoria/ID: ${vaga}`).join('\n') : '- Nenhuma candidatura realizada nesta sessão.'}\n` +
+                     `===================================================`;
+
+    // 6. DISPARADOR DE DOWNLOAD NATIVO
+    const arquivoBlob = new Blob([dadosEscritos], { type: "text/plain" });
     const linkDownload = document.createElement('a');
     linkDownload.href = URL.createObjectURL(arquivoBlob);
-    linkDownload.download = `${tituloFicheiro}.${extensao}`;
+    linkDownload.download = tituloFicheiro;
     document.body.appendChild(linkDownload);
     linkDownload.click();
     document.body.removeChild(linkDownload);
 }
-
 /* =========================================================================
    13. LÓGICA DE PASSOS DO TUTORIAL (ONBOARDING)
    ========================================================================= */
