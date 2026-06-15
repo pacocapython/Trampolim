@@ -12,7 +12,7 @@ const estadoApp = {
 // 🔄 Busca os cursos reais lá no MySQL
 async function carregarCursosDoBanco() {
     try {
-        const resposta = await fetch('http://localhost:3000/api/cursos');
+        const resposta = await fetch('http://192.168.3.231:3000/api/cursos');
         const cursosDoMySQL = await resposta.json();
         
         console.log("Cursos vindos do MySQL:", cursosDoMySQL);
