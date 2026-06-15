@@ -71,20 +71,46 @@ function mudarParaAba(nomeAba) {
    ========================================================================= */
 function fazerLogin(event) {
     if (event) event.preventDefault();
-    estadoApp.usuarioConectado = true;
 
-    // 1. Puxa os dados do MySQL em segundo plano para quando o usuário terminar o tutorial
+    const nomeDigitado = document.getElementById('campo-nome')?.value.trim() || "Candidato";
+    const sexoSelecionado = document.getElementById('login-sexo')?.value || "Não Informado";
+
+    let sexoFinal = sexoSelecionado;
+
+    if (sexoSelecionado === "Outro") {
+        const textoOutro = document.getElementById('campo-sexo')?.value.trim();
+        if (textoOutro) {
+            sexoFinal = `Outro (${textoOutro})`;
+        }
+    }
+
+    estadoApp.usuarioConectado = true;
+    estadoApp.nomeUsuario = nomeDigitado;
+    estadoApp.sexoUsuario = sexoFinal;
+
+    // 🚀 ATUALIZA APENAS A SIDEBAR: Coloca o nome que o usuário digitou
+    const sidebarNome = document.getElementById('sidebar-nome');
+    if (sidebarNome) {
+        sidebarNome.textContent = nomeDigitado;
+    }
+
     if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
     if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
 
-    // 2. 🚀 ABRE A TELA DO TUTORIAL (Em vez de ir direto para as vagas)
     mudarParaTela('onboarding'); 
 }
 
 function pularLoginParaTestes() {
     estadoApp.usuarioConectado = true;
+    estadoApp.nomeUsuario = "Convidado de Teste";
+    estadoApp.sexoUsuario = "Não Informado";
 
-    // 🚀 Ajustado aqui também para ir direto pro painel correto
+    // 🚀 ATUALIZA A SIDEBAR: Coloca "Convidado de Teste"
+    const sidebarNome = document.getElementById('sidebar-nome');
+    if (sidebarNome) {
+        sidebarNome.textContent = "Convidado de Teste";
+    }
+
     if (typeof mudarParaPainel === 'function') {
         mudarParaPainel();
     } else {
@@ -92,20 +118,53 @@ function pularLoginParaTestes() {
         if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
         if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
     }
-        mudarParaTela('onboarding'); 
-
+    mudarParaTela('onboarding'); 
 }
 
 function fazerLogout() {
     estadoApp.usuarioConectado = false;
+    estadoApp.nomeUsuario = "";
+    estadoApp.sexoUsuario = ""; 
     
-    // Limpa os containers para não sobrar rastro de vagas antigas ao deslogar
     const containerVagas = document.getElementById('container-vagas');
     const containerCursos = document.getElementById('container-cursos');
     if (containerVagas) containerVagas.innerHTML = '';
     if (containerCursos) containerCursos.innerHTML = '';
 
+    // 🚀 RESET DA SIDEBAR: Volta a ser "Candidato" ao deslogar
+    const sidebarNome = document.getElementById('sidebar-nome');
+    if (sidebarNome) {
+        sidebarNome.textContent = "Candidato";
+    }
+
+    if (document.getElementById('campo-nome')) document.getElementById('campo-nome').value = '';
+    if (document.getElementById('campo-sexo')) document.getElementById('campo-sexo').value = '';
+    if (document.getElementById('login-sexo')) {
+        document.getElementById('login-sexo').value = '';
+        verificarGenero(); 
+    }
+
     mudarParaTela('login');
+}
+function verificarGenero() {
+    const selectSexo = document.getElementById('login-sexo');
+    const areaOutro = document.getElementById('area-outro-genero');
+    const inputSexo = document.getElementById('campo-sexo');
+    
+    if (selectSexo && areaOutro) {
+        // Se o usuário selecionou a opção "Outro"
+        if (selectSexo.value === "Outro") {
+            areaOutro.classList.remove('hidden'); // Remove a classe que esconde (mostra na tela)
+            if (inputSexo) inputSexo.required = true; // Torna o campo obrigatório
+        } else {
+            // Se ele escolheu qualquer outra coisa (Masculino, Feminino, etc.)
+            areaOutro.classList.add('hidden'); // Adiciona a classe de volta (esconde da tela)
+            if (inputSexo) {
+                inputSexo.value = ""; // Limpa o texto que o usuário tinha digitado
+                inputSexo.required = false; // Tira a obrigatoriedade para conseguir fazer login
+            }
+        }
+    }
 }
 
 /* =========================================================================

@@ -30,25 +30,48 @@
     </div>
 <!--Parte principal do site que é a area de login do site e é isso-->
     <main class="flex-1">
-        <section id="tela-login" class="secao-login">
+ <section id="tela-login" class="secao-login">
             <div class="caixa-login">
                 <h2>Entrar no Trampolim</h2>
                 <p>O portal de vagas pensado para o seu bem-estar e autonomia profissional.</p>
 
-              <form onsubmit="event.preventDefault(); fazerLogin(event);" class="formulario-login">
-    <div class="grupo-campo">
-        <label for="campo-email">E-mail ou CPF:</label>
-        <input type="text" id="campo-email" class="input-texto" placeholder="exemplo@trampolim.com" required>
-    </div>
+                <form onsubmit="event.preventDefault(); fazerLogin(event);" class="formulario-login">
+        
+                    <div class="grupo-campo">
+                        <label for="campo-nome">Nome de Usuário</label>
+                        <input type="text" id="campo-nome" class="input-texto" placeholder="Nome de Usuário" required>
+                    </div> 
+                    
+                    <div class="grupo-campo">
+                        <label for="campo-email">E-mail ou CPF:</label>
+                        <input type="text" id="campo-email" class="input-texto" placeholder="exemplo@trampolim.com" required>
+                    </div>
 
-    <div class="grupo-campo">
-        <label for="campo-senha">Senha de Acesso:</label>
-        <input type="password" id="campo-senha" class="input-texto" placeholder="Digite a sua senha" required>
-    </div>
+                    <div class="grupo-campo">
+                        <label for="campo-senha">Senha de Acesso:</label>
+                        <input type="password" id="campo-senha" class="input-texto" placeholder="Digite a sua senha" required>
+                    </div>
 
-    <button type="submit" class="botao botao-principal btn-login-extenso">Aceder ao Painel</button>
-</form>
-<!--Parte de convidado de teste, pra nao preciasr fazer login, coisa de vadio-->
+                    <div class="grupo-campo">
+                        <label for="login-sexo">Sexo / Gênero</label>
+                        <select id="login-sexo" class="input-texto" onchange="verificarGenero()">
+                            <option value="" disabled selected>Selecione uma opção...</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                            <option value="Não-Binário">Não-Binário</option>
+                            <option value="Outro">Outro</option>
+                            <option value="Prefiro não responder">Prefiro não responder</option>
+                        </select>
+                    </div>
+
+                    <div id="area-outro-genero" class="grupo-campo hidden">
+                        <label for="campo-sexo">Especifique nesta área</label>
+                        <input type="text" id="campo-sexo" class="input-texto" placeholder="Digite sua sexualidade/Gênero">
+                    </div>
+
+                    <button type="submit" class="botao botao-principal btn-login-extenso">Aceder ao Painel</button>
+                </form>
+
                 <button onclick="pularLoginParaTestes()" class="btn-convidado-link">
                     Entrar como Convidado de Teste
                 </button>
@@ -95,8 +118,8 @@
         <!--Parte que mostra o nome do perfil-->    
             <aside class="sidebar">
                 <div class="sidebar-perfil">
-                    <p class="sidebar-tag-usuario">Utilizador</p>
-                    <p class="sidebar-nome-usuario">Candidato</p>
+                    <p class="sidebar-tag-usuario">Candidato</p>
+                    <p id="sidebar-nome" class="sidebar-nome-usuario">Ultilizador</p>
                 </div>
 <!--Aba lateral, que aloca as vagas, perfil assistivo, video aulas e ajustes da ficha-->
                 <nav class="sidebar-menu">

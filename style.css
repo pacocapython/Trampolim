@@ -935,3 +935,6 @@ body.modo-daltonismo .botao-ajuste-principal {
     background-color: var(--azul-card) !important;
     color: var(--amarelo-acao) !important;
 }
+.hidden {
+    display: none !important;
+}
