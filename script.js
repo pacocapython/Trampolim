@@ -546,7 +546,7 @@ function mudarParaPainel() {
 }
 async function carregarVagasDoBanco() {
     try {
-        const resposta = await fetch('http://localhost:3000/api/vagas');
+        const resposta = await fetch('http://192.168.3.231:3000/api/vagas');
         const vagasDoMySQL = await resposta.json();
         
         console.log("VAGAS DO BANCO:", vagasDoMySQL);
