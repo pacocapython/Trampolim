@@ -938,23 +938,19 @@ body.modo-daltonismo .botao-ajuste-principal {
 .hidden {
     display: none !important;
 }
-/* =========================================================================
-   ESTILIZAÇÃO DA ÁREA DO CANDIDATO PARA CELULAR E RESPONSIVIDADE
-   ========================================================================= */
-
-/* Estilos base da barra do topo do celular */
+/* Estilo da barrinha do topo do celular */
 .topo-mobile {
+    background-color: #1a1a1a; /* Fundo escuro combinando com o app */
+    padding: 12px 20px;
     display: flex;
     align-items: center;
     gap: 12px;
-    background-color: #1e1e1e; /* Cor escura padrão de painéis */
-    padding: 12px 20px;
-    border-bottom: 2px solid #f1c40f; /* Linha amarela assistiva do Trampolim */
+    border-bottom: 2px solid #f1c40f; /* Linha amarela do Trampolim */
 }
 
 .usuario-avatar-mobile {
     font-size: 22px;
-    background-color: #2a2a2a;
+    background-color: #2b2b2b;
     padding: 6px 10px;
     border-radius: 50%;
 }
@@ -968,7 +964,7 @@ body.modo-daltonismo .botao-ajuste-principal {
 .tag-mobile {
     font-size: 11px;
     text-transform: uppercase;
-    color: #f1c40f; /* Texto amarelo */
+    color: #f1c40f; /* Texto "Candidato" em amarelo */
     letter-spacing: 1px;
 }
 
@@ -977,22 +973,46 @@ body.modo-daltonismo .botao-ajuste-principal {
     font-weight: bold;
 }
 
-/* Regras de Media Query para alternar entre PC e Celular */
+/* REGRAS DE TELA (RESPONSIVIDADE) */
 @media (max-width: 768px) {
-    /* Garante que o tamanho base da fonte (inclusive relatórios) fique legível no celular */
-    body, pre, p {
-        font-size: 16px !important;
-    }
-
-    /* Mostra a barra do topo no celular */
+    /* No celular: Mostra a barra do topo */
     .topo-mobile {
         display: flex !important;
     }
 }
 
 @media (min-width: 769px) {
-    /* Esconde a barra do celular quando estiver no Computador */
+    /* No computador: Esconde a barra do topo para não duplicar */
     .topo-mobile {
+        display: none !important;
+    }
+}
+/* =========================================================================
+   FORÇAR A ÁREA DO PERFIL A APARECER NO CELULAR
+   ========================================================================= */
+
+@media (max-width: 768px) {
+    /* 1. Faz a barra lateral (sidebar) virar um bloco visível no topo da tela do celular */
+    .sidebar {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        padding: 15px !important;
+        position: relative !important;
+        background-color: #1e1e1e !important; /* Mantém o fundo escuro original */
+    }
+
+    /* 2. Mantém apenas a caixinha do Perfil visível na barra lateral */
+    .sidebar-perfil {
+        display: block !important;
+        margin-bottom: 0 !important;
+        text-align: left !important;
+    }
+
+    /* 3. Esconde os botões repetidos da sidebar no celular (já que você já tem o menu inferior) */
+    .sidebar-menu, 
+    .btn-logout-sidebar {
         display: none !important;
     }
 }
