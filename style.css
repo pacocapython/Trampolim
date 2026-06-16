@@ -940,7 +940,7 @@ body.modo-daltonismo .botao-ajuste-principal {
 }
 /* Estilo da barrinha do topo do celular */
 .topo-mobile {
-    background-color: #1a1a1a; /* Fundo escuro combinando com o app */
+    background-color: #0b1a30; /* Fundo escuro combinando com o app */
     padding: 12px 20px;
     display: flex;
     align-items: center;
