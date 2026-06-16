@@ -1019,3 +1019,15 @@ body.modo-daltonismo .botao-ajuste-principal {
         display: none !important;
     }
 }
+/* 🚀 Força o texto do relatório a ficar grande e legível no celular */
+@media (max-width: 768px) {
+    pre, 
+    code, 
+    #aba-ajustes .descricao-ajuste-interno,
+    content {
+        font-size: 16px !important; /* Tamanho ideal para leitura no celular */
+        line-height: 1.6 !important; /* Dá um espaço bem amigável entre as linhas */
+        word-wrap: break-word !important; /* Impede que o texto saia da tela */
+        white-space: pre-wrap !important; /* Quebra as linhas automaticamente */
+    }
+}
