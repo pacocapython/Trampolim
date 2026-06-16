@@ -491,26 +491,30 @@ function baixarFicheiro() {
     const listaCandidaturas = (typeof estadoApp !== 'undefined' && estadoApp.candidaturasEfetuadas) ? estadoApp.candidaturasEfetuadas : [];
 
     // 5. MONTAGEM DO TEXTO DO RELATÓRIO (Adicionado quebras extras \n para dar mais espaçamento e tamanho)
-    // 5. MONTAGEM DO TEXTO (Injetando uma tag de estilo invisível para o celular aumentar a letra)
-    let dadosEscritos = `<style>body{font-size:32px !important; line-height:1.6; padding:20px; background-color:#0b1a30; color:#fff;}</style><pre>` +
-                        `===================================================\n` +
-                        `RELATÓRIO ASSISTIVO COMPLETO - PORTAL TRAMPOLIM\n` +
-                        `===================================================\n\n` +
-                        `Data de Emissão: ${new Date().toLocaleDateString('pt-PT')} às ${new Date().toLocaleTimeString('pt-PT')}\n\n` +
-                        `[CONDIÇÕES DE ACESSIBILIDADE SELECIONADAS]:\n` +
-                        `${listaRequisitos.length > 0 ? listaRequisitos.map(req => `- [X] ${req}`).join('\n') : '- Nenhuma preferência ativa selecionada.'}\n` +
-                        `- Documento de Laudo Anexado: ${nomeLaudoMedico}\n\n`;
+   // 5. MONTAGEM DO TEXTO COM TÍTULOS EM BLOCO (PARA FORÇAR LEITURA AMPLIADA EM .TXT)
+    let dadosEscritos = `\n` +
+                        ` #################################################\n` +
+                        `   R E L A T O R I O   A S S I S T I V O \n` +
+                        `   P O R T A L   T R A M P O L I M \n` +
+                        ` #################################################\n\n\n` +
+                        ` DATA DE EMISSAO: ${new Date().toLocaleDateString('pt-PT')} AS ${new Date().toLocaleTimeString('pt-PT')}\n\n` +
+                        ` -------------------------------------------------\n\n` +
+                        ` [ CONDICOES DE ACESSIBILIDADE SELECIONADAS ]\n\n` +
+                        `${listaRequisitos.length > 0 ? listaRequisitos.map(req => `   =>   [X] ${req.toUpperCase()}`).join('\n\n') : '   =>   - NENHUMA PREFERENCIA SELECIONADA.'}\n\n` +
+                        `   =>   - DOCUMENTO DE LAUDO: ${nomeLaudoMedico.toUpperCase()}\n\n` +
+                        ` -------------------------------------------------\n\n`;
 
     if (blocosInterface.length > 0) {
-        dadosEscritos += `[PREFERÊNCIAS DE INTERFACE VISUAL & ACESSIBILIDADE]:\n` +
-                         blocosInterface.join('\n') + `\n\n`;
+        dadosEscritos += ` [ PREFERENCIAS DE INTERFACE ATIVAS ]\n\n` +
+                         blocosInterface.map(b => `   =>   ${b.toUpperCase()}`).join('\n\n') + `\n\n` +
+                         ` -------------------------------------------------\n\n`;
     }
 
-    dadosEscritos += `[HISTÓRICO DE CANDIDATURAS (Vagas Escolhidas)]:\n` +
-                     `${listaCandidaturas.length > 0 ? listaCandidaturas.map(vaga => `- Categoria/ID: ${vaga}`).join('\n') : '- Nenhuma candidatura realizada nesta sessão.'}\n` +
-                     `===================================================</pre>`;
+    dadosEscritos += ` [ HISTORICO DE CANDIDATURAS ]\n\n` +
+                     `${listaCandidaturas.length > 0 ? listaCandidaturas.map(vaga => `   =>   VAGA ID: ${vaga}`).join('\n\n') : '   =>   - NENHUMA CANDIDATURA REALIZADA.'}\n\n` +
+                     ` #################################################`;
 
-    // 6. DISPARADOR DE DOWNLOAD NATIVO (Continua salvando em .txt normal)
+    // 6. DISPARADOR DE DOWNLOAD 100% LIMPO E SEM ERRO (Salva direto o .txt puro)
     const arquivoBlob = new Blob([dadosEscritos], { type: "text/plain;charset=utf-8" });
     const linkDownload = document.createElement('a');
     linkDownload.href = URL.createObjectURL(arquivoBlob);
