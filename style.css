@@ -998,19 +998,22 @@ body.modo-daltonismo .botao-ajuste-principal {
         width: 100% !important;
         height: auto !important;
         min-height: auto !important;
-        padding: 15px !important;
+        padding: 0px !important; /* Remove espaçamentos extras */
         position: relative !important;
-        background-color: #1e1e1e !important; /* Mantém o fundo escuro original */
+        background: none !important; /* Remove fundos conflitantes */
     }
 
-    /* 2. Mantém apenas a caixinha do Perfil visível na barra lateral */
+    /* 2. Mantém APENAS a nova caixinha bonita do topo visível */
+    .topo-mobile {
+        display: flex !important;
+    }
+
+    /* 3. ESCONDE o texto antigo duplicado que ficou embaixo (a div/classe antiga) */
     .sidebar-perfil {
-        display: block !important;
-        margin-bottom: 0 !important;
-        text-align: left !important;
+        display: none !important; /* Esconde o texto sem foto antigo no celular */
     }
 
-    /* 3. Esconde os botões repetidos da sidebar no celular (já que você já tem o menu inferior) */
+    /* 4. Esconde os menus e botões da barra lateral para não repetir com os de baixo */
     .sidebar-menu, 
     .btn-logout-sidebar {
         display: none !important;
