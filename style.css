@@ -1025,7 +1025,7 @@ body.modo-daltonismo .botao-ajuste-principal {
     code, 
     #aba-ajustes .descricao-ajuste-interno,
     content {
-        font-size: 50px !important; /* Tamanho ideal para leitura no celular */
+        font-size: 16px !important; /* Tamanho ideal para leitura no celular */
         line-height: 1.6 !important; /* Dá um espaço bem amigável entre as linhas */
         word-wrap: break-word !important; /* Impede que o texto saia da tela */
         white-space: pre-wrap !important; /* Quebra as linhas automaticamente */
