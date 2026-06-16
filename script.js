@@ -468,8 +468,7 @@ function baixarFicheiro() {
         blocosInterface.push("- Modo Leitura Focada: Ativo");
     }
 
-    // C. Otimização de Cores (Daltonismo) -> 🚀 AGORA TRATADO COMO BOTÃO DE INTERFACE!
-  // C. Otimização de Cores (Daltonismo)
+    // C. Otimização de Cores (Daltonismo)
     const btnDaltonismo = document.getElementById('btn-daltonismo');
     if (btnDaltonismo && (
         btnDaltonismo.classList.contains('ativo') || 
@@ -480,6 +479,7 @@ function baixarFicheiro() {
     )) {
         blocosInterface.push("- Otimização de Cores (Daltonismo): Ativo");
     }
+
     // D. Reprodutor de Voz
     const btnAudio = document.getElementById('botao-audio');
     const avisoAudio = document.getElementById('aviso-audio');
@@ -490,30 +490,34 @@ function baixarFicheiro() {
     // 4. HISTÓRICO DE CANDIDATURAS
     const listaCandidaturas = (typeof estadoApp !== 'undefined' && estadoApp.candidaturasEfetuadas) ? estadoApp.candidaturasEfetuadas : [];
 
-    // 5. MONTAGEM DO TEXTO DO RELATÓRIO 100% EM PORTUGUÊS
+    // 5. MONTAGEM DO TEXTO DO RELATÓRIO (Adicionado quebras extras \n para dar mais espaçamento e tamanho)
     let dadosEscritos = `===================================================\n` +
                         `RELATÓRIO ASSISTIVO COMPLETO - PORTAL TRAMPOLIM\n` +
-                        `===================================================\n` +
+                        `===================================================\n\n` +
                         `Data de Emissão: ${new Date().toLocaleDateString('pt-PT')} às ${new Date().toLocaleTimeString('pt-PT')}\n\n` +
-                        `[CONDIÇÕES DE ACESSIBILIDADE SELECIONADAS]:\n` +
-                        `${listaRequisitos.length > 0 ? listaRequisitos.map(req => `- [X] ${req}`).join('\n') : '- Nenhuma preferência ativa selecionada.'}\n` +
-                        `- Documento de Laudo Anexado: ${nomeLaudoMedico}\n\n`;
+                        `[CONDIÇÕES DE ACESSIBILIDADE SELECIONADAS]:\n\n` +
+                        `${listaRequisitos.length > 0 ? listaRequisitos.map(req => `- [X] ${req}`).join('\n\n') : '- Nenhuma preferência ativa selecionada.'}\n\n` +
+                        `- Documento de Laudo Anexado: ${nomeLaudoMedico}\n\n\n`;
 
-    // Só adiciona o bloco de interface se alguma das ferramentas estiver de fato ligada
     if (blocosInterface.length > 0) {
-        dadosEscritos += `[PREFERÊNCIAS DE INTERFACE VISUAL & ACESSIBILIDADE]:\n` +
-                         blocosInterface.join('\n') + `\n\n`;
+        dadosEscritos += `[PREFERÊNCIAS DE INTERFACE VISUAL & ACESSIBILIDADE]:\n\n` +
+                         blocosInterface.join('\n\n') + `\n\n\n`;
     }
 
-    dadosEscritos += `[HISTÓRICO DE CANDIDATURAS (Vagas Escolhidas)]:\n` +
-                     `${listaCandidaturas.length > 0 ? listaCandidaturas.map(vaga => `- Categoria/ID: ${vaga}`).join('\n') : '- Nenhuma candidatura realizada nesta sessão.'}\n` +
+    dadosEscritos += `[HISTÓRICO DE CANDIDATURAS (Vagas Escolhidas)]:\n\n` +
+                     `${listaCandidaturas.length > 0 ? listaCandidaturas.map(vaga => `- Categoria/ID: ${vaga}`).join('\n\n') : '- Nenhuma candidatura realizada nesta sessão.'}\n\n` +
                      `===================================================`;
 
-    // 6. DISPARADOR DE DOWNLOAD NATIVO
-    const arquivoBlob = new Blob([dadosEscritos], { type: "text/plain" });
+    // 6. 🚀 DISPARADOR DE DOWNLOAD CORRIGIDO PARA CELULAR (Acentos + Letra Grande)
+    // Adicionamos 'charset=utf-8' para corrigir o erro dos acentos corrompidos
+    const arquivoBlob = new Blob([dadosEscritos], { type: "text/plain;charset=utf-8" });
     const linkDownload = document.createElement('a');
+    
+    // O pulo do gato: criamos uma URL de objeto para o Blob
     linkDownload.href = URL.createObjectURL(arquivoBlob);
     linkDownload.download = tituloFicheiro;
+    
+    // Força a abertura correta
     document.body.appendChild(linkDownload);
     linkDownload.click();
     document.body.removeChild(linkDownload);
