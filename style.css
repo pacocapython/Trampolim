@@ -938,3 +938,61 @@ body.modo-daltonismo .botao-ajuste-principal {
 .hidden {
     display: none !important;
 }
+/* =========================================================================
+   ESTILIZAÇÃO DA ÁREA DO CANDIDATO PARA CELULAR E RESPONSIVIDADE
+   ========================================================================= */
+
+/* Estilos base da barra do topo do celular */
+.topo-mobile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #1e1e1e; /* Cor escura padrão de painéis */
+    padding: 12px 20px;
+    border-bottom: 2px solid #f1c40f; /* Linha amarela assistiva do Trampolim */
+}
+
+.usuario-avatar-mobile {
+    font-size: 22px;
+    background-color: #2a2a2a;
+    padding: 6px 10px;
+    border-radius: 50%;
+}
+
+.usuario-info-mobile {
+    display: flex;
+    flex-direction: column;
+    color: #ffffff;
+}
+
+.tag-mobile {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #f1c40f; /* Texto amarelo */
+    letter-spacing: 1px;
+}
+
+.nome-mobile {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Regras de Media Query para alternar entre PC e Celular */
+@media (max-width: 768px) {
+    /* Garante que o tamanho base da fonte (inclusive relatórios) fique legível no celular */
+    body, pre, p {
+        font-size: 16px !important;
+    }
+
+    /* Mostra a barra do topo no celular */
+    .topo-mobile {
+        display: flex !important;
+    }
+}
+
+@media (min-width: 769px) {
+    /* Esconde a barra do celular quando estiver no Computador */
+    .topo-mobile {
+        display: none !important;
+    }
+}

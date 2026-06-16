@@ -93,6 +93,10 @@ function fazerLogin(event) {
     if (sidebarNome) {
         sidebarNome.textContent = nomeDigitado;
     }
+    const mobileNome = document.getElementById('mobile-nome');
+if (mobileNome) {
+    mobileNome.textContent = nomeDigitado;
+}
 
     if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
     if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
@@ -110,6 +114,10 @@ function pularLoginParaTestes() {
     if (sidebarNome) {
         sidebarNome.textContent = "Convidado de Teste";
     }
+    const mobileNome = document.getElementById('mobile-nome');
+if (mobileNome) {
+    mobileNome.textContent = "Convidado de Teste";
+}
 
     if (typeof mudarParaPainel === 'function') {
         mudarParaPainel();
@@ -134,8 +142,12 @@ function fazerLogout() {
     // 🚀 RESET DA SIDEBAR: Volta a ser "Candidato" ao deslogar
     const sidebarNome = document.getElementById('sidebar-nome');
     if (sidebarNome) {
-        sidebarNome.textContent = "Candidato";
+        sidebarNome.textContent = "Ultilizador";
     }
+    const mobileNome = document.getElementById('mobile-nome');
+if (mobileNome) {
+    mobileNome.textContent = "Utilizador";
+}
 
     if (document.getElementById('campo-nome')) document.getElementById('campo-nome').value = '';
     if (document.getElementById('campo-sexo')) document.getElementById('campo-sexo').value = '';
