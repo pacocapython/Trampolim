@@ -6,7 +6,10 @@ const estadoApp = {
     tamanhoFonteAmpliado: false,
     fonteDislexiaAtiva: false,
     leitorAudioLigado: false,
-    candidaturasEfetuadas: [] 
+    candidaturasEfetuadas: [],
+    nomeUsuario: "",
+    telefoneUsuario: "",
+    sexoUsuario: ""
 };
 
 // 🔄 Busca os cursos reais lá no MySQL
@@ -73,6 +76,7 @@ function fazerLogin(event) {
     if (event) event.preventDefault();
 
     const nomeDigitado = document.getElementById('campo-nome')?.value.trim() || "Candidato";
+    const telefoneDigitado = document.getElementById('campo-numero')?.value.trim() || "Não informado"; // ✅ CAPTURA ADICIONADA AQUI para não quebrar o fetch!
     const sexoSelecionado = document.getElementById('login-sexo')?.value || "Não Informado";
 
     let sexoFinal = sexoSelecionado;
@@ -86,20 +90,43 @@ function fazerLogin(event) {
 
     estadoApp.usuarioConectado = true;
     estadoApp.nomeUsuario = nomeDigitado;
+    estadoApp.telefoneUsuario = telefoneDigitado; // ✅ Guardado no estado do App
     estadoApp.sexoUsuario = sexoFinal;
 
-    // 🚀 ATUALIZA APENAS A SIDEBAR: Coloca o nome que o usuário digitou
+    // 🚀 ATUALIZA SIDEBAR E MOBILE: Coloca o nome que o usuário digitou
     const sidebarNome = document.getElementById('sidebar-nome');
     if (sidebarNome) {
         sidebarNome.textContent = nomeDigitado;
     }
     const mobileNome = document.getElementById('mobile-nome');
-if (mobileNome) {
-    mobileNome.textContent = nomeDigitado;
-}
+    if (mobileNome) {
+        mobileNome.textContent = nomeDigitado;
+    }
 
     if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
     if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
+
+    // ENVIAR OS DADOS PARA O BACK-END
+    const dadosParaEnviar = {
+        nome: nomeDigitado,
+        telefone: telefoneDigitado,
+        genero: sexoFinal
+    };
+
+    fetch('https://trampolim-production.up.railway.app/api/cadastro', { 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dadosParaEnviar)
+    })
+    .then(resposta => resposta.json())
+    .then(dados => {
+        console.log("Resposta do servidor:", dados);
+    })
+    .catch(erro => {
+        console.error("Erro ao enviar dados para o servidor:", erro);
+    });
 
     mudarParaTela('onboarding'); 
 }
@@ -107,31 +134,25 @@ if (mobileNome) {
 function pularLoginParaTestes() {
     estadoApp.usuarioConectado = true;
     estadoApp.nomeUsuario = "Convidado de Teste";
+    estadoApp.telefoneUsuario = "999999999";
     estadoApp.sexoUsuario = "Não Informado";
 
-    // 🚀 ATUALIZA A SIDEBAR: Coloca "Convidado de Teste"
     const sidebarNome = document.getElementById('sidebar-nome');
-    if (sidebarNome) {
-        sidebarNome.textContent = "Convidado de Teste";
-    }
+    if (sidebarNome) sidebarNome.textContent = "Convidado de Teste";
+    
     const mobileNome = document.getElementById('mobile-nome');
-if (mobileNome) {
-    mobileNome.textContent = "Convidado de Teste";
-}
+    if (mobileNome) mobileNome.textContent = "Convidado de Teste";
 
-    if (typeof mudarParaPainel === 'function') {
-        mudarParaPainel();
-    } else {
-        mudarParaTela('vagas');
-        if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
-        if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
-    }
-    mudarParaTela('onboarding'); 
+    if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
+    if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
+
+    mudarParaTela('onboarding'); // Vai para o onboarding primeiro de qualquer forma
 }
 
 function fazerLogout() {
     estadoApp.usuarioConectado = false;
     estadoApp.nomeUsuario = "";
+    estadoApp.telefoneUsuario = "";
     estadoApp.sexoUsuario = ""; 
     
     const containerVagas = document.getElementById('container-vagas');
@@ -139,17 +160,14 @@ function fazerLogout() {
     if (containerVagas) containerVagas.innerHTML = '';
     if (containerCursos) containerCursos.innerHTML = '';
 
-    // 🚀 RESET DA SIDEBAR: Volta a ser "Candidato" ao deslogar
     const sidebarNome = document.getElementById('sidebar-nome');
-    if (sidebarNome) {
-        sidebarNome.textContent = "Ultilizador";
-    }
+    if (sidebarNome) sidebarNome.textContent = "Utilizador";
+    
     const mobileNome = document.getElementById('mobile-nome');
-if (mobileNome) {
-    mobileNome.textContent = "Utilizador";
-}
+    if (mobileNome) mobileNome.textContent = "Utilizador";
 
     if (document.getElementById('campo-nome')) document.getElementById('campo-nome').value = '';
+    if (document.getElementById('campo-numero')) document.getElementById('campo-numero').value = '';
     if (document.getElementById('campo-sexo')) document.getElementById('campo-sexo').value = '';
     if (document.getElementById('login-sexo')) {
         document.getElementById('login-sexo').value = '';
@@ -158,29 +176,28 @@ if (mobileNome) {
 
     mudarParaTela('login');
 }
+
 function verificarGenero() {
     const selectSexo = document.getElementById('login-sexo');
     const areaOutro = document.getElementById('area-outro-genero');
     const inputSexo = document.getElementById('campo-sexo');
     
     if (selectSexo && areaOutro) {
-        // Se o usuário selecionou a opção "Outro"
         if (selectSexo.value === "Outro") {
-            areaOutro.classList.remove('hidden'); // Remove a classe que esconde (mostra na tela)
-            if (inputSexo) inputSexo.required = true; // Torna o campo obrigatório
+            areaOutro.classList.remove('hidden');
+            if (inputSexo) inputSexo.required = true;
         } else {
-            // Se ele escolheu qualquer outra coisa (Masculino, Feminino, etc.)
-            areaOutro.classList.add('hidden'); // Adiciona a classe de volta (esconde da tela)
+            areaOutro.classList.add('hidden');
             if (inputSexo) {
-                inputSexo.value = ""; // Limpa o texto que o usuário tinha digitado
-                inputSexo.required = false; // Tira a obrigatoriedade para conseguir fazer login
+                inputSexo.value = "";
+                inputSexo.required = false;
             }
         }
     }
 }
 
 /* =========================================================================
-   7. GERADOR DINÂMICO DE VAGAS NO HTML (CORRIGIDO ERRO DE VARIÁVEL)
+   7. GERADOR DINÂMICO DE VAGAS NO HTML
    ========================================================================= */
 function carregarVagas(listaDeVagas) {
     const container = document.getElementById('container-vagas');
@@ -188,14 +205,12 @@ function carregarVagas(listaDeVagas) {
     container.innerHTML = "";   
 
     if (!listaDeVagas || listaDeVagas.length === 0) {
-        container.innerHTML = `<p style="color: white; padding: 20px;">Nenhuma vaga encontrada no banco de dados ou rota /api/vagas não configurada no servidor.</p>`;
+        container.innerHTML = `<p style="color: white; padding: 20px;">Nenhuma vaga encontrada no banco de dados.</p>`;
         return;
     }
 
     listaDeVagas.forEach(vaga => {
         let tagsHTML = "";
-        
-        // Trata as tags caso venham como string separada por vírgula do banco
         const tags = Array.isArray(vaga.tags) ? vaga.tags : (vaga.tags ? vaga.tags.split(',') : []);
         tags.forEach(tag => {
             if(tag.trim()) {
@@ -207,7 +222,6 @@ function carregarVagas(listaDeVagas) {
         const classeBotao = jaCandidatado ? "botao-secundario" : "botao-principal";
         const textoBotao = jaCandidatado ? "Candidatado ✓" : "Candidatar-se";
 
-        // Mapeamento idêntico ao das colunas criadas na sua tabela do MySQL
         const idVaga = vaga.id || "Não informado";
         const cargoVaga = vaga.cargo || "Vaga Sem Título";
         const empresaVaga = vaga.empresa || "Empresa Não Informada";
@@ -215,34 +229,27 @@ function carregarVagas(listaDeVagas) {
         const salarioVaga = vaga.salario || "Não informado";
         const descricaoVaga = vaga.descricao || "Sem descrição disponível.";
 
-        // CORRIGIDO: Agora usa cargoVaga e empresaVaga certinho sem quebrar o JavaScript
         const cardHtml = `
             <div class="card-vaga">
                 <div class="vaga-conteudo">
                     <span class="vaga-empresa">${empresaVaga}</span>
                     <h3 class="vaga-titulo">${cargoVaga}</h3>
                     <p class="vaga-info">📍 ${localVaga} | Salário: ${salarioVaga}</p>
-                    
                     <div>${tagsHTML}</div>
-
-                    <p class="vaga-descricao">
-                        ${descricaoVaga}
-                    </p>
+                    <p class="vaga-descricao">${descricaoVaga}</p>
                 </div>
-
                 <div class="vaga-botoes-container">
                     <button onclick="ouvirAudioVaga('${cargoVaga}', '${empresaVaga}')" class="botao botao-secundario btn-audio-vaga" title="Ouvir descrição por áudio">🔊</button>
                     <button onclick="enviarInscricao('${idVaga}')" ${jaCandidatado ? 'disabled' : ''} class="botao ${classeBotao} btn-candidatar-vaga">${textoBotao}</button>
                 </div>
             </div>
         `;
-
         container.innerHTML += cardHtml;
     });
 }
 
 /* =========================================================================
-   8. GERADOR DINÂMICO DE CURSOS NO HTML (CORRIGIDO PARA DAR PLAY)
+   8. GERADOR DINÂMICO DE CURSOS NO HTML
    ========================================================================= */
 function carregarCursos(listaDeCursos) {
     const container = document.getElementById('container-cursos');
@@ -254,11 +261,9 @@ function carregarCursos(listaDeCursos) {
         return;
     }
 
-    // Salva globalmente os dados para o clique do Play encontrar
     window.listaCursosGlobal = listaDeCursos;
 
     listaDeCursos.forEach(curso => {
-        // Trata o booleano vindo como string do banco ('false' ou false)
         const estaConcluido = curso.concluido === true || curso.concluido === 'true';
         const statusTexto = estaConcluido ? "Assistido ✓" : "Não assistido";
         const larguraProgresso = estaConcluido ? "100%" : "30%";
@@ -274,17 +279,13 @@ function carregarCursos(listaDeCursos) {
                     <div class="video-overlay">
                         <button onclick="assistirVideo('${idString}')" class="botao botao-principal btn-play-video">▶</button>
                     </div>
-
                     <span class="video-palestrante-tag">🎤 ${palestranteCurso}</span>
-
                     <div class="legenda-video">
                         <p class="video-legenda-texto">${textoLegenda}</p>
                     </div>
                 </div>
-
                 <div class="curso-info-container">
                     <h4 class="curso-titulo">${tituloCurso}</h4>
-                    
                     <div class="curso-progresso-wrapper">
                         <div class="curso-progresso-textos">
                             <span>Progresso do Utilizador</span>
@@ -297,26 +298,22 @@ function carregarCursos(listaDeCursos) {
                 </div>
             </div>
         `;
-
         container.innerHTML += cursoHtml;
     });
 }
 
 /* =========================================================================
-   9. INTERAÇÕES E MODAIS (PLAY FUNCIONANDO)
+   9. INTERAÇÕES E MODAIS
    ========================================================================= */
 function assistirVideo(idCurso) {
     if (!window.listaCursosGlobal) return;
     
-    // Procura o curso na lista global viva
     const curso = window.listaCursosGlobal.find(c => String(c.id) === String(idCurso));
     
     if (curso) {
-        curso.concluido = true; // Muda o status na memória
-        carregarCursos(window.listaCursosGlobal); // Redesenha a tela na hora com a barra 100%
+        curso.concluido = true;
+        carregarCursos(window.listaCursosGlobal);
         falarMensagemAudio(`Iniciando a aula de: ${curso.titulo}`);
-    } else {
-        console.error("Não foi possível dar play no vídeo de ID:", idCurso);
     }
 }
 
@@ -324,7 +321,6 @@ function enviarInscricao(idVaga) {
     if (!estadoApp.candidaturasEfetuadas.includes(idVaga)) {
         estadoApp.candidaturasEfetuadas.push(idVaga);
         document.getElementById('modal-sucesso').classList.remove('hidden');
-        
         if (window.listaVagasGlobal) {
             carregarVagas(window.listaVagasGlobal);
         }
@@ -386,12 +382,11 @@ function alternarLeitorAudio() {
 
 function falarTextoAudio(textoParaFalar) {
     if (!('speechSynthesis' in window)) return;
-
     window.speechSynthesis.cancel(); 
 
     const fala = new SpeechSynthesisUtterance(textoParaFalar);
     fala.lang = 'pt-PT'; 
-    fala.rate = 1.1;     
+    fala.rate = 1.1;         
 
     const banner = document.getElementById('aviso-audio');
     const textoDoBanner = document.getElementById('texto-leitura');
@@ -443,33 +438,26 @@ function baixarFicheiro() {
     const visualAtiva = filtroVisual && filtroVisual.checked ? "Necessita: Apoio para Deficiência Visual" : null;
     const auditivaAtiva = filtroAuditiva && filtroAuditiva.checked ? "Necessita: Apoio para Deficiência Auditiva" : null;
 
-    // Junta apenas as opções marcadas nos checkboxes
     const listaRequisitos = [rampaAtiva, homeofficeAtiva, librasAtiva, neuroAtiva, visualAtiva, auditivaAtiva].filter(Boolean);
 
-    // 2. CAPTURA DO LAUDO MÉDICO ANEXADO
     const inputLaudo = document.getElementById('upload-comprovante');
     let nomeLaudoMedico = "Não anexado";
     if (inputLaudo && inputLaudo.files && inputLaudo.files.length > 0) {
         nomeLaudoMedico = inputLaudo.files[0].name;
     }
 
-    // 3. 🕵️‍♂️ DETECTOR DE INTERFACE (SÓ ENTRA NO RELATÓRIO SE ESTIVER LIGADO NA HORA)
     let blocosInterface = [];
 
-    // A. Letra Ampliada
     const btnTamanho = document.getElementById('btn-tamanho-letra');
     if (document.body.classList.contains('fonte-grande') || document.body.classList.contains('texto-grande') || (btnTamanho && btnTamanho.textContent.includes('A-'))) {
         blocosInterface.push("- Letra Ampliada (A+): Ativo");
     }
 
-    // B. Modo Leitura Focada
     const btnLeitura = document.getElementById('btn-modo-leitura');
     if ((btnLeitura && btnLeitura.classList.contains('ativo')) || (btnLeitura && btnLeitura.textContent.toLowerCase().includes('desativar')) || (btnLeitura && btnLeitura.style.backgroundColor !== "")) {
         blocosInterface.push("- Modo Leitura Focada: Ativo");
     }
 
-    // C. Otimização de Cores (Daltonismo) -> 🚀 AGORA TRATADO COMO BOTÃO DE INTERFACE!
-  // C. Otimização de Cores (Daltonismo)
     const btnDaltonismo = document.getElementById('btn-daltonismo');
     if (btnDaltonismo && (
         btnDaltonismo.classList.contains('ativo') || 
@@ -480,36 +468,35 @@ function baixarFicheiro() {
     )) {
         blocosInterface.push("- Otimização de Cores (Daltonismo): Ativo");
     }
-    // D. Reprodutor de Voz
+
     const btnAudio = document.getElementById('botao-audio');
     const avisoAudio = document.getElementById('aviso-audio');
     if ((avisoAudio && !avisoAudio.classList.contains('hidden')) || (btnAudio && btnAudio.classList.contains('ativo')) || (btnAudio && btnAudio.title.toLowerCase().includes('desativar')) || (btnAudio && btnAudio.textContent.toLowerCase().includes('parar'))) {
         blocosInterface.push("- Reprodutor de Voz de Apoio: Ativo");
     }
 
-    // 4. HISTÓRICO DE CANDIDATURAS
-    const listaCandidaturas = (typeof estadoApp !== 'undefined' && estadoApp.candidaturasEfetuadas) ? estadoApp.candidaturasEfetuadas : [];
+    const listaCandidaturas = estadoApp.candidaturasEfetuadas || [];
 
-    // 5. MONTAGEM DO TEXTO DO RELATÓRIO 100% EM PORTUGUÊS
     let dadosEscritos = `===================================================\n` +
                         `RELATÓRIO ASSISTIVO COMPLETO - PORTAL TRAMPOLIM\n` +
                         `===================================================\n` +
                         `Data de Emissão: ${new Date().toLocaleDateString('pt-PT')} às ${new Date().toLocaleTimeString('pt-PT')}\n\n` +
+                        `[DADOS DO CANDIDATO]:\n` +
+                        `- Nome de Usuário: ${estadoApp.nomeUsuario || "Não informado"}\n` +
+                        `- Telefone:        ${estadoApp.telefoneUsuario || "Não informado"}\n` +
+                        `- Sexo / Gênero:   ${estadoApp.sexoUsuario || "Não informado"}\n\n` +
                         `[CONDIÇÕES DE ACESSIBILIDADE SELECIONADAS]:\n` +
                         `${listaRequisitos.length > 0 ? listaRequisitos.map(req => `- [X] ${req}`).join('\n') : '- Nenhuma preferência ativa selecionada.'}\n` +
                         `- Documento de Laudo Anexado: ${nomeLaudoMedico}\n\n`;
 
-    // Só adiciona o bloco de interface se alguma das ferramentas estiver de fato ligada
     if (blocosInterface.length > 0) {
-        dadosEscritos += `[PREFERÊNCIAS DE INTERFACE VISUAL & ACESSIBILIDADE]:\n` +
-                         blocosInterface.join('\n') + `\n\n`;
+        dadosEscritos += `[PREFERÊNCIAS DE INTERFACE VISUAL & ACESSIBILIDADE]:\n` + blocosInterface.join('\n') + `\n\n`;
     }
 
     dadosEscritos += `[HISTÓRICO DE CANDIDATURAS (Vagas Escolhidas)]:\n` +
                      `${listaCandidaturas.length > 0 ? listaCandidaturas.map(vaga => `- Categoria/ID: ${vaga}`).join('\n') : '- Nenhuma candidatura realizada nesta sessão.'}\n` +
                      `===================================================`;
 
-    // 6. DISPARADOR DE DOWNLOAD NATIVO
     const arquivoBlob = new Blob([dadosEscritos], { type: "text/plain" });
     const linkDownload = document.createElement('a');
     linkDownload.href = URL.createObjectURL(arquivoBlob);
@@ -518,6 +505,7 @@ function baixarFicheiro() {
     linkDownload.click();
     document.body.removeChild(linkDownload);
 }
+
 /* =========================================================================
    13. LÓGICA DE PASSOS DO TUTORIAL (ONBOARDING)
    ========================================================================= */
@@ -550,56 +538,41 @@ function proximoPasso(numeroPasso) {
 function mudarParaPainel() {
     mudarParaTela('vagas');
     carregarVagasDoBanco();
-    carregarCursosDoBanco();
-    
-    if (typeof carregarCursosDoBanco === 'function') {
-        carregarCursosDoBanco();
-    }
+    carregarCursosDoBanco(); // Executa uma única vez perfeitamente!
 }
+
 async function carregarVagasDoBanco() {
     try {
         const resposta = await fetch('https://trampolim-production.up.railway.app/api/vagas');
         const vagasDoMySQL = await resposta.json();
         
         console.log("VAGAS DO BANCO:", vagasDoMySQL);
-
         window.listaVagasGlobal = vagasDoMySQL;
-        
-        // 🚀 CONFIRA ESTA LINHA: Garanta que o nome esteja idêntico 
-        // ao da função que vimos no print anterior (linha 101)!
         carregarVagas(vagasDoMySQL);            
         
     } catch (erro) {
         console.error("Erro ao puxar as vagas:", erro);
     }
 }
-// Inicializações Automáticas ao abrir a página
-mudarParaTela('login');
+
 function salvarPerfil(event) {
-    // Trava o refresh da página
-    event.preventDefault(); 
-    
+    if (event) event.preventDefault(); 
     console.log("Requisitos salvos com sucesso!");
-    
-    // Avança para as vagas com a memória intacta
     mudarParaTela('vagas'); 
 }
+
 function mostrarNomeDoArquivo() {
-    // 1. Pega o input de arquivo e o local onde o texto deve aparecer
     const input = document.getElementById('upload-comprovante');
     const textoNome = document.getElementById('nome-arquivo-selecionado');
 
-    // 2. Verifica se os elementos existem e se o usuário realmente escolheu um arquivo
     if (input && textoNome && input.files && input.files.length > 0) {
-        // Pega o nome do primeiro arquivo selecionado
-        const nomeDoArquivo = input.files[0].name;
-        
-        // Substitui o "Nenhum arquivo selecionado" pelo nome real do arquivo!
-        textoNome.textContent = "📄 " + nomeDoArquivo;
-        textoNome.style.color = "#007bff"; // Opcional: muda a cor pra dar um destaque de sucesso
+        textoNome.textContent = "📄 " + input.files[0].name;
+        textoNome.style.color = "#007bff"; 
     } else if (textoNome) {
-        // Caso dê algum erro ou limpe a seleção, volta ao texto padrão
         textoNome.textContent = "Nenhum arquivo selecionado";
         textoNome.style.color = ""; 
     }
 }
+
+// Inicialização Inicial obrigatória
+mudarParaTela('login');
