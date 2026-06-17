@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql2/promise');
+const mysql = require('mysql2/promise'); // 1. Mudança aqui: Importação com Promises
 const cors = require('cors');
 
 const app = express();
@@ -19,31 +19,38 @@ const db = mysql.createPool({
     queueLimit: 0
 });
 
-app.get('/api/cursos', (req, res) => {
-    db.query('SELECT * FROM cursos', (err, results) => {
-        if (err) return res.status(500).json({ error: err.message });
+// 2. Mudança aqui: Rota cursos atualizada para async/await
+app.get('/api/cursos', async (req, res) => {
+    try {
+        const [results] = await db.query('SELECT * FROM cursos');
         res.json(results);
-    });
+    } catch (err) {
+        console.error("Erro em cursos:", err);
+        res.status(500).json({ error: err.message });
+    }
 });
 
-app.get('/api/vagas', (req, res) => {
-    db.query('SELECT * FROM vagas', (err, results) => {
-        if (err) return res.status(500).json({ error: err.message });
+// 3. Mudança aqui: Rota vagas atualizada para async/await
+app.get('/api/vagas', async (req, res) => {
+    try {
+        const [results] = await db.query('SELECT * FROM vagas');
         res.json(results);
-    });
+    } catch (err) {
+        console.error("Erro em vagas:", err);
+        res.status(500).json({ error: err.message });
+    }
 });
+
+// 4. Mudança aqui: Rota cadastro completa salvando todos os campos
 app.post('/api/cadastro', async (req, res) => {
-    // 1. Pegamos TODOS os dados que o front-end está a enviar
     const { nome, email, telefone, cpf, senha, genero, perfil_assistivo } = req.body;
 
     try {
-        // 2. A query agora inclui todos os campos da tabela
         const query = `
             INSERT INTO usuarios (nome, email, telefone, cpf, senha, genero, perfil_assistivo) 
             VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
         
-        // 3. Passamos todas as variáveis na ordem certa das interrogações
         await db.query(query, [nome, email, telefone, cpf, senha, genero, perfil_assistivo]);
 
         res.status(201).json({ 
@@ -52,7 +59,7 @@ app.post('/api/cadastro', async (req, res) => {
         });
     } catch (erro) {
         console.error("Erro ao salvar usuário no MySQL:", erro);
-        res.status(500).json({ sucesso: false, erro: "Erro ao salvar os dados no banco." });
+        res.status(500).json({ sucesso: false, erro: erro.message });
     }
 });
 
