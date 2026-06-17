@@ -8,21 +8,19 @@ app.use(cors());
 app.use(express.json());
 
 // 🔌 Conexão Inteligente: Usa o Railway em produção ou o XAMPP no seu PC
-const db = mysql.createConnection({
+// 🔌 Conexão Inteligente e Estável com Pool
+const db = mysql.createPool({
     host: process.env.MYSQLHOST,
     user: process.env.MYSQLUSER,
     password: process.env.MYSQLPASSWORD, 
     database: process.env.MYSQLDATABASE,
-    port: process.env.MYSQLPORT
+    port: process.env.MYSQLPORT,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
-db.connect((err) => {
-    if (err) {
-        console.error('❌ Erro ao conectar ao MySQL:', err);
-        return;
-    }
-    console.log('✅ Conectado ao banco de dados com sucesso.');
-});
+// Nota: O Pool não precisa do comando "db.connect()", ele conecta sozinho quando recebe requisições!
 
 // 🛣️ Rota para buscar os cursos
 app.get('/api/cursos', (req, res) => {
