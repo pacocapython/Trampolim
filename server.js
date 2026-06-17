@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const cors = require('cors');
 
 const app = express();
@@ -33,26 +33,26 @@ app.get('/api/vagas', (req, res) => {
     });
 });
 app.post('/api/cadastro', async (req, res) => {
-    // 1. Desestruture os dados que o 'dadosParaEnviar' do front está disparando
-    const { nome, telefone, genero } = req.body;
+    // 1. Pegamos TODOS os dados que o front-end está a enviar
+    const { nome, email, telefone, cpf, senha, genero, perfil_assistivo } = req.body;
 
     try {
-        // 2. Monte o INSERT respeitando os campos exatos da sua tabela 'usuarios'
+        // 2. A query agora inclui todos os campos da tabela
         const query = `
-            INSERT INTO usuarios (nome, telefone, genero) 
-            VALUES (?, ?, ?)
+            INSERT INTO usuarios (nome, email, telefone, cpf, senha, genero, perfil_assistivo) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
         
-        // 3. Passe o array de valores na mesma ordem dos pontos de interrogação
-        await db.query(query, [nome, telefone, genero]);
+        // 3. Passamos todas as variáveis na ordem certa das interrogações
+        await db.query(query, [nome, email, telefone, cpf, senha, genero, perfil_assistivo]);
 
         res.status(201).json({ 
             sucesso: true, 
-            mensagem: "Candidato registrado com sucesso no trampolim_db!" 
+            mensagem: "Candidato registrado com sucesso com todos os dados!" 
         });
     } catch (erro) {
         console.error("Erro ao salvar usuário no MySQL:", erro);
-        res.status(500).json({ sucesso: false, erro: "Erro ao conectar com a base de dados." });
+        res.status(500).json({ sucesso: false, erro: "Erro ao salvar os dados no banco." });
     }
 });
 
