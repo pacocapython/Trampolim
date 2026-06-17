@@ -4,10 +4,11 @@ const mysql = require('mysql2');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+
+// 🔓 Ativa o CORS para liberar o acesso do celular e da Vercel
+app.use(cors()); 
 app.use(express.json());
 
-// 🔌 Conexão Inteligente: Usa o Railway em produção ou o XAMPP no seu PC
 // 🔌 Conexão Inteligente e Estável com Pool
 const db = mysql.createPool({
     host: process.env.MYSQLHOST,
@@ -19,8 +20,6 @@ const db = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0
 });
-
-// Nota: O Pool não precisa do comando "db.connect()", ele conecta sozinho quando recebe requisições!
 
 // 🛣️ Rota para buscar os cursos
 app.get('/api/cursos', (req, res) => {

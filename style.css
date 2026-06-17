@@ -1,7 +1,5 @@
-/* =========================================================================
-   1. VARIÁVEIS DE CORES & ALTO CONTRASTE (WCAG)
-   ========================================================================= */
-:root {
+/* 1. Variáveis de Cores e Alto Contraste: Define a paleta de cores principal e os códigos hexadecimais para garantir acessibilidade visual. */
+:root { 
     --azul-escuro: #091124;    /* Fundo principal */
     --azul-card: #142244;      /* Fundo dos cartões e caixas */
     --azul-borda: #1E315D;     /* Bordas de separação */
@@ -11,9 +9,7 @@
     --cinza-claro: #D1D5DB;
 }
 
-/* =========================================================================
-   2. REGRAS GERAIS E ACESSIBILIDADE
-   ========================================================================= */
+/* 2. Regras Gerais e Acessibilidade: Configura o reset de margens, define a fonte padrão do corpo e ativa os destaques de navegação via teclado. */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -21,8 +17,7 @@
 }
 
 body {
-    background-color: #030712; /* Tom quase preto para contraste máximo */
-    color: var(--branco);
+    background-color: #030712; 
     font-family: system-ui, -apple-system, sans-serif;
     min-height: 100vh;
     display: flex;
@@ -36,24 +31,16 @@ body {
     outline-offset: 2px !important;
 }
 
-/* Suporte para Dislexia */
-.fonte-dislexia {
-    font-family: 'Comic Sans MS', cursive, sans-serif !important;
-    letter-spacing: 0.06em;
-}
-
-/* Controle dinâmico do tamanho do texto via JavaScript */
+/* Controle dinâmico do tamanho do texto via JS */
 .texto-padrao { font-size: 16px; }
 .texto-grande { font-size: 20px; }
 
-/* Classe utilitária para ocultar elementos */
+/* Classe para ocultar elemetnos */
 .hidden {
     display: none !important;
 }
 
-/* =========================================================================
-   3. CABEÇALHO GLOBAL
-   ========================================================================= */
+/* 3. Cabeçalho Global: Estiliza a barra de navegação superior fixa, posicionando a logotipo e a área de acessibilidade do topo. */
 .cabecalho {
     background-color: var(--azul-escuro);
     border-bottom: 3px solid var(--amarelo-acao);
@@ -96,9 +83,7 @@ body {
     gap: 8px;
 }
 
-/* =========================================================================
-   4. BOTÕES PADRÃO
-   ========================================================================= */
+/* 4. Botões Padrão: Define o design estrutural, cantos arredondados, transições e cores dos botões principais e secundários do sistema. */
 .botao {
     font-weight: 800;
     text-transform: uppercase;
@@ -131,9 +116,7 @@ body {
     background-color: var(--azul-borda);
 }
 
-/* =========================================================================
-   5. INTERFACES DE FLUXO (LOGIN & ONBOARDING)
-   ========================================================================= */
+/* 5. Interfaces de Fluxo (Login e Onboarding): Controla o visual centralizado das telas de autenticação, campos de formulário e a animação dos passos do tutorial. */
 .secao-login, .tela-centrada {
     flex: 1;
     display: flex;
@@ -195,7 +178,6 @@ body {
     outline: none;
 }
 
-/* Controle dos passos do Tutorial */
 .passo-tutorial {
     display: none; 
     animation: fadeIn 0.3s ease-in-out;
@@ -210,9 +192,7 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* =========================================================================
-   6. PAINEL DASHBOARD (COMPUTADOR / TELAS GRANDES)
-   ========================================================================= */
+/* 6. Painel Dashboard (Telas Grandes): Estiliza a estrutura de layout para computadores, cuidando do menu lateral esquerdo e da área de conteúdo central. */
 .dashboard-container {
     flex: 1;
     display: flex;
@@ -220,12 +200,11 @@ body {
     background-color: var(--azul-escuro);
 }
 
-/* Menu Lateral (PC) */
 .sidebar {
     background-color: var(--azul-card);
     border-right: 2px solid var(--azul-borda);
     padding: 24px;
-    display: none; /* Escondido no mobile, ativado via Media Query */
+    display: none; 
     flex-direction: column;
     gap: 24px;
     width: 280px;
@@ -270,7 +249,7 @@ body {
     color: var(--azul-escuro);
 }
 
-/* Área de Conteúdo Central */
+/* area de conteúdo central */
 .conteúdo-principal {
     flex: 1;
     padding: 24px;
@@ -280,14 +259,12 @@ body {
     margin: 0 auto;
 }
 
-/* Por padrão, esconde a barra inferior em telas de desktop */
+/* esconde a barra inferior em telas de compuiterss */
 .nav-inferior {
     display: none !important;
 }
 
-/* =========================================================================
-   7. CARDS INTERNALIZADOS & COMPONENTES
-   ========================================================================= */
+/* 7. Cards Internalizados e Componentes: Configura os blocos de listagem de vagas e cursos, além de estilizar os elementos internos como tags, checkboxes e o player de vídeo. */
 .banner-aba {
     background-color: var(--azul-card);
     border: 2px solid var(--azul-borda);
@@ -364,9 +341,7 @@ body {
     text-align: center;
 }
 
-/* =========================================================================
-   8. MODAIS
-   ========================================================================= */
+/* 8. Modais: Cria a camada escura de fundo e centraliza as caixas de alerta ou mensagens que flutuam sobre a tela. */
 .overlay-modal {
     position: fixed;
     inset: 0;
@@ -389,11 +364,7 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-/* =========================================================================
-   9. INTERFACES ADAPTATIVAS DE ACESSIBILIDADE (CONTROLADO POR JS)
-   ========================================================================= */
-
-/* --- Aumento de Letra Proporcional --- */
+/* 9. Interfaces Adaptativas (JS): Modifica dinamicamente tamanhos de fonte, espaçamentos, contrastes e cores de botões para os modos Dislexia, TDAH e Daltonismo. */
 body.texto-maior * {
     font-size: 105% !important; 
 }
@@ -404,7 +375,7 @@ body.texto-maior h3,
 body.texto-maior h4,
 body.texto-maior label,
 body.texto-maior .card-vaga * {
-    font-size: 115% !important; /* Aumento extra focado em conteúdos de leitura */
+    font-size: 115% !important; 
     line-height: 1.5 !important;
 }
 
@@ -414,7 +385,7 @@ body.texto-maior button {
     height: auto !important;
 }
 
-/* --- Modo Leitura Dinâmico (TDAH / Foco) --- */
+/* modo leitura*/
 body.modo-leitura .opcao-checkbox, 
 body.modo-leitura .card-vaga,
 body.modo-leitura .banner-aba {
@@ -427,21 +398,19 @@ body.modo-leitura p {
     line-height: 1.7 !important;
 }
 
-/* --- Modo Daltonismo --- */
+/* modo daltonismo*/
 body.modo-daltonismo {
     filter: contrast(120%) saturate(85%) hue-rotate(15deg) !important;
 }
 
 body.modo-daltonismo .botao-ajuste-principal {
-    background-color: #3182ce !important; /* Troca para azul de alta acessibilidade visual */
+    background-color: #3182ce !important; 
     color: #fff !important;
 }
 
-/* =========================================================================
-   10. MEDIA QUERIES (RESPONSIVIDADE E EXCLUSIVIDADE MOBILE)
-   ========================================================================= */
+/* 10. Media Queries (Responsividade Mobile): Remove elementos de computador nas telas menores e estiliza a barra de navegação inferior fixa com seus respectivos botões para celulares. */
 
-/* Dispositivos de Médio/Grande Porte (Computadores e Tablets deitados) */
+/* computadores e tablets */
 @media (min-width: 768px) {
     .dashboard-container {
         flex-direction: row; 
@@ -454,15 +423,15 @@ body.modo-daltonismo .botao-ajuste-principal {
     }
 }
 
-/* Dispositivos Móveis (Celulares / Telas até 768px) */
+/* celulares */
 @media (max-width: 768px) {
     
-    /* Esconde completamente as estruturas de computador */
+    /* Esconde as estruturas de computador */
     .sidebar, .barra-lateral, #sidebar, .sidebar-container, div[style*="width: 250px"] {
         display: none !important;
     }
 
-    /* Mostra e fixa a barra mobile de forma limpa no rodapé */
+    /* Mostra a barra mobile */
     .nav-inferior {
         display: flex !important;
         position: fixed !important;
@@ -478,7 +447,7 @@ body.modo-daltonismo .botao-ajuste-principal {
         padding: 5px 0 !important;
     }
 
-    /* Estilização individual dos botões mobiles */
+    /* estilizacao dos botões mobiles */
     .btn-mobile {
         background: none !important;
         border: none !important;
@@ -495,22 +464,17 @@ body.modo-daltonismo .botao-ajuste-principal {
         height: 100% !important;
     }
 
-    /* Feedback de Aba Ativa */
     .btn-mobile.ativo {
         color: var(--amarelo-acao, #ffcc00) !important;
         font-weight: bold !important;
     }
 
-    /* Adiciona margem de segurança no fundo do app para rolar conteúdo além do menu */
     body, .container-principal, main, .main-content, .conteúdo-principal {
         margin-bottom: 75px !important;
     }
 }
-/* =========================================================================
-   11. CORREÇÃO DE ESTILOS INLINE (REMOÇÃO DE RASTROS DE IA)
-   ========================================================================= */
+/* 11. Correção de Estilos Inline: Centraliza e limpa as estilizações de botões de áudio, alertas flutuantes, formulários de perfil e contêineres de upload de laudo. */
 
-/* Topo / Acessibilidade */
 .btn-audio-topo {
     padding: 8px 12px; 
     border-radius: 10px;
@@ -527,7 +491,6 @@ body.modo-daltonismo .botao-ajuste-principal {
     font-size: 14px;
 }
 
-/* Alerta de Áudio Flutuante */
 .alerta-audio-flutuante {
     position: fixed; 
     top: 80px; 
@@ -556,7 +519,6 @@ body.modo-daltonismo .botao-ajuste-principal {
     cursor: pointer;
 }
 
-/* Formulários e Login */
 .formulario-login {
     display: flex; 
     flex-direction: column; 
@@ -577,7 +539,6 @@ body.modo-daltonismo .botao-ajuste-principal {
     color: #FACC15;
 }
 
-/* Onboarding / Tutorial */
 .caixa-onboarding-tamanho {
     max-width: 600px;
 }
@@ -596,7 +557,7 @@ body.modo-daltonismo .botao-ajuste-principal {
 
 .texto-passo-tutorial {
     font-size: 18px; 
-    color: var(--cinza-claro); /* Ajustado para usar sua variável de cinza */
+    color: var(--cinza-claro); 
     line-height: 1.5; 
     margin-bottom: 25px;
 }
@@ -619,7 +580,6 @@ body.modo-daltonismo .botao-ajuste-principal {
     background: var(--amarelo-acao);
 }
 
-/* Sidebar e Menus */
 .sidebar-tag-usuario {
     font-size: 12px; 
     color: var(--amarelo-acao); 
@@ -639,7 +599,6 @@ body.modo-daltonismo .botao-ajuste-principal {
     color: red;
 }
 
-/* Ajustes e Configurações */
 .aba-perfil-espacamento {
     margin-bottom: 24px;
 }
@@ -659,7 +618,7 @@ body.modo-daltonismo .botao-ajuste-principal {
 
 @media (min-width: 768px) {
     .grid-checkbox-perfil {
-        grid-template-columns: 1fr 1fr; /* Mantém as duas colunas no computador */
+        grid-template-columns: 1fr 1fr; 
     }
 }
 
@@ -727,7 +686,7 @@ body.modo-daltonismo .botao-ajuste-principal {
 
 @media (min-width: 768px) {
     .container-ajustes-flex {
-        flex-direction: row; /* Coloca um do lado do outro no PC */
+        flex-direction: row; 
     }
 }
 
@@ -756,7 +715,6 @@ body.modo-daltonismo .botao-ajuste-principal {
     gap: 8px;
 }
 
-/* Modais */
 .icone-sucesso-modal {
     background-color: var(--amarelo-acao); 
     color: var(--azul-escuro); 
@@ -783,11 +741,7 @@ body.modo-daltonismo .botao-ajuste-principal {
     margin-bottom: 24px; 
     color: var(--branco);
 }
-/* =========================================================================
-   12. CLASSES DE HIGIENIZAÇÃO (HTML DINÂMICO DO SCRIPT.JS)
-   ========================================================================= */
-
-/* --- Card de Vagas --- */
+/* 12. Classes de Higienização (Injeção via JS): Define o visual das estruturas de texto, nomes de empresas, descrições e barras de progresso geradas dinamicamente pelo script. */
 .vaga-conteudo {
     display: flex; 
     flex-direction: column; 
@@ -835,7 +789,6 @@ body.modo-daltonismo .botao-ajuste-principal {
     flex-grow: 1;
 }
 
-/* --- Card de Cursos / Vídeos --- */
 .video-overlay {
     position: absolute; 
     inset: 0; 
@@ -917,7 +870,6 @@ body.modo-daltonismo .botao-ajuste-principal {
     transition: width 0.3s;
 }
 
-/* --- Estados de Interação JS (Upload e Leitor de Áudio) --- */
 .texto-arquivo-valido {
     color: #48bb78 !important;
 }
@@ -938,14 +890,13 @@ body.modo-daltonismo .botao-ajuste-principal {
 .hidden {
     display: none !important;
 }
-/* Estilo da barrinha do topo do celular */
 .topo-mobile {
-    background-color: #0b1a30; /* Fundo escuro combinando com o app */
+    background-color: #0b1a30; 
     padding: 12px 20px;
     display: flex;
     align-items: center;
     gap: 12px;
-    border-bottom: 2px solid #f1c40f; /* Linha amarela do Trampolim */
+    border-bottom: 2px solid #f1c40f; 
 }
 
 .usuario-avatar-mobile {
@@ -964,7 +915,7 @@ body.modo-daltonismo .botao-ajuste-principal {
 .tag-mobile {
     font-size: 11px;
     text-transform: uppercase;
-    color: #f1c40f; /* Texto "Candidato" em amarelo */
+    color: #f1c40f; 
     letter-spacing: 1px;
 }
 
@@ -975,59 +926,51 @@ body.modo-daltonismo .botao-ajuste-principal {
 
 /* REGRAS DE TELA (RESPONSIVIDADE) */
 @media (max-width: 768px) {
-    /* No celular: Mostra a barra do topo */
     .topo-mobile {
         display: flex !important;
     }
 }
 
 @media (min-width: 769px) {
-    /* No computador: Esconde a barra do topo para não duplicar */
     .topo-mobile {
         display: none !important;
     }
 }
-/* =========================================================================
-   FORÇAR A ÁREA DO PERFIL A APARECER NO CELULAR
-   ========================================================================= */
+/* 14. Forçar Perfil no Celular: Ajusta o comportamento da barra lateral antiga no ambiente mobile, escondendo textos duplicados e mantendo apenas a nova caixa do topo ativa. */
 
 @media (max-width: 768px) {
-    /* 1. Faz a barra lateral (sidebar) virar um bloco visível no topo da tela do celular */
     .sidebar {
         display: block !important;
         width: 100% !important;
         height: auto !important;
         min-height: auto !important;
-        padding: 0px !important; /* Remove espaçamentos extras */
+        padding: 0px !important;
         position: relative !important;
-        background: none !important; /* Remove fundos conflitantes */
+        background: none !important; 
     }
 
-    /* 2. Mantém APENAS a nova caixinha bonita do topo visível */
     .topo-mobile {
         display: flex !important;
     }
 
-    /* 3. ESCONDE o texto antigo duplicado que ficou embaixo (a div/classe antiga) */
     .sidebar-perfil {
-        display: none !important; /* Esconde o texto sem foto antigo no celular */
+        display: none !important; 
     }
 
-    /* 4. Esconde os menus e botões da barra lateral para não repetir com os de baixo */
     .sidebar-menu, 
     .btn-logout-sidebar {
         display: none !important;
     }
 }
-/* 🚀 Força o texto do relatório a ficar grande e legível no celular */
+/* Força o texto do relatório a ficar grande e legível no celular */
 @media (max-width: 768px) {
     pre, 
     code, 
     #aba-ajustes .descricao-ajuste-interno,
     content {
-        font-size: 16px !important; /* Tamanho ideal para leitura no celular */
-        line-height: 1.6 !important; /* Dá um espaço bem amigável entre as linhas */
-        word-wrap: break-word !important; /* Impede que o texto saia da tela */
-        white-space: pre-wrap !important; /* Quebra as linhas automaticamente */
+        font-size: 16px !important; 
+        line-height: 1.6 !important; 
+        word-wrap: break-word !important; 
+        white-space: pre-wrap !important; 
     }
 }
