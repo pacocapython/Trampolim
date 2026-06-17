@@ -1,51 +1,47 @@
+require('dotenv').config(); // 👈 ESSA LINHA PRECISA SER A PRIMEIRA DO ARQUIVO
 const express = require('express');
 const mysql = require('mysql2');
-const cors = require('cors'); // Vamos usar isto para o script.js conseguir conversar com o server sem bloqueios
+const cors = require('cors');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🔌 Conexão com o teu banco de dados do XAMPP
+// 🔌 Conexão Inteligente: Usa o Railway em produção ou o XAMPP no seu PC
 const db = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: '', 
-    database: 'trampolim_db'
+    host: process.env.MYSQLHOST,
+    user: process.env.MYSQLUSER,
+    password: process.env.MYSQLPASSWORD, 
+    database: process.env.MYSQLDATABASE,
+    port: process.env.MYSQLPORT
 });
 
 db.connect((err) => {
     if (err) {
-        console.error('Erro ao conectar ao MySQL:', err);
+        console.error('❌ Erro ao conectar ao MySQL:', err);
         return;
     }
-    console.log('Boa! Servidor conectado ao MySQL com sucesso.');
+    console.log('✅ Conectado ao banco de dados com sucesso.');
 });
 
-// 🛣️ Rota para o teu script.js buscar os cursos do banco
+// 🛣️ Rota para buscar os cursos
 app.get('/api/cursos', (req, res) => {
-    const query = 'SELECT * FROM cursos';
-    
-    db.query(query, (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json(results); // Envia os dados no formato que o JS entende
+    db.query('SELECT * FROM cursos', (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
     });
 });
-// Verifique se essa rota existe no seu server.js
+
+// 🛣️ Rota para buscar as vagas
 app.get('/api/vagas', (req, res) => {
-    // Mude 'vagas' para o nome exato da tabela de vagas que está no seu banco de dados
-    const query = 'SELECT * FROM vagas'; 
-    
-    db.query(query, (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json(results); // Envia as vagas do banco para o seu script.js
+    db.query('SELECT * FROM vagas', (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
     });
 });
-// 🚀 ISSO DAQUI ESTAVA FALTANDO! Liga o servidor na porta 3000
-app.listen(3000, () => {
-    console.log('Servidor rodando com sucesso na porta 3000!');
+
+// 🚀 Porta dinâmica para o Railway funcionar
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`🚀 Servidor rodando na porta ${PORT}!`);
 });
