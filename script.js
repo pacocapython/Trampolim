@@ -9,7 +9,9 @@ const estadoApp = {
     candidaturasEfetuadas: [],
     nomeUsuario: "",
     telefoneUsuario: "",
-    sexoUsuario: ""
+    sexoUsuario: "",
+    email_cpfUsuario:"",
+    senhaUsuario: "",
 };
 
 // 🔄 Busca os cursos reais lá no MySQL
@@ -74,13 +76,15 @@ function mudarParaAba(nomeAba) {
    ========================================================================= */
 function fazerLogin(event) {
     if (event) event.preventDefault();
-
+    
     const nomeDigitado = document.getElementById('campo-nome')?.value.trim() || "Candidato";
-    const telefoneDigitado = document.getElementById('campo-numero')?.value.trim() || "Não informado"; // ✅ CAPTURA ADICIONADA AQUI para não quebrar o fetch!
+    const telefoneDigitado = document.getElementById('campo-numero')?.value.trim() || "Não informado"; 
     const sexoSelecionado = document.getElementById('login-sexo')?.value || "Não Informado";
+    
+    const emailCpfDigitado = document.getElementById('campo-email')?.value.trim() || ""; 
+    const senhaDigitada = document.getElementById('campo-senha')?.value || "";
 
     let sexoFinal = sexoSelecionado;
-
     if (sexoSelecionado === "Outro") {
         const textoOutro = document.getElementById('campo-sexo')?.value.trim();
         if (textoOutro) {
@@ -88,30 +92,34 @@ function fazerLogin(event) {
         }
     }
 
+    // 2. ATUALIZA O ESTADO DO APP
     estadoApp.usuarioConectado = true;
     estadoApp.nomeUsuario = nomeDigitado;
-    estadoApp.telefoneUsuario = telefoneDigitado; // ✅ Guardado no estado do App
+    estadoApp.telefoneUsuario = telefoneDigitado; 
     estadoApp.sexoUsuario = sexoFinal;
+    estadoApp.email_cpfUsuario = emailCpfDigitado; 
+    estadoApp.senhaUsuario = senhaDigitada;        
 
-    // 🚀 ATUALIZA SIDEBAR E MOBILE: Coloca o nome que o usuário digitou
+    // Atualiza nomes na tela
     const sidebarNome = document.getElementById('sidebar-nome');
-    if (sidebarNome) {
-        sidebarNome.textContent = nomeDigitado;
-    }
+    if (sidebarNome) sidebarNome.textContent = nomeDigitado;
     const mobileNome = document.getElementById('mobile-nome');
-    if (mobileNome) {
-        mobileNome.textContent = nomeDigitado;
-    }
+    if (mobileNome) mobileNome.textContent = nomeDigitado;
 
     if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
     if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
 
-    // ENVIAR OS DADOS PARA O BACK-END
+    // 3. ENVIAR OS DADOS PARA O BACK-END
     const dadosParaEnviar = {
-        nome: nomeDigitado,
-        telefone: telefoneDigitado,
-        genero: sexoFinal
+        nome: estadoApp.nomeUsuario,
+        telefone: estadoApp.telefoneUsuario,
+        genero: estadoApp.sexoUsuario,
+        email: estadoApp.email_cpfUsuario.includes('@') ? estadoApp.email_cpfUsuario : null,
+        cpf: !estadoApp.email_cpfUsuario.includes('@') ? estadoApp.email_cpfUsuario : null,
+        senha: estadoApp.senhaUsuario
     };
+
+    console.log("DADOS ENVIADOS PARA O RAILWAY:", dadosParaEnviar);
 
     fetch('https://trampolim-production.up.railway.app/api/cadastro', { 
         method: 'POST',
@@ -129,24 +137,6 @@ function fazerLogin(event) {
     });
 
     mudarParaTela('onboarding'); 
-}
-
-function pularLoginParaTestes() {
-    estadoApp.usuarioConectado = true;
-    estadoApp.nomeUsuario = "Convidado de Teste";
-    estadoApp.telefoneUsuario = "999999999";
-    estadoApp.sexoUsuario = "Não Informado";
-
-    const sidebarNome = document.getElementById('sidebar-nome');
-    if (sidebarNome) sidebarNome.textContent = "Convidado de Teste";
-    
-    const mobileNome = document.getElementById('mobile-nome');
-    if (mobileNome) mobileNome.textContent = "Convidado de Teste";
-
-    if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
-    if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
-
-    mudarParaTela('onboarding'); // Vai para o onboarding primeiro de qualquer forma
 }
 
 function fazerLogout() {
