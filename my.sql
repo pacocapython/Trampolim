@@ -34,6 +34,9 @@ CREATE TABLE IF NOT EXISTS usuarios (
     laudo_arquivo VARCHAR(255),
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+ALTER TABLE usuarios MODIFY COLUMN senha VARCHAR(255) NULL;
+ALTER TABLE usuarios MODIFY COLUMN email VARCHAR(255) NULL;
+ALTER TABLE usuarios MODIFY COLUMN cpf VARCHAR(20) NULL;
 
 INSERT INTO vagas (id, cargo, empresa, local, salario, tags, descricao) VALUES 
 ('vaga-01', 'Assistente Administrativo Pleno', 'Itaú Unibanco', 'São Paulo/SP (Híbrido)', 'R$ 4.200', '♿ Rampas de Acesso, 🏠 Home Office Híbrido', 'Atuação na equipa administrativa corporativa. O escritório oferece rampas modernas de acesso de cadeiras de rodas, elevadores amplos com avisos de voz, refeitório acessível e apoio ergonómico.'),
