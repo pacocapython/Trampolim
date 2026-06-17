@@ -12,7 +12,7 @@ const estadoApp = {
 // 🔄 Busca os cursos reais lá no MySQL
 async function carregarCursosDoBanco() {
     try {
-        const resposta = await fetch('http://localhost:3000/api/cursos');
+        const resposta = await fetch('https://trampolim-production.up.railway.app/api/cursos');
         const cursosDoMySQL = await resposta.json();
         
         console.log("Cursos vindos do MySQL:", cursosDoMySQL);
@@ -558,7 +558,7 @@ function mudarParaPainel() {
 }
 async function carregarVagasDoBanco() {
     try {
-        const resposta = await fetch('http://localhost:3000/api/vagas');
+        const resposta = await fetch('https://trampolim-production.up.railway.app/api/vagas');
         const vagasDoMySQL = await resposta.json();
         
         console.log("VAGAS DO BANCO:", vagasDoMySQL);
