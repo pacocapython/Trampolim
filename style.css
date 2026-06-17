@@ -17,7 +17,8 @@
 }
 
 body {
-    background-color: #030712; 
+    background-color: #030712; /* Tom quase preto para contraste máximo */
+    color: var(--branco) !important; /* Força o texto padrão a ser branco */
     font-family: system-ui, -apple-system, sans-serif;
     min-height: 100vh;
     display: flex;
@@ -25,17 +26,19 @@ body {
     line-height: 1.6;
 }
 
-/* WCAG: Borda amarela forte ao navegar utilizando o teclado */
 *:focus-visible {
     outline: 4px solid var(--amarelo-acao) !important;
     outline-offset: 2px !important;
 }
 
-/* Controle dinâmico do tamanho do texto via JS */
+.fonte-dislexia {
+    font-family: 'Comic Sans MS', cursive, sans-serif !important;
+    letter-spacing: 0.06em;
+}
+
 .texto-padrao { font-size: 16px; }
 .texto-grande { font-size: 20px; }
 
-/* Classe para ocultar elemetnos */
 .hidden {
     display: none !important;
 }
@@ -76,6 +79,7 @@ body {
 .logo-titulo {
     font-size: 20px;
     font-weight: 900;
+    color: var(--branco);
 }
 
 .acessibilidade-topo {
@@ -159,6 +163,7 @@ body {
     display: block;
     font-weight: 700;
     margin-bottom: 6px;
+    color: var(--branco);
 }
 
 .input-texto {
@@ -249,7 +254,6 @@ body {
     color: var(--azul-escuro);
 }
 
-/* area de conteúdo central */
 .conteúdo-principal {
     flex: 1;
     padding: 24px;
@@ -259,7 +263,6 @@ body {
     margin: 0 auto;
 }
 
-/* esconde a barra inferior em telas de compuiterss */
 .nav-inferior {
     display: none !important;
 }
@@ -385,7 +388,6 @@ body.texto-maior button {
     height: auto !important;
 }
 
-/* modo leitura*/
 body.modo-leitura .opcao-checkbox, 
 body.modo-leitura .card-vaga,
 body.modo-leitura .banner-aba {
@@ -398,7 +400,6 @@ body.modo-leitura p {
     line-height: 1.7 !important;
 }
 
-/* modo daltonismo*/
 body.modo-daltonismo {
     filter: contrast(120%) saturate(85%) hue-rotate(15deg) !important;
 }
@@ -409,8 +410,6 @@ body.modo-daltonismo .botao-ajuste-principal {
 }
 
 /* 10. Media Queries (Responsividade Mobile): Remove elementos de computador nas telas menores e estiliza a barra de navegação inferior fixa com seus respectivos botões para celulares. */
-
-/* computadores e tablets */
 @media (min-width: 768px) {
     .dashboard-container {
         flex-direction: row; 
@@ -423,15 +422,11 @@ body.modo-daltonismo .botao-ajuste-principal {
     }
 }
 
-/* celulares */
 @media (max-width: 768px) {
-    
-    /* Esconde as estruturas de computador */
     .sidebar, .barra-lateral, #sidebar, .sidebar-container, div[style*="width: 250px"] {
         display: none !important;
     }
 
-    /* Mostra a barra mobile */
     .nav-inferior {
         display: flex !important;
         position: fixed !important;
@@ -447,7 +442,6 @@ body.modo-daltonismo .botao-ajuste-principal {
         padding: 5px 0 !important;
     }
 
-    /* estilizacao dos botões mobiles */
     .btn-mobile {
         background: none !important;
         border: none !important;
@@ -473,8 +467,8 @@ body.modo-daltonismo .botao-ajuste-principal {
         margin-bottom: 75px !important;
     }
 }
-/* 11. Correção de Estilos Inline: Centraliza e limpa as estilizações de botões de áudio, alertas flutuantes, formulários de perfil e contêineres de upload de laudo. */
 
+/* 11. Correção de Estilos Inline: Centraliza e limpa as estilizações de botões de áudio, alertas flutuantes, formulários de perfil e contêineres de upload de laudo. */
 .btn-audio-topo {
     padding: 8px 12px; 
     border-radius: 10px;
@@ -496,7 +490,7 @@ body.modo-daltonismo .botao-ajuste-principal {
     top: 80px; 
     right: 20px; 
     background-color: var(--amarelo-acao); 
-    color: black; 
+    color: black !important; /* Mantém preto apenas no alerta flutuante amarelo */
     padding: 12px 24px; 
     border-radius: 16px; 
     font-weight: bold; 
@@ -589,7 +583,8 @@ body.modo-daltonismo .botao-ajuste-principal {
 
 .sidebar-nome-usuario {
     font-size: 18px; 
-    height: bold;
+    font-weight: bold;
+    color: var(--branco);
 }
 
 .btn-logout-sidebar {
@@ -625,6 +620,7 @@ body.modo-daltonismo .botao-ajuste-principal {
 .titulo-checkbox {
     font-weight: bold; 
     margin: 0;
+    color: var(--branco);
 }
 
 .descricao-checkbox {
@@ -644,6 +640,7 @@ body.modo-daltonismo .botao-ajuste-principal {
 .titulo-upload-laudo {
     font-weight: bold; 
     margin: 0;
+    color: var(--branco);
 }
 
 .descricao-upload-laudo {
@@ -654,7 +651,7 @@ body.modo-daltonismo .botao-ajuste-principal {
 
 .botao-falso-upload {
     background: var(--amarelo-acao); 
-    color: #000; 
+    color: #000 !important; 
     padding: 10px 16px; 
     border-radius: 8px; 
     font-weight: bold; 
@@ -741,6 +738,7 @@ body.modo-daltonismo .botao-ajuste-principal {
     margin-bottom: 24px; 
     color: var(--branco);
 }
+
 /* 12. Classes de Higienização (Injeção via JS): Define o visual das estruturas de texto, nomes de empresas, descrições e barras de progresso geradas dinamicamente pelo script. */
 .vaga-conteudo {
     display: flex; 
@@ -758,6 +756,7 @@ body.modo-daltonismo .botao-ajuste-principal {
 .vaga-titulo {
     font-size: 22px; 
     font-weight: bold;
+    color: var(--branco);
 }
 
 .vaga-info {
@@ -773,6 +772,7 @@ body.modo-daltonismo .botao-ajuste-principal {
     border-radius: 12px; 
     border: 1px solid var(--azul-borda); 
     margin-top: 8px;
+    color: var(--branco);
 }
 
 .vaga-botoes-container {
@@ -838,6 +838,7 @@ body.modo-daltonismo .botao-ajuste-principal {
 .curso-titulo {
     font-size: 18px; 
     font-weight: bold;
+    color: var(--branco);
 }
 
 .curso-progresso-wrapper {
@@ -887,9 +888,8 @@ body.modo-daltonismo .botao-ajuste-principal {
     background-color: var(--azul-card) !important;
     color: var(--amarelo-acao) !important;
 }
-.hidden {
-    display: none !important;
-}
+
+/* 13. Topo Mobile: Configura o design do novo cabeçalho exclusivo para celulares, posicionando o avatar, o nome do usuário e a tag de identificação. */
 .topo-mobile {
     background-color: #0b1a30; 
     padding: 12px 20px;
@@ -922,9 +922,9 @@ body.modo-daltonismo .botao-ajuste-principal {
 .nome-mobile {
     font-size: 16px;
     font-weight: bold;
+    color: var(--branco);
 }
 
-/* REGRAS DE TELA (RESPONSIVIDADE) */
 @media (max-width: 768px) {
     .topo-mobile {
         display: flex !important;
@@ -936,15 +936,15 @@ body.modo-daltonismo .botao-ajuste-principal {
         display: none !important;
     }
 }
-/* 14. Forçar Perfil no Celular: Ajusta o comportamento da barra lateral antiga no ambiente mobile, escondendo textos duplicados e mantendo apenas a nova caixa do topo ativa. */
 
+/* 14. Forçar Perfil no Celular: Ajusta o comportamento da barra lateral antiga no ambiente mobile, escondendo textos duplicados e mantendo apenas a nova caixa do topo ativa. */
 @media (max-width: 768px) {
     .sidebar {
         display: block !important;
         width: 100% !important;
         height: auto !important;
         min-height: auto !important;
-        padding: 0px !important;
+        padding: 0px !important; 
         position: relative !important;
         background: none !important; 
     }
@@ -962,7 +962,8 @@ body.modo-daltonismo .botao-ajuste-principal {
         display: none !important;
     }
 }
-/* Força o texto do relatório a ficar grande e legível no celular */
+
+/* 15. Leitura Ampliada no Celular: Força blocos de código, relatórios e textos de descrição a manterem um tamanho de letra e espaçamento altamente legíveis em telas pequenas. */
 @media (max-width: 768px) {
     pre, 
     code, 
@@ -972,5 +973,6 @@ body.modo-daltonismo .botao-ajuste-principal {
         line-height: 1.6 !important; 
         word-wrap: break-word !important; 
         white-space: pre-wrap !important; 
+        color: var(--branco) !important;
     }
 }
