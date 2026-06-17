@@ -76,7 +76,7 @@ function mudarParaAba(nomeAba) {
    ========================================================================= */
 function fazerLogin(event) {
     if (event) event.preventDefault();
-    
+
     const nomeDigitado = document.getElementById('campo-nome')?.value.trim() || "Candidato";
     const telefoneDigitado = document.getElementById('campo-numero')?.value.trim() || "Não informado"; 
     const sexoSelecionado = document.getElementById('login-sexo')?.value || "Não Informado";
@@ -165,6 +165,29 @@ function fazerLogout() {
     }
 
     mudarParaTela('login');
+}
+function pularLoginParaTestes() {
+    // 1. Preenche o estado do app com dados fictícios de teste
+    estadoApp.usuarioConectado = true;
+    estadoApp.nomeUsuario = "Convidado de Teste";
+    estadoApp.telefoneUsuario = "999999999";
+    estadoApp.sexoUsuario = "Não Informado";
+    estadoApp.email_cpfUsuario = "teste@convidado.com"; // ✅ Adicionado para não quebrar o estado
+    estadoApp.senhaUsuario = "123456";                 // ✅ Adicionado para não quebrar o estado
+
+    // 2. Atualiza a interface visual (Sidebar e Mobile)
+    const sidebarNome = document.getElementById('sidebar-nome');
+    if (sidebarNome) sidebarNome.textContent = "Convidado de Teste";
+    
+    const mobileNome = document.getElementById('mobile-nome');
+    if (mobileNome) mobileNome.textContent = "Convidado de Teste";
+
+    // 3. Carrega os dados das APIs do Railway
+    if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
+    if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
+
+    // 4. Avança direto para a tela de onboarding (tutorial)
+    mudarParaTela('onboarding'); 
 }
 
 function verificarGenero() {
