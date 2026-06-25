@@ -1,6 +1,4 @@
-/* =========================================================================
-   1. ESTADO INTERNO DO APP E CONEXÃO COM O BANCO DE DADOS
-   ========================================================================= */
+// estaado do app e da conexão com o banco de dados
 const estadoApp = {
     usuarioConectado: false,
     tamanhoFonteAmpliado: false,
@@ -14,7 +12,7 @@ const estadoApp = {
     senhaUsuario: "",
 };
 
-// 🔄 Busca os cursos reais lá no MySQL
+// Buscando cursos do mysql
 async function carregarCursosDoBanco() {
     try {
         const resposta = await fetch('https://trampolim-production.up.railway.app/api/cursos');
@@ -22,7 +20,6 @@ async function carregarCursosDoBanco() {
         
         console.log("Cursos vindos do MySQL:", cursosDoMySQL);
 
-        // Desenha na tela passando a lista que veio direto do MySQL
         carregarCursos(cursosDoMySQL); 
 
     } catch (erro) {
@@ -30,9 +27,7 @@ async function carregarCursosDoBanco() {
     }
 }
 
-/* =========================================================================
-   4. SISTEMA DE TRANSIÇÃO DE TELAS
-   ========================================================================= */
+// sistema de transitar entre as telas de login, explicação e a tela principal
 function mudarParaTela(nomeTela) {
     document.getElementById('tela-login').classList.add('hidden');
     document.getElementById('tela-onboarding').classList.add('hidden');
@@ -48,9 +43,7 @@ function mudarParaTela(nomeTela) {
     }
 }
 
-/* =========================================================================
-   5. SISTEMA DE TROCA DE ABAS DO DASHBOARD
-   ========================================================================= */
+// sistema de mudar de abas vagas, perfil assistivo, cursos, ajustes e da ficha
 function mudarParaAba(nomeAba) {
     const abas = ['vagas', 'perfil', 'cursos', 'ajustes'];
 
@@ -71,9 +64,7 @@ function mudarParaAba(nomeAba) {
     });
 }
 
-/* =========================================================================
-   6. CONTROLE DE AUTENTICAÇÃO (LOGIN / LOGOUT)
-   ========================================================================= */
+//area de login cadastro do trampolimmmm
 function fazerLogin(event) {
     if (event) event.preventDefault();
 
@@ -92,7 +83,7 @@ function fazerLogin(event) {
         }
     }
 
-    // 2. ATUALIZA O ESTADO DO APP
+    // atualiza o estado do app
     estadoApp.usuarioConectado = true;
     estadoApp.nomeUsuario = nomeDigitado;
     estadoApp.telefoneUsuario = telefoneDigitado; 
@@ -100,7 +91,7 @@ function fazerLogin(event) {
     estadoApp.email_cpfUsuario = emailCpfDigitado; 
     estadoApp.senhaUsuario = senhaDigitada;        
 
-    // Atualiza nomes na tela
+    // atualiza o nome de ususario na tela principal
     const sidebarNome = document.getElementById('sidebar-nome');
     if (sidebarNome) sidebarNome.textContent = nomeDigitado;
     const mobileNome = document.getElementById('mobile-nome');
@@ -109,7 +100,7 @@ function fazerLogin(event) {
     if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
     if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
 
-    // 3. ENVIAR OS DADOS PARA O BACK-END
+    //envia estes dados preenchidos para o server
     const dadosParaEnviar = {
         nome: estadoApp.nomeUsuario,
         telefone: estadoApp.telefoneUsuario,
@@ -167,29 +158,30 @@ function fazerLogout() {
     mudarParaTela('login');
 }
 function pularLoginParaTestes() {
-    // 1. Preenche o estado do app com dados fictícios de teste
+    // preenche o estado com dados fictios para a ficha e banco de dados
     estadoApp.usuarioConectado = true;
     estadoApp.nomeUsuario = "Convidado de Teste";
     estadoApp.telefoneUsuario = "999999999";
     estadoApp.sexoUsuario = "Não Informado";
-    estadoApp.email_cpfUsuario = "teste@convidado.com"; // ✅ Adicionado para não quebrar o estado
-    estadoApp.senhaUsuario = "123456";                 // ✅ Adicionado para não quebrar o estado
+    estadoApp.email_cpfUsuario = "teste@convidado.com";
+    estadoApp.senhaUsuario = "123456";
 
-    // 2. Atualiza a interface visual (Sidebar e Mobile)
+    // atualiza para  perfil mobile
     const sidebarNome = document.getElementById('sidebar-nome');
     if (sidebarNome) sidebarNome.textContent = "Convidado de Teste";
     
     const mobileNome = document.getElementById('mobile-nome');
     if (mobileNome) mobileNome.textContent = "Convidado de Teste";
 
-    // 3. Carrega os dados das APIs do Railway
+    // carrega os dados da API do railway
     if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
     if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
 
-    // 4. Avança direto para a tela de onboarding (tutorial)
+    //avança pra tela do onboarding
     mudarParaTela('onboarding'); 
 }
 
+// verifica o sexo
 function verificarGenero() {
     const selectSexo = document.getElementById('login-sexo');
     const areaOutro = document.getElementById('area-outro-genero');
@@ -209,9 +201,7 @@ function verificarGenero() {
     }
 }
 
-/* =========================================================================
-   7. GERADOR DINÂMICO DE VAGAS NO HTML
-   ========================================================================= */
+// gera as vagas na area de vagas
 function carregarVagas(listaDeVagas) {
     const container = document.getElementById('container-vagas');
     if (!container) return;
@@ -261,9 +251,7 @@ function carregarVagas(listaDeVagas) {
     });
 }
 
-/* =========================================================================
-   8. GERADOR DINÂMICO DE CURSOS NO HTML
-   ========================================================================= */
+// gera os cursos na aba de cursos
 function carregarCursos(listaDeCursos) {
     const container = document.getElementById('container-cursos');
     if (!container) return;
@@ -315,9 +303,7 @@ function carregarCursos(listaDeCursos) {
     });
 }
 
-/* =========================================================================
-   9. INTERAÇÕES E MODAIS
-   ========================================================================= */
+// algumas interações de apertar, inseriri dados, de clicar em botoes e exercer uma função
 function assistirVideo(idCurso) {
     if (!window.listaCursosGlobal) return;
     
@@ -344,9 +330,7 @@ function fecharModal() {
     document.getElementById('modal-sucesso').classList.add('hidden');
 }
 
-/* =========================================================================
-   10. CONTROLES DE ACESSIBILIDADE VISUAL
-   ========================================================================= */
+// configura os controles da acessibilidade visual
 function alternarTamanhoLetra() {
     document.body.classList.toggle('texto-maior');
     const btnTexto = document.getElementById('btn-tamanho-letra');
@@ -371,9 +355,7 @@ function alternarDaltonismo() {
     }
 }
 
-/* =========================================================================
-   11. RECURSO DE SÍNTESE DE VOZ (ÁUDIO ASSISTIVO)
-   ========================================================================= */
+// configura o recurso de voz 
 function alternarLeitorAudio() {
     estadoApp.leitorAudioLigado = !estadoApp.leitorAudioLigado;
     const botao = document.getElementById('botao-audio');
@@ -490,6 +472,7 @@ function baixarFicheiro() {
 
     const listaCandidaturas = estadoApp.candidaturasEfetuadas || [];
 
+    // configura o relatorio assistivo
     let dadosEscritos = `===================================================\n` +
                         `RELATÓRIO ASSISTIVO COMPLETO - PORTAL TRAMPOLIM\n` +
                         `===================================================\n` +
@@ -519,9 +502,7 @@ function baixarFicheiro() {
     document.body.removeChild(linkDownload);
 }
 
-/* =========================================================================
-   13. LÓGICA DE PASSOS DO TUTORIAL (ONBOARDING)
-   ========================================================================= */
+//configura a logica de passos do tutorial do trampolim
 function proximoPasso(numeroPasso) {
     for (let i = 1; i <= 3; i++) {
         const passo = document.getElementById('tutorial-passo-' + i);
@@ -551,7 +532,7 @@ function proximoPasso(numeroPasso) {
 function mudarParaPainel() {
     mudarParaTela('vagas');
     carregarVagasDoBanco();
-    carregarCursosDoBanco(); // Executa uma única vez perfeitamente!
+    carregarCursosDoBanco(); 
 }
 
 async function carregarVagasDoBanco() {
@@ -586,6 +567,8 @@ function mostrarNomeDoArquivo() {
         textoNome.style.color = ""; 
     }
 }
+
+mudarParaTela('login');
 
 // Inicialização Inicial obrigatória
 mudarParaTela('login');
