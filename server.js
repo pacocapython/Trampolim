@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql2/promise'); // 1. Mudança aqui: Importação com Promises
+const postgres = require('postgres');
 const cors = require('cors');
 
 const app = express();
@@ -8,21 +8,13 @@ const app = express();
 app.use(cors()); 
 app.use(express.json());
 
-const db = mysql.createPool({
-    host: process.env.MYSQLHOST,
-    user: process.env.MYSQLUSER,
-    password: process.env.MYSQLPASSWORD, 
-    database: process.env.MYSQLDATABASE,
-    port: process.env.MYSQLPORT,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-});
+// Conexão direta com o Supabase usando a DATABASE_URL do seu .env
+const sql = postgres(process.env.DATABASE_URL, { ssl: 'require' });
 
-// 2. Mudança aqui: Rota cursos atualizada para async/await
+// Rota de cursos
 app.get('/api/cursos', async (req, res) => {
     try {
-        const [results] = await db.query('SELECT * FROM cursos');
+        const results = await sql`SELECT * FROM cursos`;
         res.json(results);
     } catch (err) {
         console.error("Erro em cursos:", err);
@@ -30,10 +22,10 @@ app.get('/api/cursos', async (req, res) => {
     }
 });
 
-// 3. Mudança aqui: Rota vagas atualizada para async/await
+// Rota de vagas
 app.get('/api/vagas', async (req, res) => {
     try {
-        const [results] = await db.query('SELECT * FROM vagas');
+        const results = await sql`SELECT * FROM vagas`;
         res.json(results);
     } catch (err) {
         console.error("Erro em vagas:", err);
@@ -41,29 +33,27 @@ app.get('/api/vagas', async (req, res) => {
     }
 });
 
-// 4. Mudança aqui: Rota cadastro completa salvando todos os campos
+// Rota de cadastro
 app.post('/api/cadastro', async (req, res) => {
     const { nome, email, telefone, cpf, senha, genero, perfil_assistivo } = req.body;
 
     try {
-        const query = `
+        await sql`
             INSERT INTO usuarios (nome, email, telefone, cpf, senha, genero, perfil_assistivo) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            VALUES (${nome}, ${email}, ${telefone}, ${cpf}, ${senha}, ${genero}, ${perfil_assistivo})
         `;
-        
-        await db.query(query, [nome, email, telefone, cpf, senha, genero, perfil_assistivo]);
 
         res.status(201).json({ 
             sucesso: true, 
             mensagem: "Candidato registrado com sucesso com todos os dados!" 
         });
     } catch (erro) {
-        console.error("Erro ao salvar usuário no MySQL:", erro);
+        console.error("Erro ao salvar usuário no PostgreSQL:", erro);
         res.status(500).json({ sucesso: false, erro: erro.message });
     }
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor rodando na porta ${PORT}!`);
+    console.log(`Servidor rodando na porta ${PORT}! 🚀`);
 });

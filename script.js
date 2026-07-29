@@ -1,4 +1,4 @@
-// estaado do app e da conexão com o banco de dados
+// estado do app e da conexão com o banco de dados
 const estadoApp = {
     usuarioConectado: false,
     tamanhoFonteAmpliado: false,
@@ -12,15 +12,15 @@ const estadoApp = {
     senhaUsuario: "",
 };
 
-// Buscando cursos do mysql
+// Buscando cursos do Supabase
 async function carregarCursosDoBanco() {
     try {
-        const resposta = await fetch('https://trampolim-production.up.railway.app/api/cursos');
-        const cursosDoMySQL = await resposta.json();
+        const resposta = await fetch('http://localhost:3000/api/cursos');
+        const cursosDoBanco = await resposta.json();
         
-        console.log("Cursos vindos do MySQL:", cursosDoMySQL);
+        console.log("Cursos vindos do Supabase:", cursosDoBanco);
 
-        carregarCursos(cursosDoMySQL); 
+        carregarCursos(cursosDoBanco); 
 
     } catch (erro) {
         console.error("Erro ao puxar os cursos do servidor:", erro);
@@ -31,7 +31,7 @@ async function carregarCursosDoBanco() {
 function mudarParaTela(nomeTela) {
     document.getElementById('tela-login').classList.add('hidden');
     document.getElementById('tela-onboarding').classList.add('hidden');
-    document.getElementById('painel-dashboard').classList.add('hidden');
+    document.getElementById('painel-dashboard').classList.add('hidden'); 
 
     if (nomeTela === 'login') {
         document.getElementById('tela-login').classList.remove('hidden');
@@ -64,7 +64,7 @@ function mudarParaAba(nomeAba) {
     });
 }
 
-//area de login cadastro do trampolimmmm
+// area de login cadastro do trampolimmmm
 function fazerLogin(event) {
     if (event) event.preventDefault();
 
@@ -91,7 +91,7 @@ function fazerLogin(event) {
     estadoApp.email_cpfUsuario = emailCpfDigitado; 
     estadoApp.senhaUsuario = senhaDigitada;        
 
-    // atualiza o nome de ususario na tela principal
+    // atualiza o nome de usuario na tela principal
     const sidebarNome = document.getElementById('sidebar-nome');
     if (sidebarNome) sidebarNome.textContent = nomeDigitado;
     const mobileNome = document.getElementById('mobile-nome');
@@ -100,9 +100,9 @@ function fazerLogin(event) {
     if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
     if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
 
-    //envia estes dados preenchidos para o server
+    // envia estes dados preenchidos para o server local
     const dadosParaEnviar = {
-        nome: estadoApp.nomeUsuario,
+        nome: estadoApp.nomeUsuario,  
         telefone: estadoApp.telefoneUsuario,
         genero: estadoApp.sexoUsuario,
         email: estadoApp.email_cpfUsuario.includes('@') ? estadoApp.email_cpfUsuario : null,
@@ -110,9 +110,9 @@ function fazerLogin(event) {
         senha: estadoApp.senhaUsuario
     };
 
-    console.log("DADOS ENVIADOS PARA O RAILWAY:", dadosParaEnviar);
+    console.log("DADOS ENVIADOS PARA A API:", dadosParaEnviar);
 
-    fetch('https://trampolim-production.up.railway.app/api/cadastro', { 
+    fetch('http://localhost:3000/api/cadastro', { 
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -157,8 +157,9 @@ function fazerLogout() {
 
     mudarParaTela('login');
 }
+
 function pularLoginParaTestes() {
-    // preenche o estado com dados fictios para a ficha e banco de dados
+    // preenche o estado com dados ficticios para a ficha e banco de dados
     estadoApp.usuarioConectado = true;
     estadoApp.nomeUsuario = "Convidado de Teste";
     estadoApp.telefoneUsuario = "999999999";
@@ -166,18 +167,18 @@ function pularLoginParaTestes() {
     estadoApp.email_cpfUsuario = "teste@convidado.com";
     estadoApp.senhaUsuario = "123456";
 
-    // atualiza para  perfil mobile
+    // atualiza para perfil mobile
     const sidebarNome = document.getElementById('sidebar-nome');
     if (sidebarNome) sidebarNome.textContent = "Convidado de Teste";
     
     const mobileNome = document.getElementById('mobile-nome');
     if (mobileNome) mobileNome.textContent = "Convidado de Teste";
 
-    // carrega os dados da API do railway
+    // carrega os dados da API local
     if (typeof carregarVagasDoBanco === 'function') carregarVagasDoBanco();
     if (typeof carregarCursosDoBanco === 'function') carregarCursosDoBanco();
 
-    //avança pra tela do onboarding
+    // avança pra tela do onboarding
     mudarParaTela('onboarding'); 
 }
 
@@ -303,7 +304,7 @@ function carregarCursos(listaDeCursos) {
     });
 }
 
-// algumas interações de apertar, inseriri dados, de clicar em botoes e exercer uma função
+// algumas interações de apertar, inserir dados, de clicar em botoes e exercer uma função
 function assistirVideo(idCurso) {
     if (!window.listaCursosGlobal) return;
     
@@ -502,7 +503,7 @@ function baixarFicheiro() {
     document.body.removeChild(linkDownload);
 }
 
-//configura a logica de passos do tutorial do trampolim
+// configura a logica de passos do tutorial do trampolim
 function proximoPasso(numeroPasso) {
     for (let i = 1; i <= 3; i++) {
         const passo = document.getElementById('tutorial-passo-' + i);
@@ -537,12 +538,12 @@ function mudarParaPainel() {
 
 async function carregarVagasDoBanco() {
     try {
-        const resposta = await fetch('https://trampolim-production.up.railway.app/api/vagas');
-        const vagasDoMySQL = await resposta.json();
+        const resposta = await fetch('http://localhost:3000/api/vagas');
+        const vagasDoBanco = await resposta.json();
         
-        console.log("VAGAS DO BANCO:", vagasDoMySQL);
-        window.listaVagasGlobal = vagasDoMySQL;
-        carregarVagas(vagasDoMySQL);            
+        console.log("VAGAS DO BANCO:", vagasDoBanco);
+        window.listaVagasGlobal = vagasDoBanco;
+        carregarVagas(vagasDoBanco);            
         
     } catch (erro) {
         console.error("Erro ao puxar as vagas:", erro);
@@ -567,8 +568,6 @@ function mostrarNomeDoArquivo() {
         textoNome.style.color = ""; 
     }
 }
-
-mudarParaTela('login');
 
 // Inicialização Inicial obrigatória
 mudarParaTela('login');
